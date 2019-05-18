@@ -6,7 +6,7 @@ module Web
 
         params do
           required(:email).filled(:str?, format?: /@/)
-          required(:username).filled
+          required(:username).filled(:str?)
         end
 
         def call(params)
@@ -15,6 +15,7 @@ module Web
             repo.create(email: params[:email], username: params[:username])
             redirect_to routes.path(:users)
           else
+            flash[:errors] = params.error_messages
             self.status = 422
           end
         end

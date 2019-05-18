@@ -1,0 +1,3 @@
+en:
+  errors:
+    format?: "%{field} is in invalid format"

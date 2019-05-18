@@ -17,9 +17,12 @@ RSpec.describe Web::Controllers::User::Create, type: :action do
     context 'with invalid email' do
       it 'return errors message email not valid' do
         params[:email] = 'foo'
+        params[:username] = 'foo'
         response = action.call(params)
+        flash = action.exposures[:flash]
 
         expect(response[0]).to eq 422
+        expect(flash[:errors]).to eq [I18n.t('errors.format?', field: 'Email')]
       end
     end
 
