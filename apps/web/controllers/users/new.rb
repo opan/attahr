@@ -1,6 +1,6 @@
 module Web
   module Controllers
-    module User
+    module Users
       class New
         include Web::Action
         

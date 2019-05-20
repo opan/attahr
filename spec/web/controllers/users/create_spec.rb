@@ -1,4 +1,4 @@
-RSpec.describe Web::Controllers::User::Create, type: :action do
+RSpec.describe Web::Controllers::Users::Create, type: :action do
   let(:action) { described_class.new }
   let(:params) { Hash[] }
 

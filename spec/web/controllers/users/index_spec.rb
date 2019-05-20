@@ -1,4 +1,4 @@
-RSpec.describe Web::Controllers::User::Index, type: :action do
+RSpec.describe Web::Controllers::Users::Index, type: :action do
   let(:repo) { UserRepository.new }
   let(:action) { described_class.new(repo) }
   let(:params) { Hash[] }

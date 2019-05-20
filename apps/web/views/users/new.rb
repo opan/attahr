@@ -1,10 +1,8 @@
 module Web
   module Views
-    module User
-      class Create
+    module Users
+      class New
         include Web::View
-
-        template 'user/new'
       end
     end
   end

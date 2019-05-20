@@ -1,6 +1,6 @@
 module Web
   module Views
-    module User
+    module Users
       class Index
         include Web::View
       end
