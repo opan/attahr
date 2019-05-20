@@ -3,33 +3,39 @@ RSpec.describe Web::Controllers::User::Create, type: :action do
   let(:params) { Hash[] }
 
   context 'with valid params' do
-    it 'redirects the user to the listings user' do
+    before(:each) do
       params[:email] = 'foo@email.com'
       params[:username] = 'foo'
-      response = action.call(params)
+      @response = action.call(params)
+    end
 
-      expect(response[0]).to eq 302
-      expect(response[1]['Location']).to eq '/users'
+    it 'return 302' do
+      expect(@response[0]).to eq 302
+    end
+
+    it 'redirects to /users' do
+      expect(@response[1]['Location']).to eq '/users'
     end
   end
 
   context 'with invalid params' do
-    context 'with invalid email' do
-      it 'return errors message email not valid' do
-        params[:email] = 'foo'
-        params[:username] = 'foo'
-        response = action.call(params)
-        flash = action.exposures[:flash]
-
-        expect(response[0]).to eq 422
-        expect(flash[:errors]).to eq [I18n.t('errors.format?', field: 'Email')]
-      end
+    before(:each) do
+      params[:email] = 'foo'
+      params[:username] = 'foo'
     end
 
-    it 're-renders create user page' do
+    it 'return 422' do
       response = action.call(params)
-
       expect(response[0]).to eq 422
+    end
+
+    context 'with invalid email' do
+      it 'return error messages email not valid' do
+        action.call(params)
+        flash = action.exposures[:flash]
+
+        expect(flash[:errors]).to eq [I18n.t('errors.format?', field: 'Email')]
+      end
     end
   end
 end

@@ -6,12 +6,12 @@ module Web
         
         expose :user
 
-        def initialize(repo)
-          @repo = repo
+        def initialize(entity)
+          @entity = entity
         end
 
         def call(params)
-          @user = @repo
+          @user = @entity
         end
       end
     end
