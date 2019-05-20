@@ -9,10 +9,12 @@ module Web
           required(:username).filled(:str?)
         end
 
+        expose :user
+
         def call(params)
           if params.valid?
             repo = UserRepository.new
-            repo.create(email: params[:email], username: params[:username])
+            @user = repo.create(email: params[:email], username: params[:username])
             redirect_to routes.path(:users)
           else
             flash[:errors] = params.error_messages

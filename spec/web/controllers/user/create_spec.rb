@@ -16,6 +16,10 @@ RSpec.describe Web::Controllers::User::Create, type: :action do
     it 'redirects to /users' do
       expect(@response[1]['Location']).to eq '/users'
     end
+
+    it 'expose #user' do
+      expect(action.exposures[:user].email).to eq 'foo@email.com'
+    end
   end
 
   context 'with invalid params' do

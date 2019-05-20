@@ -6,7 +6,7 @@ module Web
 
         expose :users
 
-        def initialize(repo)
+        def initialize(repo = UserRepository.new)
           @repo = repo
         end
 

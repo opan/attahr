@@ -6,7 +6,7 @@ module Web
         
         expose :user
 
-        def initialize(entity)
+        def initialize(entity = User.new)
           @entity = entity
         end
 
