@@ -1,1 +1,19 @@
 <h1>Listing users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Email</td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% users.each do |u| %>
+      <tr>
+        <td><%= u.username %></td>
+        <td><%= u.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

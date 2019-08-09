@@ -3,6 +3,10 @@ RSpec.describe Web::Controllers::Users::Index, type: :action do
   let(:action) { described_class.new(repo) }
   let(:params) { Hash[] }
 
+  it 'exposes #users' do
+    
+  end
+
   it 'renders the user listings' do
     expect(repo).to receive(:all).and_return([User.new])
     response = action.call(params)
