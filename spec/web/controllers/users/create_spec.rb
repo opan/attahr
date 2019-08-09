@@ -13,12 +13,12 @@ RSpec.describe Web::Controllers::Users::Create, type: :action do
       expect(@response[0]).to eq 302
     end
 
-    it 'redirects to /users' do
-      expect(@response[1]['Location']).to eq '/users'
-    end
-
     it 'expose #user' do
       expect(action.exposures[:user].email).to eq 'foo@email.com'
+    end
+
+    it 'redirects to /users' do
+      expect(@response[1]['Location']).to eq '/users'
     end
   end
 
