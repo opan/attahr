@@ -1,5 +1,9 @@
 <h1>New User</h1>
 
+<% unless flash[:errors].nil? %>
+  <%= flash[:errors].join(', ') %>
+<% end %>
+
 <%=
   form_for :user, routes.users_path, class: 'ui form' do
     div class: 'field' do
