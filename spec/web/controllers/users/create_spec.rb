@@ -1,11 +1,11 @@
 RSpec.describe Web::Controllers::Users::Create, type: :action do
   let(:action) { described_class.new }
-  let(:params) { Hash[] }
+  let(:params) { Hash[user: {}] }
 
   context 'with valid params' do
     before(:each) do
-      params[:email] = 'foo@email.com'
-      params[:username] = 'foo'
+      params[:user][:email] = 'foo@email.com'
+      params[:user][:username] = 'foo'
       @response = action.call(params)
     end
 
@@ -24,8 +24,8 @@ RSpec.describe Web::Controllers::Users::Create, type: :action do
 
   context 'with invalid params' do
     before(:each) do
-      params[:email] = 'foo'
-      params[:username] = 'foo'
+      params[:user][:email] = 'foo'
+      params[:user][:username] = 'foo'
     end
 
     it 'return 422' do
