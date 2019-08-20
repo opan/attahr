@@ -1,8 +1,8 @@
 RSpec.describe Web::Views::Users::Index, type: :view do
   let(:users) {
-    [double('user', username: 'user-1', email: 'user-1@mail.com')]
+    [double('user', id: 1, username: 'user-1', email: 'user-1@mail.com')]
   }
-  let(:exposures) { Hash[format: :html, users: users] }
+  let(:exposures) { Hash[format: :html, users: users, params: {}, flash: {}] }
   let(:template)  { Hanami::View::Template.new('apps/web/templates/users/index.html.erb') }
   let(:view)      { described_class.new(template, exposures) }
   let(:rendered)  { view.render }
