@@ -6,6 +6,7 @@ gem 'hanami-model', '~> 1.3'
 
 gem 'pg'
 gem 'i18n'
+gem 'nokogiri', '>= 1.10.4' # Fix vulnerabilities https://github.com/opan/atthar/network/alert/Gemfile.lock/nokogiri/open
 
 group :development do
   # Code reloading
