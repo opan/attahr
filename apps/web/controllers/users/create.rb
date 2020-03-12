@@ -16,7 +16,9 @@ module Web
         def call(params)
           if params.valid?
             repo = UserRepository.new
-            @user = repo.create(email: user_params[:email], username: user_params[:username])
+            user_entity = User.new(email: user_params[:email], username: user_params[:username])
+            @user = repo.create(user_entity)
+
             redirect_to routes.path(:users)
           else
             flash[:errors] = params.error_messages
