@@ -8,6 +8,7 @@ gem 'pg'
 gem 'i18n'
 gem 'nokogiri', '>= 1.10.8'
 gem 'rack', '>= 2.0.8'
+gem 'json', '>= 2.0.0'
 
 group :development do
   # Code reloading
