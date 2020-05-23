@@ -1,35 +1,38 @@
-<h1>Listing users</h1>
+<div>
+  <h1>Listing users</h1>
 
-<% unless flash[:info].nil? %>
-  <%= flash[:info] %>
-<% end %>
+  <% unless flash[:info].nil? %>
+    <%= flash[:info] %>
+  <% end %>
 
-<%=
-  link_to 'Add User', routes.new_user_path
-%>
+  <%=
+    link_to 'Add User', routes.new_user_path
+  %>
 
-<table>
-  <thead>
-    <tr>
-      <td>Name</td>
-      <td>Email</td>
-      <td>Actions</td>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% users.each do |u| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= u.username %></td>
-        <td><%= u.email %></td>
-        <td>
-          <%=
-            form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
-              submit 'Delete', id: "#{u.id}-delete-user"
-            end
-          %>
-        </td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Actions</td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% users.each do |u| %>
+        <tr>
+          <td><%= u.username %></td>
+          <td><%= u.email %></td>
+          <td>
+            <%=
+              form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
+                submit 'Delete', id: "#{u.id}-delete-user"
+              end
+            %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+</div>
