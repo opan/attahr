@@ -1,10 +1,16 @@
 require 'bundler/setup'
 require 'hanami/setup'
 require 'hanami/model'
+require 'warden'
 require_relative '../lib/atthar'
 require_relative '../apps/web/application'
 
 Hanami.configure do
+  middleware.use Warden::Manager do |manager|
+    manager.default_strategies :password
+    manager.failure_app = Web::Controllers::Sessions::New.new
+  end
+
   mount Web::Application, at: '/'
 
   model do

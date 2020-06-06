@@ -1,17 +1,13 @@
 module Web
   module Controllers
-    module Users
+    module Sessions
       class New
         include Web::Action
 
         expose :user
 
-        def initialize(entity = User.new)
-          @entity = entity
-        end
-
         def call(params)
-          @user = @entity
+          @user = User.new
         end
       end
     end

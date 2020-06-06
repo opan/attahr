@@ -1,0 +1,16 @@
+<h1>Sign In</h1>
+
+<% unless flash[:errors].nil? %>
+  <%= flash[:errors].join(', ') %>
+<% end %>
+
+<%=
+  form_for :user, '/sign_in', class: 'ui form' do
+    div class: 'field' do
+      label :email
+      text_field :email
+    end
+
+    submit 'Sign In', class: 'ui button'
+  end
+%>
