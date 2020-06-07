@@ -1,6 +1,6 @@
 RSpec.describe Web::Controllers::Users::Create, type: :action do
   let(:action) { described_class.new }
-  let(:params) { Hash[user: {}] }
+  let(:params) { Hash[user: {}, 'warden' => @warden] }
 
   context 'with valid params' do
     before(:each) do

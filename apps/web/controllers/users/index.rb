@@ -3,6 +3,7 @@ module Web
     module Users
       class Index
         include Web::Action
+        include Web::Authentication
 
         expose :users
 

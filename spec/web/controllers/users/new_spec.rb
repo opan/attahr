@@ -1,7 +1,7 @@
 RSpec.describe Web::Controllers::Users::New, type: :action do
   let(:entity) { User.new }
   let(:action) { described_class.new(entity) }
-  let(:params) { Hash[] }
+  let(:params) { Hash['warden' => @warden] }
 
   it 'return 200' do
     response = action.call(params)

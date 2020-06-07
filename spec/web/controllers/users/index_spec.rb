@@ -1,7 +1,7 @@
 RSpec.describe Web::Controllers::Users::Index, type: :action do
   let(:repo) { UserRepository.new }
   let(:action) { described_class.new(repo) }
-  let(:params) { Hash[] }
+  let(:params) { Hash['warden' => @warden] }
 
   it 'exposes #users' do
     expect(repo).to receive(:all).and_return([repo])

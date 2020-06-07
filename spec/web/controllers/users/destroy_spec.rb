@@ -1,6 +1,6 @@
 RSpec.describe Web::Controllers::Users::Destroy, type: :action do
   let(:action) { described_class.new }
-  let(:params) { Hash[id: 1] }
+  let(:params) { Hash[id: 1, 'warden' => @warden] }
 
   it 'is successful' do
     response = action.call(params)
