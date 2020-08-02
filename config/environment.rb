@@ -8,7 +8,10 @@ require_relative '../apps/web/application'
 Hanami.configure do
   middleware.use Warden::Manager do |manager|
     manager.default_strategies :password
-    manager.failure_app = Web::Controllers::Sessions::New.new
+    manager.failure_app = ->(env) do
+      # env['REQUEST_METHOD'] = 'GET'
+      FailureApp.new.call(env)
+    end
   end
 
   mount Web::Application, at: '/'

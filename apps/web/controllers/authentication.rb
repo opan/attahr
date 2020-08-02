@@ -14,7 +14,7 @@ module Web
     end
 
     def authenticate!
-      warden.authenticate
+      warden.authenticate!
     end
 
     def authenticated?
