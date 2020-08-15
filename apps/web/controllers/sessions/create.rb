@@ -38,6 +38,11 @@ module Web
         def authenticate!
           warden.authenticate!
         end
+
+        # Disabled csrf verification on sign in flow
+        def verify_csrf_token?
+          false
+        end
       end
     end
   end
