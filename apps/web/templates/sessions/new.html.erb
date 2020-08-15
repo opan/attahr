@@ -5,7 +5,7 @@
 <% end %>
 
 <%=
-  form_for :user, '/sign_in', class: 'ui form' do
+  form_for :user, routes.sign_in_path, class: 'ui form' do
     div class: 'field' do
       label :email
       text_field :email

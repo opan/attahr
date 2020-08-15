@@ -4,9 +4,16 @@ class FailureApp
   def call(env)
     action = Web::Controllers::Sessions::New.new
     response = action.call(env)
-    response[2] = Web::Views::Sessions::New.render(action.exposures.merge(format: :html))
+    response[2] = [Web::Views::Sessions::New.render(action.exposures.merge(format: :html))]
     response
   end
+end
+
+Warden::Manager.before_failure do |env, opts|
+  # Prepare
+  puts ')' * 100
+  puts env
+  puts opts
 end
 
 Warden::Manager.serialize_into_session do |user|
@@ -27,7 +34,6 @@ Warden::Strategies.add(:password) do
 
   def authenticate!
     email = params.fetch('user', {})['email']
-
     if email == "opan@email.com"
       success!(email)
     else
