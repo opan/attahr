@@ -3,6 +3,7 @@ module Web
     module Sessions
       class Create
         include Web::Action
+        include Web::Authentication
 
         params do
           required(:user).schema do
@@ -14,14 +15,19 @@ module Web
 
         def call(params)
           unless params.valid?
-            flash[:errors] = ['Email is invalid']
-            redirect_to '/sign_in'
+            flash[:errors] = []
+            params.errors.each do |e|
+              e[:user].each do |k, v|
+                flash[:errors] << "#{k.capitalize} #{v}"
+              end
+            end
+            redirect_to routes.sign_in_path and return
           end
 
           if authenticate!
             redirect_to routes.users_path
           else
-            redirect_to '/sign_in'
+            redirect_to routes.sign_in_path
           end
         end
 
@@ -29,14 +35,6 @@ module Web
 
         def user_params
           params[:user]
-        end
-
-        def warden
-          params.env['warden']
-        end
-
-        def authenticate!
-          warden.authenticate!
         end
 
         # Disabled csrf verification on sign in flow

@@ -10,19 +10,19 @@ class FailureApp
 end
 
 Warden::Manager.before_failure do |env, opts|
-  # Prepare
-  puts ')' * 100
-  puts env
-  puts opts
+  # Prepare something before_failure
 end
 
 Warden::Manager.serialize_into_session do |user|
+  puts "=" * 100
   puts "serialize_into_session"
   puts user
   user
 end
 
 Warden::Manager.serialize_from_session do |id|
+  puts "=" * 100
+  puts "serialize_from_session"
   puts id
   id
 end

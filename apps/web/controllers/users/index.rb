@@ -5,6 +5,8 @@ module Web
         include Web::Action
         include Web::Authentication
 
+        before :authenticate!
+
         expose :users
 
         def initialize(repo = UserRepository.new)
