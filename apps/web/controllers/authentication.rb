@@ -21,7 +21,11 @@ module Web
     end
 
     def current_user
-      "user"
+      if authenticated?
+        warden.user
+      else
+        authenticate!
+      end
     end
   end
 end
