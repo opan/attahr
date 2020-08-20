@@ -20,12 +20,12 @@ module Web
       warden.authenticated?
     end
 
+    def logout
+      authenticated? && warden.logout
+    end
+
     def current_user
-      if authenticated?
-        warden.user
-      else
-        authenticate!
-      end
+      warden.user
     end
   end
 end

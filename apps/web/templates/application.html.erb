@@ -6,6 +6,11 @@
     <%= favicon %>
   </head>
   <body>
+    <%= 
+      form_for :session, routes.sign_out_path, method: :delete do
+        submit 'Sign Out', class: 'ui button'
+      end
+    %>
     <div class="container mx-auto">
       <%= yield %>
     </div>
