@@ -1,0 +1,36 @@
+<h1 class="font-semibold text-xl">Sign Up</h1>
+
+<% unless flash[:errors].nil? %>
+  <%= flash[:errors].join(', ') %>
+<% end %>
+
+<%=
+  form_for :user, routes.register_user_path, class: 'ui form' do
+    div class: 'field' do
+      label :email, class: 'block text-grey-700'
+      email_field :email, class: 'border rounded'
+    end
+
+    div class: 'field' do
+      label :username, class: 'block text-grey-700'
+      text_field :username, class: 'border rounded'
+    end
+
+    div class: 'field' do
+      label :password, class: 'block text-grey-700'
+      password_field :password, class: 'border rounded'
+    end
+
+    div class: 'field' do
+      label :password_confirmation, class: 'block text-grey-700'
+      password_field :password_confirmation, class: 'border rounded'
+    end
+
+    submit 'Sign Up', class: 'ui button'
+  end
+%>
+
+<%= 
+  link_to 'Sign In', routes.sign_in_path, class: 'ui button'
+%>
+

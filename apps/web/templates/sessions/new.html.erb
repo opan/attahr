@@ -1,4 +1,4 @@
-<h1>Sign In</h1>
+<h1 class="font-semibold text-xl">Sign In</h1>
 
 <% unless flash[:errors].nil? %>
   <%= flash[:errors].join(', ') %>
@@ -7,10 +7,20 @@
 <%=
   form_for :user, routes.sign_in_path, class: 'ui form' do
     div class: 'field' do
-      label :email
-      text_field :email
+      label :email, class: 'block text-grey-700'
+      email_field :email, class: 'border rounded'
+    end
+
+    div class: 'field' do
+      label :password, class: 'block text-grey-700'
+      password_field :password, class: 'border rounded'
     end
 
     submit 'Sign In', class: 'ui button'
+    
   end
+%>
+
+<%= 
+  link_to 'Sign Up', routes.sign_up_path, class: 'ui button'
 %>

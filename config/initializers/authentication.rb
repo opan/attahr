@@ -1,5 +1,3 @@
-require 'warden'
-
 class FailureApp
   def call(env)
     action = Web::Controllers::Sessions::New.new
@@ -14,17 +12,13 @@ Warden::Manager.before_failure do |env, opts|
 end
 
 Warden::Manager.serialize_into_session do |user|
-  puts "=" * 100
-  puts "serialize_into_session"
-  puts user
-  user
+  user.id
 end
 
 Warden::Manager.serialize_from_session do |id|
-  puts "=" * 100
-  puts "serialize_from_session"
-  puts id
-  id
+  repo = UserRepository.new
+  user = repo.find(id)
+  user
 end
 
 Warden::Strategies.add(:password) do
@@ -34,10 +28,21 @@ Warden::Strategies.add(:password) do
 
   def authenticate!
     email = params.fetch('user', {})['email']
-    if email == "opan@email.com"
-      success!(email)
-    else
-      fail!
+    password = params.fetch('user', {})['password']
+
+    repo = UserRepository.new
+    user = repo.find_by_email(email)
+
+    if user.nil?
+      fail!('User credentials is not correct')
+      return
     end
+
+    if BCrypt::Password.new(user.password_hash) != password
+      fail!('User credentials is not correct')
+      return
+    end
+
+    success!(user)
   end
 end

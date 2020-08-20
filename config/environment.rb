@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'hanami/setup'
 require 'hanami/model'
 require 'warden'
+require 'bcrypt'
 require_relative '../lib/atthar'
 require_relative '../apps/web/application'
 
@@ -9,7 +10,6 @@ Hanami.configure do
   middleware.use Warden::Manager do |manager|
     manager.default_strategies :password
     manager.failure_app = ->(env) do
-      # env['REQUEST_METHOD'] = 'GET'
       FailureApp.new.call(env)
     end
   end

@@ -16,11 +16,10 @@ module Web
         def call(params)
           unless params.valid?
             flash[:errors] = []
-            params.errors.each do |e|
-              e[:user].each do |k, v|
-                flash[:errors] << "#{k.capitalize} #{v}"
-              end
+            params.errors[:user].each do |k, v|
+              flash[:errors] << "#{k.to_s.capitalize} #{v}"
             end
+
             redirect_to routes.sign_in_path and return
           end
 

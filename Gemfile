@@ -10,6 +10,7 @@ gem 'nokogiri', '>= 1.10.8'
 gem 'rack', '>= 2.0.8'
 gem 'json', '>= 2.0.0'
 gem 'warden'
+gem 'bcrypt'
 
 group :development do
   # Code reloading
