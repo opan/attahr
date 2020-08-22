@@ -18,6 +18,7 @@ RSpec.describe Web::Controllers::Sessions::New, type: :action do
       allow(action).to receive(:authenticated?).and_return(true)
       response = action.call(params)
       expect(response[0]).to eq 302
+      expect(response).to redirect_to('/')
     end
   end
 end
