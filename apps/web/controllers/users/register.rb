@@ -35,17 +35,7 @@ module Web
           password = Password.create(user_params[:password])
           user_entity = User.new(email: user_params[:email], username: user_params[:username], password_hash: password)
           repo.create(user_entity)
-          # if params.valid?
-            # repo = UserRepository.new
-            # user_entity = User.new(email: user_params[:email], username: user_params[:username])
-            # @user = repo.create(user_entity)
 
-            # redirect_to routes.path(:users)
-          # else
-            # flash[:errors] = params.error_messages
-            # self.status = 422
-          # end
-          #
           flash[:info] = 'User successfully signed up'
           redirect_to routes.root_path
         end

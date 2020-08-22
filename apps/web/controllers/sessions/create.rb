@@ -8,6 +8,7 @@ module Web
         params do
           required(:user).schema do
             required(:email).filled(:str?, format?: /@/)
+            required(:password).filled(:str?)
           end
         end
 
@@ -24,7 +25,7 @@ module Web
           end
 
           if authenticate!
-            redirect_to routes.users_path
+            redirect_to routes.root_path
           else
             redirect_to routes.sign_in_path
           end
