@@ -3,4 +3,3 @@ RSpec.configure do |config|
     @warden = double("Warden", authenticate: true, authenticate!: true, authenticated?: true, user: 'current_user')
   end
 end
-

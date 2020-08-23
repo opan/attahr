@@ -4,10 +4,12 @@ RSpec.describe 'Delete user' do
   let(:repository) { UserRepository.new }
 
   before(:each) do
-    @user = repository.create(username: 'user-delete', email: 'user-delete@mail.com')
+    @user = repository.create(username: 'user-delete', email: 'user-delete@mail.com', password_hash: '123')
   end
 
   it 'delete existing user' do
+    login
+
     visit '/users'
     expect(page).to have_content 'user-delete@mail.com'
 

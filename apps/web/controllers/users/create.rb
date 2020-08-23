@@ -3,6 +3,10 @@ module Web
     module Users
       class Create
         include Web::Action
+        include Web::Authentication
+        include BCrypt
+
+        before :authenticate!
 
         params do
           required(:user).schema do
@@ -14,15 +18,17 @@ module Web
         expose :user
 
         def call(params)
-          if params.valid?
-            repo = UserRepository.new
-            user_entity = User.new(email: user_params[:email], username: user_params[:username])
-            @user = repo.create(user_entity)
-
-            redirect_to routes.path(:users)
-          else
+          unless params.valid?
             flash[:errors] = params.error_messages
             self.status = 422
+          else
+            repo = UserRepository.new
+            password_hash = Password.create('defaultPassword')
+            user_entity = User.new(email: user_params[:email], username: user_params[:username], password_hash: password_hash)
+            @user = repo.create(user_entity)
+
+            flash[:info] = 'User has been successfully created'
+            redirect_to routes.users_path
           end
         end
 

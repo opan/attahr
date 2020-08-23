@@ -1,10 +1,11 @@
 require 'features_helper'
 
-RSpec.describe 'Add new user' do
+RSpec.describe 'Add new user', type: :feature do
   let(:repository) { UserRepository.new }
 
   context 'when data valid' do
     it 'create new user' do
+      login
       visit '/users'
 
       click_link 'Add User'
@@ -19,6 +20,7 @@ RSpec.describe 'Add new user' do
 
   context 'when data invalid' do
     it 'show error messages' do
+      login
       visit '/users'
 
       click_link 'Add User'

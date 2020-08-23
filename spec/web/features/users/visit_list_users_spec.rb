@@ -4,11 +4,11 @@ RSpec.describe 'Visit list users page' do
   let(:repository) { UserRepository.new }
 
   before(:each) do
-    repository.clear
-    repository.create(username: 'user-1', email: 'user-1@mail.com')
+    repository.create(username: 'user-1', email: 'user-1@mail.com', password_hash: '123')
   end
 
   it 'is successfull' do
+    login
     visit '/users'
 
     expect(page).to have_content 'Listing users'
