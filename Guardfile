@@ -1,8 +1,25 @@
-guard "rack", port: ENV["HANAMI_PORT"] || 2300 do
-  watch(%r{config/*})
-  watch(%r{lib/*})
+# A sample Guardfile
+# More info at https://github.com/guard/guard#readme
+
+## Uncomment and set this to only include directories you want to watch
+# directories %w(app lib config test spec features) \
+#  .select{|d| Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist")}
+
+## Note: if you are using the `directories` clause above and you are not
+## watching the project directory ('.'), then you will want to move
+## the Guardfile to a watched dir and symlink it back, e.g.
+#
+#  $ mkdir config
+#  $ mv Guardfile config/
+#  $ ln -s config/Guardfile .
+#
+# and, you'll have to watch "config/Guardfile" instead of "Guardfile"
+# guard "rack", port: ENV["HANAMI_PORT"] || 2300 do
+  # watch(%r{config/*})
+  # watch(%r{lib/*})
   # watch(%r{apps/*})
-end
+# end
+
 
 guard 'livereload' do
   extensions = {
@@ -23,7 +40,6 @@ guard 'livereload' do
 
   # file types LiveReload may optimize refresh for
   compiled_exts = extensions.values.uniq
-  watch(%r{public/.+\.(#{compiled_exts * '|'})})
 
   extensions.each do |ext, type|
     watch(%r{
@@ -38,8 +54,9 @@ guard 'livereload' do
   end
 
   # file needing a full reload of the page anyway
+  watch(%r{apps/*})
+  watch(%r{app/web/templates/.+\.(#{rails_view_exts * '|'})$})
   watch(%r{app/views/.+\.(#{rails_view_exts * '|'})$})
   watch(%r{app/helpers/.+\.rb})
-  watch(%r{apps/web/templates/.+\.(erb|haml|slim)})
   watch(%r{config/locales/.+\.yml})
 end

@@ -15,17 +15,20 @@ gem 'bcrypt'
 group :development do
   # Code reloading
   # See: http://hanamirb.org/guides/projects/code-reloading
-  # gem 'shotgun', platforms: :ruby
+  gem 'shotgun', platforms: :ruby
   gem 'hanami-webconsole'
+  gem 'guard-livereload', '~> 2.5', require: false
+  gem 'guard'
 end
 
 group :plugins do
-  gem 'hanami-reloader', "~> 0.3"
+  # gem 'hanami-reloader', "~> 0.3"
 end
 
 group :test, :development do
   gem 'dotenv', '~> 2.4'
   gem 'pry', '~> 0.12.2'
+  # gem 'guard-rack'
 end
 
 group :test do

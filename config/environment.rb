@@ -13,7 +13,7 @@ Hanami.configure do
       FailureApp.new.call(env)
     end
   end
-
+  
   mount Web::Application, at: '/'
 
   model do
