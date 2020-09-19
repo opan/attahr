@@ -1,37 +1,47 @@
-<div>
-  <h1>Listing users</h1>
+<div class="flex flex-col">
+  <div>
+    <h1 class="tracking-tight text-2xl text-blue-300 font-semibold">Listing users</h1>
+  </div>
 
-  <% unless flash[:info].nil? %>
-    <%= flash[:info] %>
-  <% end %>
+  <div>
+    <%=
+      link_to 'Add User', routes.new_user_path, class: 'inline-block bg-orange-600 hover:bg-orange-800 text-white border-orange-600 rounded py-2 px-4'
+    %>
+  </div>
 
-  <%=
-    link_to 'Add User', routes.new_user_path
-  %>
+  <div class=""></div>
+  
+  <div class="my-5">
+    <% unless flash[:info].nil? %>
+      <%= flash[:info] %>
+    <% end %>
+    
 
-  <table>
-    <thead>
-      <tr>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Actions</td>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% users.each do |u| %>
+    <table class="table-auto">
+      <thead>
         <tr>
-          <td><%= u.username %></td>
-          <td><%= u.email %></td>
-          <td>
-            <%=
-              form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
-                submit 'Delete', id: "#{u.id}-delete-user"
-              end
-            %>
-          </td>
+          <th class="py-2 px-2">Name</th>
+          <th class="py-2 px-2">Email</th>
+          <th class="py-2 px-2">Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% users.each do |u| %>
+          <tr>
+            <td class="border px-4 py-2"><%= u.username %></td>
+            <td class="border px-4 py-2"><%= u.email %></td>
+            <td class="border px-4 py-2">
+              <%=
+                form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
+                  submit 'Delete', id: "#{u.id}-delete-user", class: 'inline-block bg-red-600 hover:bg-red-800 text-white border-red-600 rounded py-2 px-4'
+                end
+              %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
 </div>
