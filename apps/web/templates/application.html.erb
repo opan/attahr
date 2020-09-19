@@ -6,7 +6,6 @@
     <%= favicon %>
   </head>
   <body>
-    <%= sign_out_link %>
     <nav class="flex items-center justify-between flex-wrap bg-blue-700 p-6">
       <div class=" flex items-center flex-shrink-0 mr-6 text-blue-300">
         <span class="font-bold text-xl tracking-tight">Atthar Corp</span>
@@ -22,8 +21,14 @@
         </div>
       </div>
 
-      <div>
-        <a href="#login" class="inline-block text-sm px-4 py-2 leading-none border rounded text-blue-300 border-blue-300 hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0">Login</a>
+      <div class="w-full block flex-none lg:flex lg:items-center lg:w-auto">
+        <div class="flex-none">
+          <a href="#login" class="mr-2 lg:inline-block text-sm px-4 py-2 leading-none border rounded text-blue-300 border-blue-300 hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0">Login</a>
+        </div>
+
+        <div class="flex-none">
+          <%= sign_out_link %>
+        </div>
       </div>
     </nav>
   
