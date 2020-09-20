@@ -6,6 +6,8 @@ module Web
         include Web::Authentication
 
         def call(params)
+          flash[:errors] = [warden.message] unless warden.message.nil?
+
           if authenticated?
             redirect_to routes.root_path
           end

@@ -27,19 +27,20 @@ Warden::Strategies.add(:password) do
   end
 
   def authenticate!
-    email = params.fetch('user', {})['email']
-    password = params.fetch('user', {})['password']
+    u = params.fetch('user', {})
+    email = u['email']
+    password = u['password']
 
     repo = UserRepository.new
     user = repo.find_by_email(email)
 
     if user.nil?
-      fail!('User credentials is not correct')
+      fail!('User email or password is incorrect')
       return
     end
 
-    if BCrypt::Password.new(user.password_hash) != password
-      fail!('User credentials is not correct')
+    if user && BCrypt::Password.new(user.password_hash) != password
+      fail!('User email or password is incorrect')
       return
     end
 

@@ -24,11 +24,9 @@ module Web
             redirect_to routes.sign_in_path and return
           end
 
-          if authenticate!
-            redirect_to routes.root_path
-          else
-            redirect_to routes.sign_in_path
-          end
+          authenticate!
+
+          redirect_to routes.root_path
         end
 
         private

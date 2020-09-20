@@ -4,7 +4,7 @@ RSpec.describe Web::Controllers::Sessions::Create, type: :action do
 
   it 'is successful' do
     allow(action).to receive(:authenticate!).and_return(true)
-    response = action.call(params.merge({user: { email: 'foo@email.com', password: '123'}}))
+    response = action.call(params.merge({ user: { email: 'foo@email.com', password: '123' }}))
     expect(response[0]).to eq 302
     expect(action.exposures[:params].valid?).to be_truthy
     expect(response).to redirect_to('/')
