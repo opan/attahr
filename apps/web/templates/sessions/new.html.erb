@@ -1,25 +1,32 @@
-<h1 class="font-semibold text-xl">Sign In</h1>
+<div class="flex justify-center">
+  <%=
+    form_for :user, routes.sign_in_path, class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/3' do
+      div class: 'mb-4' do
+        label :email, class: 'block text-gray-700 text-sm font-bold mb-2'
+        email_field :email, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+      end
+
+      div class: 'mb-4' do
+        label :password, class: 'block text-gray-700 text-sm font-bold mb-2'
+        password_field :password, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+      end
+
+      div class: 'flex items-center justify-between' do
+        submit 'Sign In', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+      end
+      
+    end
+  %>
+
+</div>
+
+<%# <h1 class="font-semibold text-xl">Sign In</h1> %>
+
+  <%= 
+    link_to 'Sign Up', routes.sign_up_path, class: 'ui button'
+  %>
 
 <% unless flash[:errors].nil? %>
   <%= flash[:errors].join(', ') %>
 <% end %>
 
-<%=
-  form_for :user, routes.sign_in_path, class: 'ui form' do
-    div class: 'field' do
-      label :email, class: 'block text-grey-700'
-      email_field :email, class: 'border rounded'
-    end
-
-    div class: 'field' do
-      label :password, class: 'block text-grey-700'
-      password_field :password, class: 'border rounded'
-    end
-
-    submit 'Sign In', class: 'ui button'
-  end
-%>
-
-<%= 
-  link_to 'Sign Up', routes.sign_up_path, class: 'ui button'
-%>
