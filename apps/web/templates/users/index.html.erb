@@ -30,8 +30,8 @@
           <tr>
             <td class="border px-4 py-2"><%= u.username %></td>
             <td class="border px-4 py-2"><%= u.email %></td>
-            <td class="border px-4 py-2"><%= u.profile.name %></td>
-            <td class="border px-4 py-2"><%= u.profile.dob %></td>
+            <td class="border px-4 py-2"><%= u.profiles.name %></td>
+            <td class="border px-4 py-2"><%= u.profiles.dob %></td>
             <td class="border px-4 py-2">
               <%=
                 form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do

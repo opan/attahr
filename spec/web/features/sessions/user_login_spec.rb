@@ -6,8 +6,8 @@ RSpec.describe 'User login', type: :feature do
   let(:username) { 'foo' }
   let(:password) { 'defaultPassword' }
   let(:user) do
-    user = User.new(email: email, username: username, password_hash: BCrypt::Password.create(password))
-    repository.create(user)
+    user = User.new(email: email, username: username, password_hash: BCrypt::Password.create(password), profile: { name: username })
+    repository.create_with_profile(user)
   end
 
   it 'login with valid account' do
