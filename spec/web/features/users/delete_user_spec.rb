@@ -4,7 +4,14 @@ RSpec.describe 'Delete user' do
   let(:repository) { UserRepository.new }
 
   before(:each) do
-    @user = repository.create(username: 'user-delete', email: 'user-delete@mail.com', password_hash: '123')
+    @user = repository.create_with_profile(
+      username: 'user-delete',
+      email: 'user-delete@mail.com',
+      password_hash: '123',
+      profile: {
+        name: 'user-delete',
+      },
+    )
   end
 
   it 'delete existing user' do

@@ -13,7 +13,7 @@ module Web
         end
 
         def call(params)
-          @users = @repo.all
+          @users = @repo.all_with_profile
         end
       end
     end
