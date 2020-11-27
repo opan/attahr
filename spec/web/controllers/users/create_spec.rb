@@ -4,8 +4,14 @@ RSpec.describe Web::Controllers::Users::Create, type: :action do
 
   context 'with valid params' do
     before(:each) do
-      params[:user][:email] = 'foo@email.com'
-      params[:user][:username] = 'foo'
+      params[:user] =  {
+        email: 'foo@email.com',
+        username: 'foo',
+        profile: {
+          name: 'foo'
+        }
+      }
+        
       @response = action.call(params)
     end
 
