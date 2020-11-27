@@ -12,6 +12,11 @@ module Web
           required(:user).schema do
             required(:email).filled(:str?, format?: /@/)
             required(:username).filled(:str?)
+
+            optional(:profile).schema do
+              optional(:name)
+              optional(:date)
+            end
           end
         end
 
@@ -24,7 +29,7 @@ module Web
           else
             repo = UserRepository.new
             password_hash = Password.create('defaultPassword')
-            user_entity = User.new(email: user_params[:email], username: user_params[:username], password_hash: password_hash)
+            user_entity = User.new(email: user_params[:email], username: user_params[:username], password_hash: password_hash, profile: user_params[:profile])
             @user = repo.create(user_entity)
 
             flash[:info] = 'User has been successfully created'

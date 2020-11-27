@@ -4,17 +4,15 @@ RSpec.describe Web::Controllers::Users::Index, type: :action do
   let(:params) { Hash['warden' => @warden] }
 
   it 'exposes #users' do
-    expect(repo).to receive(:all).and_return([repo])
     response = action.call(params)
 
-    expect(action.exposures.fetch(:users)).to eq [repo]
+    expect(action.exposures.fetch(:users).to_a).to eq repo.all_with_profile.to_a
   end
 
   it 'renders the user listings' do
-    expect(repo).to receive(:all).and_return([User.new])
     response = action.call(params)
 
-    expect(action.users).to eq [User.new]
+    expect(action.users.to_a).to eq []
     expect(response[0]).to eq 200
   end
 end

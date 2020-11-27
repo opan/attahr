@@ -11,6 +11,7 @@ RSpec.describe 'Add new user', type: :feature do
       click_link 'Add User'
       fill_in 'Username', with: 'new-user'
       fill_in 'Email', with: 'new-user@mail.com'
+      fill_in 'Name', with: 'new'
       click_button 'Create'
 
       expect(page).to have_content %(new-user)

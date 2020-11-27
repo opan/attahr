@@ -16,6 +16,14 @@
       text_field :email
     end
 
+    fields_for :profile do
+      label :name
+      text_field :name
+
+      label :dob
+      date_field :dob
+    end
+
     submit 'Create', class: 'ui button'
   end
 %>
