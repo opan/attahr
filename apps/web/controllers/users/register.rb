@@ -13,6 +13,10 @@ module Web
           end
         end
 
+        def initialize(repository: UserRepository.new)
+          @repository = repository
+        end
+
         def call(params)
           unless params.valid?
             flash[:errors] = []
@@ -24,7 +28,8 @@ module Web
             redirect_to routes.sign_up_path and return
           end
 
-          repo = UserRepository.new
+
+          repo = @repository
 
           user = repo.find_by_email(user_params[:email])
           unless user.nil?
@@ -33,7 +38,12 @@ module Web
           end
 
           password = Password.create(user_params[:password])
-          user_entity = User.new(email: user_params[:email], username: user_params[:username], password_hash: password)
+          user_entity = User.new(
+            email: user_params[:email],
+            username: user_params[:username],
+            password_hash: password,
+            profile: { name: user_params[:username] },
+          )
           repo.create(user_entity)
 
           flash[:info] = 'User successfully signed up'
