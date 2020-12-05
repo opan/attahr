@@ -16,7 +16,10 @@ RSpec.describe 'Register new user', type: :feature do
       fill_in 'Password confirmation', with: '123'
       click_button 'Sign Up'
 
-      expect(repository.first.email).to eq 'new@mail.com'
+      created_user = repository.find_by_email_with_profile('new@mail.com')
+
+      expect(created_user.email).to eq 'new@mail.com'
+      expect(created_user.username).to eq created_user.profile.name
     end
   end
 

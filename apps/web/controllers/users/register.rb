@@ -42,9 +42,10 @@ module Web
             email: user_params[:email],
             username: user_params[:username],
             password_hash: password,
-            profile: { name: user_params[:username] },
+            profile: { name: user_params[:username], date: nil },
           )
-          repo.create(user_entity)
+
+          repo.create_with_profile(user_entity)
 
           flash[:info] = 'User successfully signed up'
           redirect_to routes.root_path
