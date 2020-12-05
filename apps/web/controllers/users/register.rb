@@ -42,7 +42,7 @@ module Web
             email: user_params[:email],
             username: user_params[:username],
             password_hash: password,
-            profile: { name: user_params[:username], date: nil },
+            profile: { name: user_params[:username] },
           )
 
           repo.create_with_profile(user_entity)
