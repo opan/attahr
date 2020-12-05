@@ -2,12 +2,13 @@ require 'features_helper'
 
 RSpec.describe 'Register new user', type: :feature do
   let(:repository) { UserRepository.new }
+  let(:sign_up_link) { "Don't have account? Create one from here!" }
 
   context 'when data valid' do
     it 'new user signed up' do
       visit '/'
 
-      click_link 'Sign Up'
+      click_link sign_up_link
       expect(page.current_path).to eq '/sign_up'
 
       fill_in 'Username', with: 'new-user'
@@ -27,7 +28,7 @@ RSpec.describe 'Register new user', type: :feature do
     it 'failed to register new user' do
       visit '/'
 
-      click_link 'Sign Up'
+      click_link sign_up_link
       expect(page.current_path).to eq '/sign_up'
 
       fill_in 'Username', with: 'new-user'

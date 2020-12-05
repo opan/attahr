@@ -11,20 +11,18 @@
         password_field :password, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
       end
 
-      div class: 'flex items-center justify-between' do
+      div class: 'flex items-center justify-between mb-4' do
         submit 'Sign In', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
       end
-      
+
+      div do
+        link_to "Don't have account? Create one from here!" , routes.sign_up_path, class: 'block text-blue-500 text-sm mb-2 hover:text-blue-300'
+      end
     end
   %>
 
 </div>
 
-<%# <h1 class="font-semibold text-xl">Sign In</h1> %>
-
-  <%= 
-    link_to 'Sign Up', routes.sign_up_path, class: 'ui button'
-  %>
 
 <% unless flash[:errors].nil? %>
   <%= flash[:errors].join(', ') %>
