@@ -19,8 +19,6 @@ module Web
           end
         end
 
-        expose :user
-
         def initialize(repository: UserRepository.new)
           @repository = repository
         end
@@ -37,8 +35,8 @@ module Web
             profile: user_params[:profile],
           )
 
-          @user = @repository.find_by_email(user_params[:email])
-          if @user.nil?
+          user = @repository.find_by_email(user_params[:email])
+          if user.nil?
             flash[:errors] = 'User not found'
             halt 404
           end

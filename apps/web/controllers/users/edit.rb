@@ -8,17 +8,13 @@ module Web
         before :authenticate!
 
         expose :user
-        expose :foo
 
         def initialize(repository: UserRepository.new)
           @repository = repository
         end
 
         def call(params)
-          # @user = @repository.find(params[:id])
-          @user = User.new
-          @foo = User.new
-
+          @user = @repository.find(params[:id])
           if @user.nil?
             flash[:errors] = 'User not found'
             halt 404
