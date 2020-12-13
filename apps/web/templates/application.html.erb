@@ -8,7 +8,11 @@
   <body>
     <nav class="flex items-center justify-between flex-wrap bg-blue-700 p-6">
       <div class=" flex items-center flex-shrink-0 mr-6 text-blue-300">
-        <span class="font-bold text-xl tracking-tight">Atthar Corp</span>
+        <%=
+          link_to routes.root_path do
+            span('Atthar Corp', class: 'font-bold text-xl tracking-tight')
+          end
+        %>
       </div>
 
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">

@@ -7,6 +7,10 @@ class UserRepository < Hanami::Repository
     assoc(:profile).create(data)
   end
 
+  def update_with_profile(id, data)
+    assoc(:profile).update(id, data)
+  end
+
   def all_with_profile
     aggregate(:profiles)
   end
