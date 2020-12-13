@@ -4,6 +4,10 @@ Welcome to your new Hanami project!
 
 ## Setup
 
+To use auto reloading:
+1. Run server with `shotgun --port=2300` and on the other terminal run `bundle exec guard`.
+2. Ensure to connect `livereload` in the browser until there is message printed the browser is connected
+
 How to run tests:
 
 ```
