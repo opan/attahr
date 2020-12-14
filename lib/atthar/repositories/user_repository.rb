@@ -7,8 +7,8 @@ class UserRepository < Hanami::Repository
     assoc(:profile).create(data)
   end
 
-  def update_with_profile(id, data)
-    assoc(:profile).update(id, data)
+  def update_with_profile(user, data)
+    assoc(:profile, user).update(data)
   end
 
   def all_with_profile

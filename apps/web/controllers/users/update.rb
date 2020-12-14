@@ -40,7 +40,7 @@ module Web
             flash[:errors] = 'User not found'
             halt 404
           end
-          # @user = @repository.update_with_profile(user_entity)
+          @repository.update_with_profile(user, user_entity)
 
           flash[:info] = 'User has been successfully updated'
           redirect_to routes.users_path

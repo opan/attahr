@@ -2,6 +2,7 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
   let(:repository) { instance_double('UserRepository') }
   let(:action) { described_class.new(repository: repository) }
   let(:params) { Hash[user: {}, 'warden' => @warden] }
+  let(:user) { User.new(id: 555, email: 'foo@mail.com', username: 'foo') }
 
   context 'with valid params' do
 
@@ -13,7 +14,15 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
           name: 'name',
         },
       }
-      expect(repository).to receive(:find_by_email).with(params[:user][:email]).and_return(User.new(id: 555))
+      expect(repository).to receive(:find_by_email).with(params[:user][:email]).and_return(user)
+      expect(repository).to receive(:update_with_profile).with(
+        user,
+        User.new(
+          email: params[:user][:email],
+          username: params[:user][:username],
+          profile: params[:user][:profile],
+        )
+      )
       @response = action.call(params)
     end
 
