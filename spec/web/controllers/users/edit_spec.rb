@@ -2,12 +2,15 @@ RSpec.describe Web::Controllers::Users::Edit, type: :action do
   let(:repository) { instance_double('UserRepository') }
   let(:action) { described_class.new(repository: repository) }
   let(:params) { Hash[user: {}, 'warden' => @warden] }
+  let(:user) { User.new(id: 1, email: 'foo@mail.com', username: 'foo') }
 
   context 'when user exists' do
     before(:each) do
       params[:id] = 1
 
-      expect(repository).to receive(:find).with(params[:id]).and_return(User.new(id: 1, username: 'foo'))
+      expect(repository).to receive(:find).with(params[:id]).and_return(user)
+      expect(repository).to receive(:find_by_email_with_profile).with(user.email).and_return(user)
+
       @response = action.call(params)
     end
 

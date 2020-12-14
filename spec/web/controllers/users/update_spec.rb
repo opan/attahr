@@ -21,10 +21,6 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
       expect(@response[0]).to eq 302
     end
 
-    it 'expose #user' do
-      expect(action.exposures[:user].id).to eq 555
-    end
-
     it 'got a success messages' do
       expect(action.exposures[:flash][:info]).to eq 'User has been successfully updated'
     end

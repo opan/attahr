@@ -5,5 +5,31 @@
 </div>
 
 <div class="my-5">
-  
+  <%= 
+    form_for :user, routes.user_path(user.id), method: :patch, values: { user: user, profile: user.profile } do
+      div class: 'mb-4' do
+        label :email
+        email_field :email
+      end
+
+      div class: 'mb-4' do
+        label :username
+        text_field :username
+      end
+
+      fields_for :profile do
+        div class: 'mb-4' do
+          label :name
+          text_field :name
+        end
+
+        div class: 'mb-4' do
+          label :dob
+          date_field :dob
+        end
+      end
+
+      submit 'Update', class: 'ui button'
+    end
+   %>
 </div>
