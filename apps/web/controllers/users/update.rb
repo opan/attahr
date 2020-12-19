@@ -12,15 +12,16 @@ module Web
             required(:email).filled(:str?, format?: /@/)
             required(:username).filled(:str?)
 
-            optional(:profile).schema do
-              optional(:name)
-              optional(:date)
+            required(:profile).schema do
+              required(:name).filled(:str?)
+              optional(:date).filled(:date?)
             end
           end
         end
 
-        def initialize(repository: UserRepository.new)
-          @repository = repository
+        def initialize(user_repo: UserRepository.new, profile_repo: ProfileRepository.new)
+          @user_repo = user_repo
+          @profile_repo = profile_repo
         end
 
         def call(params)
@@ -29,18 +30,15 @@ module Web
             halt 422
           end
 
-          user_entity = User.new(
-            email: user_params[:email],
-            username: user_params[:username],
-            profile: user_params[:profile],
-          )
-
-          user = @repository.find_by_email(user_params[:email])
+          user_entity = User.new(user_params)
+          user = @user_repo.find_by_email_with_profile(user_entity.email)
           if user.nil?
             flash[:errors] = 'User not found'
             halt 404
           end
-          @repository.update_with_profile(user, user_entity)
+
+          @user_repo.update(user.id, user_entity)
+          @profile_repo.update(user.profile.id, user_entity.profile)
 
           flash[:info] = 'User has been successfully updated'
           redirect_to routes.users_path
