@@ -53,7 +53,7 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
     end
 
     it 'got an errors messages' do
-      expect(action.exposures[:flash][:errors]).to eq ["Email is in invalid format"]
+      expect(action.exposures[:flash][:errors]).to eq ['Email is in invalid format']
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
     end
 
     it 'got an errors messages' do
-      expect(action.exposures[:flash][:errors]).to eq "User not found"
+      expect(action.exposures[:flash][:errors]).to eq 'User not found'
     end
   end
 end
