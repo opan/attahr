@@ -1,11 +1,11 @@
 Hanami::Model.migration do
   change do
-    create_table :profiles do
+    create_table :orgs do
       primary_key :id, type: :Bignum
-      foreign_key :user_id, :users, on_delete: :cascade, null: false
 
-      column :name, String
-      column :dob, Date
+      column :name, String, null: false, unique: true
+      column :address, String
+      column :phone_numbers, String
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
