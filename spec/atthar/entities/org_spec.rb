@@ -1,4 +1,4 @@
-RSpec.describe Orgs, type: :entity do
+RSpec.describe Org, type: :entity do
   it 'has attributes' do
     expect( subject.respond_to?(:id) ).to be true
     expect( subject.respond_to?(:name) ).to be true
