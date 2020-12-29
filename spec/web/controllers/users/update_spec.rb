@@ -66,7 +66,7 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
           name: 'name',
         },
       }
-      expect(user_repo).to receive(:find_by_email).with(params[:user][:email]).and_return(nil)
+      expect(user_repo).to receive(:find_by_email_with_profile).with(params[:user][:email]).and_return(nil)
 
       @response = action.call(params)
     end

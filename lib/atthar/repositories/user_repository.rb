@@ -18,4 +18,8 @@ class UserRepository < Hanami::Repository
   def find_by_email_with_profile(email)
     aggregate(:profile).where(email: email).map_to(User).one
   end
+
+  def find_with_profile(id)
+    aggregate(:profile).where(id: id).map_to(User).one
+  end
 end

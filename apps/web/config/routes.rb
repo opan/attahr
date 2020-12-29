@@ -8,4 +8,7 @@ delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
 get '/sign_up', to: 'users#sign_up', as: 'sign_up'
 post '/sign_up', to: 'users#register', as: 'register_user'
 get '/unauthenticated', to: 'sessions#new'
-patch '/users/:id', to: 'users#update'
+
+# Organizations
+get '/orgs/:user_id', to: 'orgs#index', as: 'orgs'
+post '/orgs/:user_id', to: 'orgs#create', as: 'orgs'

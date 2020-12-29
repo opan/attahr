@@ -4,6 +4,7 @@ Hanami::Model.migration do
       primary_key :id, type: :Bignum
 
       column :name, String, null: false, unique: true
+      column :display_name, String
       column :address, String
       column :phone_numbers, String
 
