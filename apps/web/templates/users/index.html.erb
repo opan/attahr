@@ -1,7 +1,9 @@
 <div class="flex flex-col">
   <div>
-    <h1 class="tracking-tight text-2xl text-blue-300 font-semibold">Listing users</h1>
+    <h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Listing users</h1>
   </div>
+
+  <hr>
 
   <div class="flex-none">
     <%=
@@ -14,14 +16,14 @@
       <%= flash[:info] %>
     <% end %>
 
-    <table class="table-auto">
-      <thead>
+    <table class="table-auto border-collapse border-blue-400 border-b-2">
+      <thead class="bg-blue-400 text-white font-semibold">
         <tr>
-          <th class="py-2 px-2">Username</th>
+          <th class="py-2 px-2 rounded-tl-lg">Username</th>
           <th class="py-2 px-2">Email</th>
           <th class="py-2 px-2">Name</th>
           <th class="py-2 px-2">Date of birth</th>
-          <th class="py-2 px-2">Actions</th>
+          <th class="py-2 px-2 rounded-tr-lg">Actions</th>
         </tr>
       </thead>
 
