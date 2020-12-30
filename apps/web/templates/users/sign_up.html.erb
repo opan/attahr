@@ -1,36 +1,39 @@
-<h1 class="font-semibold text-xl">Sign Up</h1>
+<div class="flex justify-center">
+  <%=
+    form_for :user, routes.register_user_path, class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/3 border-grey-400 border' do
+      div class: 'mb-4' do
+        # label :email, class: 'block text-grey-700'
+        email_field :email, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', placeholder: 'Your email'
+      end
+
+      div class: 'mb-4' do
+        # label :username, class: 'block text-grey-700'
+        text_field :username, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', placeholder: 'Set your username'
+      end
+
+      div class: 'mb-4' do
+        # label :password, class: 'block text-grey-700'
+        password_field :password, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', placeholder: 'Specify your password'
+      end
+
+      div class: 'mb-4' do
+        # label :password_confirmation, class: 'block text-grey-700'
+        password_field :password_confirmation, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', placeholder: 'Confirm your password'
+      end
+
+      div class: 'flex items-center justify-between mb-4' do
+        # submit 'Sign In', class: 'bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+        submit 'Sign Up', class: 'bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+      end
+
+      div do
+        link_to "Already have an account? Sign in here!" , routes.sign_in_path, class: 'block text-blue-500 text-sm mb-2 hover:text-blue-300'
+      end
+    end
+  %>
+</div>
 
 <% unless flash[:errors].nil? %>
   <%= flash[:errors].join(', ') %>
 <% end %>
-
-<%=
-  form_for :user, routes.register_user_path, class: 'ui form' do
-    div class: 'field' do
-      label :email, class: 'block text-grey-700'
-      email_field :email, class: 'border rounded'
-    end
-
-    div class: 'field' do
-      label :username, class: 'block text-grey-700'
-      text_field :username, class: 'border rounded'
-    end
-
-    div class: 'field' do
-      label :password, class: 'block text-grey-700'
-      password_field :password, class: 'border rounded'
-    end
-
-    div class: 'field' do
-      label :password_confirmation, class: 'block text-grey-700'
-      password_field :password_confirmation, class: 'border rounded'
-    end
-
-    submit 'Sign Up', class: 'ui button'
-  end
-%>
-
-<%= 
-  link_to 'Sign In', routes.sign_in_path, class: 'ui button'
-%>
 
