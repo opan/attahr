@@ -3,6 +3,7 @@ module Web
     module Users
       class Index
         include Web::View
+        layout :admin
       end
     end
   end

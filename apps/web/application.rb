@@ -226,7 +226,7 @@ module Web
         frame-ancestors 'self';
         base-uri 'self';
         default-src 'none';
-        script-src 'self' http://127.0.0.1:35729/livereload.js 'unsafe-inline' 'unsafe-eval';
+        script-src 'self' http://127.0.0.1:35729/livereload.js https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js 'unsafe-inline' 'unsafe-eval';
         connect-src 'self' ws://127.0.0.1:35729/livereload 'unsafe-inline';
         img-src 'self' https: data:;
         style-src 'self' 'unsafe-inline' https:;
