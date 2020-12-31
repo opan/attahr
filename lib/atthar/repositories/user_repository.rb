@@ -8,7 +8,7 @@ class UserRepository < Hanami::Repository
   end
 
   def all_with_profile
-    aggregate(:profiles)
+    aggregate(:profiles).to_a
   end
 
   def find_by_email(email)

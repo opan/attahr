@@ -1,14 +1,56 @@
-<div class="flex flex-col">
-  <div>
-    <h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Listing users</h1>
-  </div>
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Users</h1>
 
-  <hr>
+<div class="mt-5">
+  <div class="flex rounded-md bg-white p-3 overflow-x-auto items-center">
+    <%=
+      link_to 'Add user', routes.new_user_path, class: 'bg-blue-500 hover:bg-blue-400 text-white rounded py-2 px-4'
+    %>
+  </div>
+</div>
+
+<div class="mt-5">
+  <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm">
+    <thead class="bg-blue-500 text-white text-left">
+      <tr>
+        <th class="py-2 px-2 rounded-tl-lg">No</th>
+        <th class="py-2 px-2">Username</th>
+        <th class="py-2 px-2">Email</th>
+        <th class="py-2 px-2">Name</th>
+        <th class="py-2 px-2">Date of birth</th>
+        <th class="py-2 px-2 rounded-tr-lg">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% users.each_with_index do |u, i| %>
+        <tr>
+          <td class="border px-4 py-2"><%= i + 1 %></td>
+          <td class="border px-4 py-2"><%= u.username %></td>
+          <td class="border px-4 py-2"><%= u.email %></td>
+          <td class="border px-4 py-2"><%= u.profiles.name %></td>
+          <td class="border px-4 py-2"><%= u.profiles.dob %></td>
+          <td class="border px-4 py-2">
+            <div class="flex">
+              <%= link_to 'Edit', routes.edit_user_path(u.id), class: 'hover:bg-blue-400 bg-blue-500 rounded text-white py-2 px-4', id: "#{u.id}-edit-user" %>
+              
+              <%=
+                form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
+                  submit 'Delete', id: "#{u.id}-delete-user", class: 'bg-red-500 hover:bg-red-400 text-white rounded py-2 px-4 ml-2'
+                end
+              %>
+
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+    
+<div class="flex flex-col">
 
   <div class="flex-none">
-    <%=
-      link_to 'Add User', routes.new_user_path, class: 'inline-block bg-orange-600 hover:bg-orange-800 text-white border-orange-600 rounded py-2 px-4'
-    %>
+    
   </div>
 
   <div class="my-5">
@@ -16,42 +58,5 @@
       <%= flash[:info] %>
     <% end %>
 
-    <table class="table-auto border-collapse border-blue-500 border-b-2">
-      <thead class="bg-blue-500 text-white font-semibold">
-        <tr>
-          <th class="py-2 px-2 rounded-tl-lg">Username</th>
-          <th class="py-2 px-2">Email</th>
-          <th class="py-2 px-2">Name</th>
-          <th class="py-2 px-2">Date of birth</th>
-          <th class="py-2 px-2 rounded-tr-lg">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% users.each do |u| %>
-          <tr>
-            <td class="border px-4 py-2"><%= u.username %></td>
-            <td class="border px-4 py-2"><%= u.email %></td>
-            <td class="border px-4 py-2"><%= u.profiles.name %></td>
-            <td class="border px-4 py-2"><%= u.profiles.dob %></td>
-            <td class="border px-4 py-2">
-              <div class="grid grid-cols-2">
-                <span>
-                  <%= link_to 'Edit', routes.edit_user_path(u.id), class: 'inline-block hover:bg-green-800 bg-green-600 rounded text-white py-2 px-4', id: "#{u.id}-edit-user" %>
-                </span>
-                
-                <span>
-                  <%=
-                    form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
-                      submit 'Delete', id: "#{u.id}-delete-user", class: 'inline-block bg-red-600 hover:bg-red-800 text-white border-red-600 rounded py-2 px-4'
-                    end
-                  %>
-                </span>
-              </div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
   </div>
 </div>
