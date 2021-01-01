@@ -50,4 +50,23 @@ RSpec.describe Web::Controllers::Orgs::Create, type: :action do
       response = action.call(params)
     end
   end
+
+  context 'with invalid params' do
+    before(:each) do
+      params[:org] = {
+        name: '',
+        address: 'West Java',
+      }
+
+      @response = action.call(params)
+    end
+
+    it 'return 422' do
+      expect(@response[0]).to eq 422
+    end
+
+    it 'got an error messages' do
+      expect(action.exposures[:flash][:errors]).to eq ['Name must be filled']
+    end
+  end
 end
