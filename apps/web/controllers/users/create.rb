@@ -14,8 +14,8 @@ module Web
             required(:username).filled(:str?)
 
             optional(:profile).schema do
-              optional(:name)
-              optional(:date)
+              optional(:name).filled(:str?)
+              optional(:dob).filled(:date?)
             end
           end
         end
