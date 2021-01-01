@@ -11,10 +11,10 @@ RSpec.describe 'Register new user', type: :feature do
       click_link sign_up_link
       expect(page.current_path).to eq '/sign_up'
 
-      fill_in 'Username', with: 'new-user'
-      fill_in 'Email', with: 'new@mail.com'
-      fill_in 'Password', with: '123'
-      fill_in 'Password confirmation', with: '123'
+      fill_in name: 'user[username]', with: 'new-user'
+      fill_in name: 'user[email]', with: 'new@mail.com'
+      fill_in name: 'user[password]', with: '123'
+      fill_in name: 'user[password_confirmation]', with: '123'
       click_button 'Sign Up'
 
       created_user = repository.find_by_email_with_profile('new@mail.com')
@@ -31,9 +31,9 @@ RSpec.describe 'Register new user', type: :feature do
       click_link sign_up_link
       expect(page.current_path).to eq '/sign_up'
 
-      fill_in 'Username', with: 'new-user'
-      fill_in 'Email', with: 'new@mail.com'
-      fill_in 'Password', with: '123'
+      fill_in name: 'user[username]', with: 'new-user'
+      fill_in name: 'user[email]', with: 'new@mail.com'
+      fill_in name: 'user[password]', with: '123'
       click_button 'Sign Up'
 
       expect(repository.first).to be_nil

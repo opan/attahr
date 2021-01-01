@@ -15,8 +15,8 @@ RSpec.describe 'User login', type: :feature do
 
     expect(page).to have_content('Sign In')
 
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
+    fill_in name: 'user[email]', with: user.email
+    fill_in name: 'user[password]', with: password
     click_button 'Sign In'
 
     expect(page.current_path).to eq '/'
@@ -27,8 +27,8 @@ RSpec.describe 'User login', type: :feature do
 
     expect(page).to have_content('Sign In')
 
-    fill_in 'Email', with: email
-    fill_in 'Password', with: '123'
+    fill_in name: 'user[email]', with: email
+    fill_in name: 'user[password]', with: '123'
     click_button 'Sign In'
 
     expect(page).to have_content %(email or password is incorrect)

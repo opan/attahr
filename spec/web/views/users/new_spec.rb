@@ -1,5 +1,6 @@
 RSpec.describe Web::Views::Users::New, type: :view do
-  let(:exposures) { Hash[format: :html, user: User.new, params: {}, flash: {}, current_user: 'current_user'] }
+  let(:current_user) { double('user', id: 1) }
+  let(:exposures) { Hash[format: :html, user: User.new, params: {}, flash: {}, current_user: current_user] }
   let(:template)  { Hanami::View::Template.new('apps/web/templates/users/new.html.erb') }
   let(:view)      { described_class.new(template, exposures) }
   let(:rendered)  { view.render }

@@ -8,10 +8,10 @@ RSpec.describe 'Add new user', type: :feature do
       login
       visit '/users'
 
-      click_link 'Add User'
-      fill_in 'Username', with: 'new-user'
-      fill_in 'Email', with: 'new-user@mail.com'
-      fill_in 'Name', with: 'new'
+      click_link 'New user'
+      fill_in name: 'user[username]', with: 'new-user'
+      fill_in name: 'user[email]', with: 'new-user@mail.com'
+      fill_in name: 'user[profile][name]', with: 'new'
       click_button 'Create'
 
       expect(page).to have_content %(new-user)
@@ -24,9 +24,9 @@ RSpec.describe 'Add new user', type: :feature do
       login
       visit '/users'
 
-      click_link 'Add User'
-      fill_in 'Username', with: 'new-user'
-      fill_in 'Email', with: 'new-user#mail.com'
+      click_link 'New user'
+      fill_in name: 'user[username]', with: 'new-user'
+      fill_in name: 'user[email]', with: 'new-user#mail.com'
       click_button 'Create'
 
       expect(page).to have_content %(Email is in invalid format)

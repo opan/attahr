@@ -3,7 +3,7 @@ RSpec.describe Web::Views::Users::Index, type: :view do
   let(:users) {
     [double_user]
   }
-  let(:exposures) { Hash[format: :html, users: users, params: {}, flash: {}, current_user: 'current_user'] }
+  let(:exposures) { Hash[format: :html, users: users, params: {}, flash: {}, current_user: double_user] }
   let(:template)  { Hanami::View::Template.new('apps/web/templates/users/index.html.erb') }
   let(:view)      { described_class.new(template, exposures) }
   let(:rendered)  { view.render }
@@ -18,11 +18,11 @@ RSpec.describe Web::Views::Users::Index, type: :view do
   end
 
   it 'shows link to create new user' do
-    expect(rendered).to match %(Add User)
+    expect(rendered).to match %(New user)
   end
 
   it 'shows list of users' do
-    expect(rendered).to match %(Listing users)
+    expect(rendered).to match %(Users)
     users.each do |u|
       expect(rendered).to match %(user-1)
     end

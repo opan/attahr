@@ -11,8 +11,8 @@ module HelperMethods
   def login(user: UserRepository.new.create_with_profile(signed_user_entity), password_supply: nil)
     visit '/sign_in'
 
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password_supply||'123'
+    fill_in name: 'user[email]', with: user.email
+    fill_in name: 'user[password]', with: password_supply||'123'
     click_button 'Sign In'
   end
 end

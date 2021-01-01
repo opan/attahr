@@ -18,8 +18,7 @@ RSpec.describe 'Visit list users page' do
     login
     visit '/users'
 
-    expect(page).to have_content 'Listing users'
-    expect(page).to have_content 'Add User'
+    expect(page).to have_content 'New user'
     expect(page).to have_content 'user-1@mail.com'
   end
 end
