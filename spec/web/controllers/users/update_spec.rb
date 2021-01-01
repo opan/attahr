@@ -27,7 +27,7 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
     end
 
     it 'got a success messages' do
-      expect(action.exposures[:flash][:info]).to eq 'User has been successfully updated'
+      expect(action.exposures[:flash][:info]).to eq ['User has been successfully updated']
     end
 
     it 'redirects to /users' do
@@ -76,7 +76,7 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
     end
 
     it 'got an errors messages' do
-      expect(action.exposures[:flash][:errors]).to eq 'User not found'
+      expect(action.exposures[:flash][:errors]).to eq ['User not found']
     end
   end
 end

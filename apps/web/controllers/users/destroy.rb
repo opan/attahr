@@ -8,7 +8,7 @@ module Web
           repo = UserRepository.new
           repo.delete(params[:id])
 
-          flash[:info] = I18n.t('users.success.delete')
+          flash[:info] = [I18n.t('users.success.delete')]
           redirect_to routes.path(:users)
         end
       end

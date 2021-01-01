@@ -1,0 +1,62 @@
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Organizations</h1>
+
+<div class="mt-5">
+  <%=
+    link_to 'New organization', routes.new_org_path(user_id: params[:user_id]), class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+  %>
+</div>
+
+<%= render partial: 'shared/alerts' %>
+
+<div class="mt-5">
+  <div class="rounded-t-md overflow-hidden">
+    <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
+      <thead class="bg-blue-500 text-white text-left">
+        <tr>
+          <th class="py-2 px-2">No</th>
+          <th class="py-2 px-2">Name</th>
+          <th class="py-2 px-2">Display name</th>
+          <th class="py-2 px-2">Address</th>
+          <th class="py-2 px-2">Phone number</th>
+          <th class="py-2 px-2">Created at</th>
+          <th class="py-2 px-2">Updated at</th>
+          <th class="py-2 px-2">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% if orgs.empty? %>
+        <tr>
+          <td class="border px-4 py-2 text-center" colspan="8">
+            <span class="text-gray-700">There is no organizations created</span>
+          </td>
+        </tr>
+        <% end %>
+        
+        <% orgs.each_with_index do |o, i| %>
+        <tr>
+          <td class="border px-4 py-2"><%= i + 1 %></td>
+          <td class="border px-4 py-2"><%= o.name %></td>
+          <td class="border px-4 py-2"><%= o.display_name %></td>
+          <td class="border px-4 py-2"><%= o.address %></td>
+          <td class="border px-4 py-2"><%= o.phone_numbers %></td>
+          <td class="border px-4 py-2"><%= o.created_at %></td>
+          <td class="border px-4 py-2"><%= o.updated_at %></td>
+          <td class="border px-4 py-2">
+            <div class="flex">
+              <%= link_to 'Edit', '#', class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{u.id}-edit-org" %>
+              
+              <%=
+                form_for :user, '#', method: :delete, id: "#{u.id}-form-delete-org" do
+                  submit 'Delete', id: "#{u.id}-delete-user", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
+                end
+              %>
+
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

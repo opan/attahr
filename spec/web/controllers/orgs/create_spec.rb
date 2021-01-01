@@ -24,7 +24,7 @@ RSpec.describe Web::Controllers::Orgs::Create, type: :action do
 
     it 'got a success messages' do
       response = action.call(params)
-      expect(action.exposures[:flash][:info]).to eq "Organization #{org.display_name} has been successfully created"
+      expect(action.exposures[:flash][:info]).to eq ["Organization #{org.display_name} has been successfully created"]
     end
 
 

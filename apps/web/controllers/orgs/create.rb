@@ -35,7 +35,7 @@ module Web
 
           org = @org_repo.create(org_entity)
 
-          flash[:info] = "Organization #{org.display_name} has been successfully created"
+          flash[:info] = ["Organization #{org.display_name} has been successfully created"]
           redirect_to routes.orgs_path(user_id: params[:user_id])
         end
 

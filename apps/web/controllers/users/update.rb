@@ -33,14 +33,14 @@ module Web
           user_entity = User.new(user_params)
           user = @user_repo.find_by_email_with_profile(user_entity.email)
           if user.nil?
-            flash[:errors] = 'User not found'
+            flash[:errors] = ['User not found']
             halt 404
           end
 
           @user_repo.update(user.id, user_entity)
           @profile_repo.update(user.profile.id, user_entity.profile)
 
-          flash[:info] = 'User has been successfully updated'
+          flash[:info] = ['User has been successfully updated']
           redirect_to routes.users_path
         end
 

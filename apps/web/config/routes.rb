@@ -12,3 +12,4 @@ get '/unauthenticated', to: 'sessions#new'
 # Organizations
 get '/orgs/:user_id', to: 'orgs#index', as: 'orgs'
 post '/orgs/:user_id', to: 'orgs#create', as: 'orgs'
+get '/orgs/:user_id/new', to: 'orgs#new', as: 'new_org'

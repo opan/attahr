@@ -15,7 +15,7 @@ module Web
 
             optional(:profile).schema do
               optional(:name).filled(:str?)
-              optional(:dob).filled(:date?)
+              optional(:dob)
             end
           end
         end
@@ -37,7 +37,7 @@ module Web
             )
             @user = repo.create_with_profile(user_entity)
 
-            flash[:info] = 'User has been successfully created'
+            flash[:info] = ['User has been successfully created']
             redirect_to routes.users_path
           end
         end
