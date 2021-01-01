@@ -1,30 +1,42 @@
-<h1>New User</h1>
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">New user</h1>
 
-<% unless flash[:errors].nil? %>
-  <%= flash[:errors].join(', ') %>
-<% end %>
+<%= render partial: 'shared/alerts' %>
 
-<%=
-  form_for :user, routes.users_path, class: 'ui form' do
-    div class: 'field' do
-      label :username
-      text_field :username
-    end
+<div class="mt-5">
+  <div class="p-5 border-2 border-gray-500 border-grey-200 rounded-md">
+    <%= form_for :user, routes.users_path do
+      div class: 'grid grid-cols-1 gap-5' do
+        div class: 'max-w-lg' do
+          label :username, class: 'text-gray-700'
+          text_field :username, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+        end
+        
+        div class: 'max-w-lg' do
+          label :email, class: 'text-gray-700'
+          text_field :email, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+        end
 
-    div class: 'field' do
-      label :email
-      text_field :email
-    end
+        fields_for :profile do
+          div class: 'max-w-lg' do
+            label :name, class: 'text-gray-700'
+            text_field :name, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+          end
 
-    fields_for :profile do
-      label :name
-      text_field :name
+          div class: 'max-w-lg' do
+            label :dob, class: 'text-gray-700' do
+              'Date of birth'
+            end
+            date_field :dob, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+          end
 
-      label :dob
-      date_field :dob
-    end
+          div do
+            submit 'Create', class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+          end
+        end
+      end
+    end %>  
+  </div>
+  
+</div>
 
-    submit 'Create', class: 'ui button'
-  end
-%>
 

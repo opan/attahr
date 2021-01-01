@@ -1,50 +1,50 @@
 <h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Users</h1>
 
 <div class="mt-5">
-  <div class="flex rounded-md bg-white p-3 overflow-x-auto items-center">
-    <%=
-      link_to 'Add user', routes.new_user_path, class: 'bg-blue-500 hover:bg-blue-400 text-white rounded py-2 px-4'
-    %>
-  </div>
+  <%=
+    link_to 'New user', routes.new_user_path, class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+  %>
 </div>
 
 <div class="mt-5">
-  <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm">
-    <thead class="bg-blue-500 text-white text-left">
-      <tr>
-        <th class="py-2 px-2 rounded-tl-lg">No</th>
-        <th class="py-2 px-2">Username</th>
-        <th class="py-2 px-2">Email</th>
-        <th class="py-2 px-2">Name</th>
-        <th class="py-2 px-2">Date of birth</th>
-        <th class="py-2 px-2 rounded-tr-lg">Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% users.each_with_index do |u, i| %>
+  <div class="rounded-t-md overflow-hidden">
+    <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
+      <thead class="bg-blue-500 text-white text-left">
         <tr>
-          <td class="border px-4 py-2"><%= i + 1 %></td>
-          <td class="border px-4 py-2"><%= u.username %></td>
-          <td class="border px-4 py-2"><%= u.email %></td>
-          <td class="border px-4 py-2"><%= u.profiles.name %></td>
-          <td class="border px-4 py-2"><%= u.profiles.dob %></td>
-          <td class="border px-4 py-2">
-            <div class="flex">
-              <%= link_to 'Edit', routes.edit_user_path(u.id), class: 'hover:bg-blue-400 bg-blue-500 rounded text-white py-2 px-4', id: "#{u.id}-edit-user" %>
-              
-              <%=
-                form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
-                  submit 'Delete', id: "#{u.id}-delete-user", class: 'bg-red-500 hover:bg-red-400 text-white rounded py-2 px-4 ml-2'
-                end
-              %>
-
-            </div>
-          </td>
+          <th class="py-2 px-2">No</th>
+          <th class="py-2 px-2">Username</th>
+          <th class="py-2 px-2">Email</th>
+          <th class="py-2 px-2">Name</th>
+          <th class="py-2 px-2">Date of birth</th>
+          <th class="py-2 px-2">Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% users.each_with_index do |u, i| %>
+          <tr>
+            <td class="border px-4 py-2"><%= i + 1 %></td>
+            <td class="border px-4 py-2"><%= u.username %></td>
+            <td class="border px-4 py-2"><%= u.email %></td>
+            <td class="border px-4 py-2"><%= u.profiles.name %></td>
+            <td class="border px-4 py-2"><%= u.profiles.dob %></td>
+            <td class="border px-4 py-2">
+              <div class="flex">
+                <%= link_to 'Edit', routes.edit_user_path(u.id), class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{u.id}-edit-user" %>
+                
+                <%=
+                  form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
+                    submit 'Delete', id: "#{u.id}-delete-user", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
+                  end
+                %>
+
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
     
 <div class="flex flex-col">
@@ -57,6 +57,5 @@
     <% unless flash[:info].nil? %>
       <%= flash[:info] %>
     <% end %>
-
   </div>
 </div>

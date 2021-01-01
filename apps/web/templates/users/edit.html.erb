@@ -1,35 +1,43 @@
-<div class="flex flex-col">
-  <div>
-    <h1 class="tracking-tight text-2xl font-semibold">Edit user <%= user.username %></h1>
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Edit user <%= user.username %></h1>
+
+<%= render partial: 'shared/alerts' %>
+
+<div class="mt-5">
+  <div class="p-5 border-2 border-gray-500 border-grey-200 rounded-md">
+    <%= form_for :user, routes.user_path(user.id), method: :patch, values: { user: user, profile: user.profile } do
+      div class: 'grid grid-cols-1 gap-5' do
+        div class: 'max-w-lg' do
+          label :username, class: 'text-gray-700'
+          text_field :username, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+        end
+
+        div class: 'max-w-lg' do
+          label :email, class: 'text-gray-700'
+          email_field :email, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+        end
+
+        fields_for :profile do
+          div class: 'max-w-lg' do
+            label :name, class: 'text-gray-700'
+            text_field :name, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+          end
+
+          div class: 'max-w-lg' do
+            label :dob, class: 'text-gray-700' do
+              'Date of birth'
+            end
+            date_field :dob, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+          end
+
+          div do
+            submit 'Update', class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+          end
+        end
+      end
+
+
+
+    end %>
+
   </div>
-</div>
-
-<div class="my-5">
-  <%= 
-    form_for :user, routes.user_path(user.id), method: :patch, values: { user: user, profile: user.profile } do
-      div class: 'mb-4' do
-        label :email
-        email_field :email
-      end
-
-      div class: 'mb-4' do
-        label :username
-        text_field :username
-      end
-
-      fields_for :profile do
-        div class: 'mb-4' do
-          label :name
-          text_field :name
-        end
-
-        div class: 'mb-4' do
-          label :dob
-          date_field :dob
-        end
-      end
-
-      submit 'Update', class: 'ui button'
-    end
-   %>
 </div>
