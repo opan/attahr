@@ -3,7 +3,7 @@ namespace :db do
   task seeds: :environment do
     user_repo = UserRepository.new
     password = BCrypt::Password.create('123')
-    user_repo.create_with_profile(User.new(
+    user = user_repo.create_with_profile(User.new(
       email: 'foo@mail.com',
       username: 'foo',
       password_hash: password,
@@ -17,8 +17,15 @@ namespace :db do
     end
 
     org_repo = OrgRepository.new
-    org_repo.create(Org.new(name: 'default-org'))
+    org = org_repo.create(Org.new(name: 'default-org', display_name: 'Default Org'))
+
+    admin_role = org_member_role_repo.get('admin')
 
     org_member_repo = OrgMemberRepository.new
+    org_member_repo.create(OrgMember.new(
+      org_id: org.id,
+      profile_id: user.profile.id,
+      org_member_role_id: admin_role.id
+    ))
   end
 end

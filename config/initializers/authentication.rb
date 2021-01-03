@@ -17,7 +17,7 @@ end
 
 Warden::Manager.serialize_from_session do |id|
   repo = UserRepository.new
-  user = repo.find(id)
+  user = repo.find_with_profile(id)
   user
 end
 

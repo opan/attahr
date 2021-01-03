@@ -10,12 +10,10 @@ module Web
         params do
           required(:org).schema do
             required(:name).filled(:str?)
-            optional(:display_name).filled(:str?)
+            optional(:display_name).maybe(:str?)
             required(:address).filled(:str?)
-            optional(:phone_numbers).filled(:str?)
+            optional(:phone_numbers).maybe(:str?)
           end
-
-          required(:user_id).filled(:int?)
         end
 
         def initialize(org_repo: OrgRepository.new)

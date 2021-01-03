@@ -1,7 +1,7 @@
 RSpec.describe Web::Controllers::Orgs::Create, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) { described_class.new(org_repo: org_repo) }
-  let(:params) { Hash[user_id: @warden.user.id, 'warden' => @warden] }
+  let(:params) { Hash['warden' => @warden] }
   let(:org_hash) { { id: 888, name: 'pt. default indonesia, tbk', display_name: 'PT. Default Indonesia, Tbk', created_by_id: 999, updated_by_id: 999 } }
   let(:org) { Org.new(org_hash) }
 
@@ -27,11 +27,9 @@ RSpec.describe Web::Controllers::Orgs::Create, type: :action do
       expect(action.exposures[:flash][:info]).to eq ["Organization #{org.display_name} has been successfully created"]
     end
 
-
-    # The user_id is the same with @warden.user.id
-    it "redirects to /orgs/999" do
+    it 'redirects to /orgs' do
       response = action.call(params)
-      expect(response[1]['Location']).to eq '/orgs/999'
+      expect(response[1]['Location']).to eq '/orgs'
     end
   end
 

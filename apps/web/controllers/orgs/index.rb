@@ -9,19 +9,12 @@ module Web
 
         expose :orgs
 
-        def initialize(org_repo: OrgRepository.new, user_repo: UserRepository.new)
+        def initialize(org_repo: OrgRepository.new)
           @org_repo = org_repo
-          @user_repo = user_repo
         end
 
         def call(params)
-          user = @user_repo.find_with_profile(params[:user_id])
-          if user.nil?
-            flash[:errors] = 'User not found'
-            halt 404
-          end
-
-          @orgs = @org_repo.find_by_member(user.profile.id)
+          @orgs = @org_repo.find_by_member(current_user.profile.id)
         end
       end
     end
