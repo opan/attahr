@@ -36,6 +36,7 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'rspec-hanami'
+  gem 'rom-factory'
 end
 
 group :production do
