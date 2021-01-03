@@ -6,7 +6,6 @@ RSpec.describe Web::Controllers::Users::Update, type: :action do
   let(:user) { User.new(id: 555, email: 'foo@mail.com', username: 'foo', profile: Profile.new(id: 666, name: 'foo')) }
 
   context 'with valid params' do
-
     before(:each) do
       params[:user] = {
         email: 'new-email@mail.com',
