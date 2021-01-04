@@ -1,6 +1,7 @@
 require 'features_helper'
 
 RSpec.describe 'Create new organization', type: :feature do
+  let(:org_repo) { OrgRepository.new }
   let(:admin_role) { Factory[:org_member_role, name: 'admin'] }
 
   context 'with valid user' do
@@ -49,11 +50,22 @@ RSpec.describe 'Create new organization', type: :feature do
   end
 
   context 'with invalid user' do
-    it 'failed create new organization' do
+    it 'cannot create new organization' do
       visit '/orgs'
 
       expect(page).not_to have_current_path '/orgs'
       expect(page).to have_content %(Don't have account? Create one from here!)
+    end
+
+    it 'cannot see other organization' do
+      admin_role
+      org_member = Factory[:org_member]
+      org = org_repo.find(org_member.org_id)
+
+      login
+
+      click_link 'Organizations'
+      expect(page).not_to have_content org.display_name
     end
   end
 end
