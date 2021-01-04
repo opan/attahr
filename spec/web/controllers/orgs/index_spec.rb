@@ -9,7 +9,7 @@ RSpec.describe Web::Controllers::Orgs::Index, type: :action do
   context 'with valid user' do
     before(:each) do
       # 1000 is user.profile.id
-      expect(org_repo).to receive(:find_by_member).with(1000).and_return orgs
+      expect(org_repo).to receive(:all_by_member).with(1000).and_return orgs
 
       @response = action.call(params)
     end

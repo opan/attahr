@@ -27,14 +27,16 @@ module Web
         def call(params)
           unless params.valid?
             flash[:errors] = params.error_messages
-            halt 422
+            self.status = 422
+            return
           end
 
           user_entity = User.new(user_params)
           user = @user_repo.find_by_email_with_profile(user_entity.email)
           if user.nil?
             flash[:errors] = ['User not found']
-            halt 404
+            self.status = 404
+            return
           end
 
           @user_repo.update(user.id, user_entity)
