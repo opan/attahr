@@ -2,7 +2,6 @@ RSpec.describe Web::Controllers::Orgs::Index, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) { described_class.new(org_repo: org_repo) }
   let(:profile) { Factory.structs[:profile] }
-  # let(:user) { User.new(id: 1, profile: Profile.new(id: 1, name: 'foo')) }
   let(:user) { User.new(Factory.structs[:user, id: profile.user_id].to_h.merge(profile: profile.to_h)) }
   let(:orgs) { [Org.new(id: 1, name: 'org')] }
   let(:params) { Hash['warden' => @warden] }
