@@ -22,6 +22,10 @@ RSpec.describe Web::Controllers::Orgs::Update, type: :action do
     it 'got a success messages' do
       expect(action.exposures[:flash][:info]).to eq ['Organization has been successfully updated']
     end
+
+    it 'redirects to /orgs' do
+      expect(@response).to redirect_to '/orgs'
+    end
   end
 
   context 'with invalid params' do

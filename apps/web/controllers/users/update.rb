@@ -8,6 +8,7 @@ module Web
         before :authenticate!
 
         params do
+          required(:id).filled(:int?)
           required(:user).schema do
             required(:email).filled(:str?, format?: /@/)
             required(:username).filled(:str?)
@@ -32,7 +33,7 @@ module Web
           end
 
           user_entity = User.new(user_params)
-          user = @user_repo.find_by_email_with_profile(user_entity.email)
+          user = @user_repo.find_with_profile(params.get(:id))
           if user.nil?
             flash[:errors] = ['User not found']
             self.status = 404
