@@ -1,25 +1,31 @@
 RSpec.describe Web::Controllers::Orgs::Create, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
-  let(:action) { described_class.new(org_repo: org_repo) }
+  let(:org_member_repo) { instance_double('OrgMemberRepository') }
+  let(:org_member_role_repo) { instance_double('OrgMemberRoleRepository') }
+  let(:action) { described_class.new(org_repo: org_repo, org_member_repo: org_member_repo, org_member_role_repo: org_member_role_repo) }
   let(:params) { Hash['warden' => @warden] }
   let(:org_hash) { { id: 888, name: 'pt. default indonesia, tbk', display_name: 'PT. Default Indonesia, Tbk', created_by_id: 999, updated_by_id: 999 } }
   let(:org) { Org.new(org_hash) }
+  let(:admin_role) { OrgMemberRole.new(id: 1, name: 'admin') }
 
   context 'with valid params' do
     before(:each) do
       params[:org] = {
         name: 'pt. default indonesia, tbk',
-        display_name: 'PT. Default Indonesia, Tbk',
         address: 'West Java',
       }
 
       arg_org = Org.new(org_hash.reject { |k, v| k == :id })
       expect(org_repo).to receive(:create).with(arg_org).and_return org
+      expect(org_member_role_repo).to receive(:get).with('admin').and_return admin_role
+
+      member = OrgMember.new(org_id: org.id, profile_id: 1000, org_member_role_id: admin_role.id)
+      expect(org_member_repo).to receive(:create).with(member)
     end
 
     it 'return 302' do
       response = action.call(params)
-      expect(response[0]).to eq 302
+      expect(response).to have_http_status 302
     end
 
     it 'got a success messages' do
@@ -29,23 +35,7 @@ RSpec.describe Web::Controllers::Orgs::Create, type: :action do
 
     it 'redirects to /orgs' do
       response = action.call(params)
-      expect(response[1]['Location']).to eq '/orgs'
-    end
-  end
-
-  context 'with empty display_name' do
-    before(:each) do
-      params[:org] = {
-        name: 'pt. default indonesia, tbk',
-        address: 'West Java',
-      }
-
-      arg_org = Org.new(org_hash.merge({display_name: org_hash[:name]}).reject { |k, v| k == :id })
-      expect(org_repo).to receive(:create).with(arg_org).and_return org
-    end
-
-    it 'display_name is set to name if empty' do
-      response = action.call(params)
+      expect(response).to redirect_to '/orgs'
     end
   end
 

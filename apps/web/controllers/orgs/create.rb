@@ -16,14 +16,17 @@ module Web
           end
         end
 
-        def initialize(org_repo: OrgRepository.new)
+        def initialize(org_repo: OrgRepository.new, org_member_repo: OrgMemberRepository.new, org_member_role_repo: OrgMemberRoleRepository.new)
           @org_repo = org_repo
+          @org_member_repo = org_member_repo
+          @org_member_role_repo = org_member_role_repo
         end
 
         def call(params)
           unless params.valid?
             flash[:errors] = params.error_messages
-            halt 422
+            self.status = 422
+            return
           end
 
           org_entity = Org.new(org_params)
@@ -32,6 +35,8 @@ module Web
           end
 
           org = @org_repo.create(org_entity)
+          member = OrgMember.new(org_id: org.id, profile_id: current_user.profile.id, org_member_role_id: @org_member_role_repo.get('admin').id)
+          @org_member_repo.create(member)
 
           flash[:info] = ["Organization #{org.display_name} has been successfully created"]
           redirect_to routes.orgs_path(user_id: params[:user_id])
