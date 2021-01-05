@@ -6,7 +6,7 @@ gem 'hanami-model', '~> 1.3'
 
 gem 'pg'
 gem 'i18n'
-gem 'nokogiri', '>= 1.10.8'
+gem "nokogiri", ">= 1.11.0.rc4"
 gem 'rack', '>= 2.0.8'
 gem 'json', '>= 2.0.0'
 gem 'warden'
