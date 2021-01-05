@@ -35,11 +35,19 @@ module Web
             return
           end
 
-          org_entity = Org.new(params.get(:org))
+          org_entity = Org.new(org_params)
           @org = @org_repo.update(@org.id, org_entity)
 
           flash[:info] = ['Organization has been successfully updated']
           redirect_to routes.orgs_path
+        end
+
+        private
+
+        def org_params
+          org = params.get(:org)
+          org[:updated_by_id] = current_user.id
+          org
         end
       end
     end

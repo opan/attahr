@@ -3,6 +3,7 @@ module Web
     module Orgs
       class Edit
         include Web::View
+        layout :admin
       end
     end
   end

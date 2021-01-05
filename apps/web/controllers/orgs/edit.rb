@@ -14,10 +14,10 @@ module Web
         end
 
         def call(params)
-          @org = @org_repo.find_through_member(params[:id])
+          @org = @org_repo.find_by_id_and_member(params[:id], current_user.profile.id)
           if @org.nil?
             flash[:errors] = ['Organization not found']
-            redirect_to routes.orgs_path, status: 404
+            redirect_to routes.orgs_path
           end
         end
       end

@@ -4,6 +4,7 @@ module Web
       class Update
         include Web::View
         layout :admin
+        template 'users/edit'
       end
     end
   end
