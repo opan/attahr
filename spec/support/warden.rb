@@ -3,6 +3,5 @@ WardenDouble = WardenMock.new(true, true, true, User.new(id: 999, email: 'defaul
 RSpec.configure do |config|
   config.before(:each) do
     @warden = WardenDouble
-    # @warden = double('Warden', authenticate: true, authenticate!: true, authenticated?: true, user: )
   end
 end

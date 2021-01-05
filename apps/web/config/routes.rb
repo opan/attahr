@@ -11,3 +11,4 @@ get '/unauthenticated', to: 'sessions#new'
 
 # Organizations
 resources :orgs
+delete '/orgs/:id', to: 'orgs#destroy'

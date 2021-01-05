@@ -47,7 +47,7 @@
               <%= link_to 'Edit', routes.edit_org_path(o.id), class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{o.id}-edit-org" %>
               
               <%=
-                form_for :user, '#', method: :delete, id: "#{o.id}-form-delete-org" do
+                form_for :org, routes.org_path(o.id), method: :delete, id: "#{o.id}-form-delete-org" do
                   submit 'Delete', id: "#{o.id}-delete-user", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
                 end
               %>
