@@ -2,12 +2,11 @@ RSpec.describe Web::Controllers::Orgs::Edit, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) { described_class.new(org_repo: org_repo) }
   let(:org) { Factory.structs[:org] }
-  let(:params) { Hash[id: org.id, 'warden' => @warden] }
+  let(:params) { Hash[id: org.id, 'warden' => WardenDouble] }
 
   context 'when org exists' do
     before(:each) do
-      # 1000 is @warden.current_user.profile.id
-      expect(org_repo).to receive(:find_by_id_and_member).with(org.id, 1000).and_return org
+      expect(org_repo).to receive(:find_by_id_and_member).with(org.id, WardenDouble.user.profile.id).and_return org
 
       @response = action.call(params)
     end
@@ -23,7 +22,7 @@ RSpec.describe Web::Controllers::Orgs::Edit, type: :action do
 
   context 'when org does not exists' do
     before(:each) do
-      expect(org_repo).to receive(:find_by_id_and_member).with(10000, 1000).and_return nil
+      expect(org_repo).to receive(:find_by_id_and_member).with(10000, WardenDouble.user.profile.id).and_return nil
       params[:id] = 10000
 
       @response = action.call(params)
