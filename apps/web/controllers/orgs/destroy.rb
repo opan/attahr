@@ -7,10 +7,6 @@ module Web
 
         before :authenticate!
 
-        params do
-          required(:id).filled(:int?)
-        end
-
         def initialize(org_repo: OrgRepository.new)
           @org_repo = org_repo
         end

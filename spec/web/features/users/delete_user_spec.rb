@@ -1,29 +1,37 @@
 require 'features_helper'
 
 RSpec.describe 'Delete user' do
-  let(:repository) { UserRepository.new }
+  let(:user_repo) { UserRepository.new }
+  let(:user) {
+    profile = Factory[:profile]
+    user_repo.find_with_profile(profile.user_id)
+  }
 
-  before(:each) do
-    @user = repository.create_with_profile(
-      username: 'user-delete',
-      email: 'user-delete@mail.com',
-      password_hash: '123',
-      profile: {
-        name: 'user-delete',
-      },
-    )
+  context 'with valid user' do
+    before(:each) do
+      user
+    end
+
+    it 'delete existing user' do
+      login
+
+      click_link 'User Management'
+      expect(page).to have_content user.email
+
+      click_button "#{user.id}-delete-user"
+      expect(page).not_to have_content user.email
+
+      expect(page).to have_current_path '/users'
+      expect(page).to have_content I18n.t('users.success.delete')
+    end
   end
 
-  it 'delete existing user' do
-    login
+  context 'with invalid user' do
+    it 'cannot delete a user' do
+      visit '/users'
 
-    visit '/users'
-    expect(page).to have_content 'user-delete@mail.com'
-
-    click_button "#{@user.id}-delete-user"
-    expect(page).not_to have_content 'user-delete@mail.com'
-
-    expect(page).to have_current_path '/users'
-    expect(page).to have_content I18n.t('users.success.delete')
+      expect(page).not_to have_content 'User Management'
+      expect(page).not_to have_current_path '/users'
+    end
   end
 end

@@ -4,7 +4,7 @@ RSpec.describe Web::Controllers::Orgs::Destroy, type: :action do
   let(:org) { Factory.structs[:org] }
   let(:params) { Hash[id: org.id, 'warden' => WardenDouble] }
 
-  context 'with valid user' do
+  context 'with valid ID' do
     before(:each) do
       expect(org_repo).to receive(:find_by_id_and_member).with(org.id, WardenDouble.user.profile.id).and_return org
       expect(org_repo).to receive(:delete).with(org.id)
@@ -21,7 +21,7 @@ RSpec.describe Web::Controllers::Orgs::Destroy, type: :action do
     end
   end
 
-  context 'with invalid user' do
+  context 'with invalid ID' do
     before(:each) do
       expect(org_repo).to receive(:find_by_id_and_member).with(org.id, WardenDouble.user.profile.id).and_return nil
 
