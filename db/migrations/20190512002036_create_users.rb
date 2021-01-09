@@ -6,6 +6,7 @@ Hanami::Model.migration do
       column :username, String, null: false, unique: true
       column :email, String, null: false, unique: true
       column :password_hash, String, null: false
+      column :superadmin, FalseClass, null: false, default: false
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
