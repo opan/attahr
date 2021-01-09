@@ -10,6 +10,9 @@ Hanami::Model.migration do
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
+
+      index :username
+      index :email
     end
   end
 end

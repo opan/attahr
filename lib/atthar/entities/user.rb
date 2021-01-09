@@ -6,6 +6,7 @@ class User < Hanami::Entity
     attribute :username, Types::String
     attribute :email, Types::String.constrained(format: EMAIL_FORMAT)
     attribute :password_hash, Types::String
+    attribute :superadmin, Types::Bool
     attribute :created_at, Types::DateTime
     attribute :updated_at, Types::DateTime
 

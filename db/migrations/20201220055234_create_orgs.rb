@@ -12,6 +12,8 @@ Hanami::Model.migration do
       column :updated_at, DateTime, null: false
       column :created_by_id, Bignum
       column :updated_by_id, Bignum
+
+      index :name
     end
   end
 end
