@@ -48,7 +48,7 @@
               
               <%=
                 form_for :org, routes.org_path(o.id), method: :delete, id: "#{o.id}-form-delete-org" do
-                  submit 'Delete', id: "#{o.id}-delete-user", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
+                  submit 'Delete', id: "#{o.id}-delete-org", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
                 end
               %>
 
