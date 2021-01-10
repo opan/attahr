@@ -1,8 +1,7 @@
 require 'hanami/helpers'
 require 'hanami/assets'
-require_relative 'views/helpers'
 
-module Admin
+module Main
   class Application < Hanami::Application
     configure do
       ##
@@ -82,7 +81,7 @@ module Admin
       #
       # See: http://www.rubydoc.info/gems/rack/Rack/Session/Cookie
       #
-      sessions :cookie, secret: ENV['WEB_SESSIONS_SECRET']
+      # sessions :cookie, secret: ENV['MAIN_SESSIONS_SECRET']
 
       # Configure Rack middleware for this application
       #
@@ -104,7 +103,7 @@ module Admin
 
       # The layout to be used by all views
       #
-      layout :application # It will load Admin::Views::ApplicationLayout
+      layout :application # It will load Main::Views::ApplicationLayout
 
       # The relative path to templates
       #
@@ -123,7 +122,7 @@ module Admin
         #   * :yui
         #   * :closure
         #
-        # See: http://hanamirb.org/guides/assets/compressors
+        # See: https://guides.hanamirb.org/assets/compressors
         #
         # In order to skip JavaScript compression comment the following line
         javascript_compressor :builtin
@@ -136,7 +135,7 @@ module Admin
         #   * :yui
         #   * :sass
         #
-        # See: http://hanamirb.org/guides/assets/compressors
+        # See: https://guides.hanamirb.org/assets/compressors
         #
         # In order to skip stylesheet compression comment the following line
         stylesheet_compressor :builtin
@@ -242,23 +241,21 @@ module Admin
       # FRAMEWORKS
       #
 
-      # Configure the code that will yield each time Admin::Action is included
+      # Configure the code that will yield each time Main::Action is included
       # This is useful for sharing common functionality
       #
       # See: http://www.rubydoc.info/gems/hanami-controller#Configuration
       controller.prepare do
         include Main::Authentication
-        include Admin::Authorization
       end
 
-      # Configure the code that will yield each time Admin::View is included
+      # Configure the code that will yield each time Main::View is included
       # This is useful for sharing common functionality
       #
       # See: http://www.rubydoc.info/gems/hanami-view#Configuration
       view.prepare do
         include Hanami::Helpers
-        include Admin::Assets::Helpers
-        include Admin::Views::Helpers
+        include Main::Assets::Helpers
       end
     end
 
@@ -294,12 +291,12 @@ module Admin
 
         # Use fingerprint file name for asset paths
         #
-        # See: http://hanamirb.org/guides/assets/overview
+        # See: https://guides.hanamirb.org/assets/overview
         fingerprint true
 
         # Content Delivery Network (CDN)
         #
-        # See: http://hanamirb.org/guides/assets/content-delivery-network
+        # See: https://guides.hanamirb.org/assets/content-delivery-network
         #
         # scheme 'https'
         # host   'cdn.example.org'
@@ -307,7 +304,7 @@ module Admin
 
         # Subresource Integrity
         #
-        # See: http://hanamirb.org/guides/assets/content-delivery-network/#subresource-integrity
+        # See: https://guides.hanamirb.org/assets/content-delivery-network/#subresource-integrity
         subresource_integrity :sha256
       end
     end

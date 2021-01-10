@@ -3,7 +3,7 @@ module Admin
     module Users
       class Update
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         before :authenticate!
 

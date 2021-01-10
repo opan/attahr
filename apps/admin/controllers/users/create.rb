@@ -3,7 +3,7 @@ module Admin
     module Users
       class Create
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
         include BCrypt
 
         before :authenticate!

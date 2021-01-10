@@ -1,4 +1,4 @@
-module Admin
+module Main
   module Authentication
     def self.included(action)
       action.class_eval do

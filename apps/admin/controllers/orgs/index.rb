@@ -3,7 +3,7 @@ module Admin
     module Orgs
       class Index
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         before :authenticate!
 

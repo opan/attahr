@@ -3,7 +3,7 @@ module Admin
     module Sessions
       class Create
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         params do
           required(:user).schema do

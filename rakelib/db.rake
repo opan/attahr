@@ -7,6 +7,7 @@ namespace :db do
       email: 'foo@mail.com',
       username: 'foo',
       password_hash: password,
+      superadmin: true,
       profile: Profile.new(name: 'foo')
     ))
 

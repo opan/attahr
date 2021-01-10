@@ -3,7 +3,7 @@ module Admin
     module Sessions
       class New
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         def call(params)
           flash[:errors] = [warden.message] unless warden.message.nil?

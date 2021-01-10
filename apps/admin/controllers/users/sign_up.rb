@@ -3,7 +3,7 @@ module Admin
     module Users
       class SignUp
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         expose :user
 

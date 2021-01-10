@@ -3,7 +3,7 @@ module Admin
     module Users
       class Destroy
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         before :authenticate!
 

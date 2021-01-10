@@ -3,7 +3,7 @@ module Admin
     module Sessions
       class Destroy
         include Admin::Action
-        include Admin::Authentication
+        include Main::Authentication
 
         def call(params)
           logout
