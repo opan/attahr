@@ -1,0 +1,10 @@
+module Admin
+  module Views
+    module Users
+      class Edit
+        include Admin::View
+        layout :admin
+      end
+    end
+  end
+end

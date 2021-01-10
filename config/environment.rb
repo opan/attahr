@@ -4,7 +4,7 @@ require 'hanami/model'
 require 'warden'
 require 'bcrypt'
 require_relative '../lib/atthar'
-require_relative '../apps/web/application'
+require_relative '../apps/admin/application'
 
 Hanami.configure do
   middleware.use Warden::Manager do |manager|
@@ -13,8 +13,8 @@ Hanami.configure do
       FailureApp.new.call(env)
     end
   end
-  
-  mount Web::Application, at: '/'
+
+  mount Admin::Application, at: '/admin'
 
   model do
     ##
