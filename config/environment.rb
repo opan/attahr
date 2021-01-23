@@ -15,8 +15,10 @@ Hanami.configure do
     end
   end
 
-  mount Main::Application, at: '/'
+  # When mounting application, the one that mounted to '/'
+  # should be put the latest. Otherwise the rest of application that get mounted can't be accessed
   mount Admin::Application, at: '/admin'
+  mount Main::Application, at: '/'
 
   model do
     ##
