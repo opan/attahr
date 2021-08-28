@@ -6,10 +6,10 @@ RSpec.describe 'Register new user', type: :feature do
 
   context 'when data valid' do
     it 'new user signed up' do
-      visit Admin.routes.root_path
+      visit Main.routes.root_path
 
       click_link sign_up_link
-      expect(page.current_path).to eq Admin.routes.sign_up_path
+      expect(page.current_path).to eq Main.routes.sign_up_path
 
       fill_in name: 'user[username]', with: 'new-user'
       fill_in name: 'user[email]', with: 'new@mail.com'
@@ -26,10 +26,10 @@ RSpec.describe 'Register new user', type: :feature do
 
   context 'when data invalid' do
     it 'failed to register new user' do
-      visit Admin.routes.root_path
+      visit Main.routes.root_path
 
       click_link sign_up_link
-      expect(page.current_path).to eq Admin.routes.sign_up_path
+      expect(page.current_path).to eq Main.routes.sign_up_path
 
       fill_in name: 'user[username]', with: 'new-user'
       fill_in name: 'user[email]', with: 'new@mail.com'

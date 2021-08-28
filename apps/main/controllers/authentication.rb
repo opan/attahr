@@ -27,5 +27,9 @@ module Main
     def current_user
       warden.user
     end
+
+    def superadmin_user?
+      current_user.superadmin
+    end
   end
 end

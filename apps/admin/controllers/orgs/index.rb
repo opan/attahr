@@ -14,7 +14,11 @@ module Admin
         end
 
         def call(params)
-          @orgs = @org_repo.all_by_member(current_user.profile.id)
+          if superadmin_user?
+            @orgs = @org_repo.all
+          else
+            @orgs = @org_repo.all_by_member(current_user.profile.id)
+          end
         end
       end
     end

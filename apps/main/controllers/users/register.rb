@@ -1,8 +1,8 @@
-module Admin
+module Main
   module Controllers
     module Users
       class Register
-        include Admin::Action
+        include Main::Action
         include BCrypt
 
         params do
@@ -24,8 +24,7 @@ module Admin
               flash[:errors] << "#{k.capitalize} #{v}"
             end
 
-            self.status = 422
-            redirect_to routes.sign_up_path and return
+            redirect_to Main.routes.sign_up_path and return
           end
 
 
@@ -34,7 +33,7 @@ module Admin
           user = repo.find_by_email(user_params[:email])
           unless user.nil?
             flash[:errors] = ['email already exists']
-            redirect_to routes.sign_up_path and return
+            redirect_to Main.routes.sign_up_path and return
           end
 
           password = Password.create(user_params[:password])
@@ -48,7 +47,7 @@ module Admin
           repo.create_with_profile(user_entity)
 
           flash[:info] = 'User successfully signed up'
-          redirect_to routes.root_path
+          redirect_to Main.routes.root_path
         end
 
         private

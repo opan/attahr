@@ -1,4 +1,4 @@
-RSpec.describe Admin::Controllers::Users::Register, type: :action do
+RSpec.describe Main::Controllers::Users::Register, type: :action do
   let(:params) { Hash[user: {}, 'warden' => @warden] }
 
   context 'with valid params' do
@@ -19,8 +19,8 @@ RSpec.describe Admin::Controllers::Users::Register, type: :action do
       expect(@response).to have_http_status 302
     end
 
-    it 'redirects to ' + Admin.routes.root_path do
-      expect(@response).to redirect_to Admin.routes.root_path
+    it 'redirects to ' + Main.routes.root_path do
+      expect(@response).to redirect_to Main.routes.root_path
     end
   end
 
@@ -46,7 +46,7 @@ RSpec.describe Admin::Controllers::Users::Register, type: :action do
     end
 
     it 'redirects to /sign_up' do
-      expect(@response).to redirect_to Admin.routes.sign_up_path
+      expect(@response).to redirect_to Main.routes.sign_up_path
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe Admin::Controllers::Users::Register, type: :action do
     end
 
     it 'redirects to /sign_up' do
-      expect(@response).to redirect_to Admin.routes.sign_up_path
+      expect(@response).to redirect_to Main.routes.sign_up_path
     end
   end
 end

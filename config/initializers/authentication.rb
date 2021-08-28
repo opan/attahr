@@ -1,8 +1,8 @@
 class FailureApp
   def call(env)
-    action = Admin::Controllers::Sessions::New.new
+    action = Main::Controllers::Sessions::New.new
     response = action.call(env)
-    response[2] = [Admin::Views::Sessions::New.render(action.exposures.merge(format: :html))]
+    response[2] = [Main::Views::Sessions::New.render(action.exposures.merge(format: :html))]
     response
   end
 end

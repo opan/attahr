@@ -1,8 +1,8 @@
-module Admin
+module Main
   module Controllers
     module Sessions
       class Create
-        include Admin::Action
+        include Main::Action
         include Main::Authentication
 
         params do

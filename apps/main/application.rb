@@ -1,5 +1,6 @@
 require 'hanami/helpers'
 require 'hanami/assets'
+require_relative 'views/helpers'
 
 module Main
   class Application < Hanami::Application
@@ -81,7 +82,7 @@ module Main
       #
       # See: http://www.rubydoc.info/gems/rack/Rack/Session/Cookie
       #
-      # sessions :cookie, secret: ENV['MAIN_SESSIONS_SECRET']
+      sessions :cookie, secret: ENV['WEB_SESSIONS_SECRET']
 
       # Configure Rack middleware for this application
       #
@@ -256,6 +257,7 @@ module Main
       view.prepare do
         include Hanami::Helpers
         include Main::Assets::Helpers
+        include Main::Views::Helpers
       end
     end
 

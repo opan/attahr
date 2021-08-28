@@ -19,23 +19,36 @@
         </header>
 
         <nav class="mt-10">
-          <%= link_to routes.users_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
+          <%= link_to '#', class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
             span do
-              i 'data-feather' => 'users'
+              i 'data-feather' => 'package'
             end
 
             span class: 'ml-2' do
-              'User Management'
+              'Products'
             end
           end %>
+
           
-          <%= link_to routes.orgs_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
+          <% if current_user.superadmin %>
+          <%= link_to Admin.routes.root_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
             span do
-              i 'data-feather' => 'globe'
+              i 'data-feather' => 'user-check'
             end
 
             span class: 'ml-2' do
-              'Organizations'
+              'Admin Page'
+            end
+          end %>  
+          <% end %>
+
+          <%= link_to '#', class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
+            span do
+              i 'data-feather' => 'settings'
+            end
+
+            span class: 'ml-2' do
+              'User Settings'
             end
           end %>
 

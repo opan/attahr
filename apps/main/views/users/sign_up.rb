@@ -1,8 +1,8 @@
-module Admin
+module Main
   module Views
     module Users
       class SignUp
-        include Admin::View
+        include Main::View
       end
     end
   end

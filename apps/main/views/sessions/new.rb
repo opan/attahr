@@ -1,8 +1,8 @@
-module Admin
+module Main
   module Views
     module Sessions
       class New
-        include Admin::View
+        include Main::View
       end
     end
   end

@@ -9,7 +9,7 @@ module HelperMethods
   end
 
   def login(user: UserRepository.new.create_with_profile(signed_user_entity), password_supply: nil)
-    visit Admin.routes.sign_in_path
+    visit Main.routes.sign_in_path
 
     fill_in name: 'user[email]', with: user.email
     fill_in name: 'user[password]', with: password_supply||'123'

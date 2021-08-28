@@ -1,6 +1,6 @@
-RSpec.describe Admin::Views::Sessions::New, type: :view do
+RSpec.describe Main::Views::Sessions::New, type: :view do
   let(:exposures) { Hash[format: :html] }
-  let(:template)  { Hanami::View::Template.new('apps/admin/templates/sessions/new.html.erb') }
+  let(:template)  { Hanami::View::Template.new('apps/main/templates/sessions/new.html.erb') }
   let(:view)      { described_class.new(template, exposures) }
   let(:rendered)  { view.render }
 

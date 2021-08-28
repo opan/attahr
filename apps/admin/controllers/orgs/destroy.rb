@@ -12,7 +12,12 @@ module Admin
         end
 
         def call(params)
-          org = @org_repo.find_by_id_and_member(params.get(:id), current_user.profile.id)
+          if superadmin_user?
+            org = @org_repo.find(params.get(:id))
+          else
+            org = @org_repo.find_by_id_and_member(params.get(:id), current_user.profile.id)
+          end
+
           if org.nil?
             flash[:errors] = ['Organization not found']
             redirect_to routes.orgs_path

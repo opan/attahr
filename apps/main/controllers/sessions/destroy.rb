@@ -1,9 +1,8 @@
-module Admin
+module Main
   module Controllers
     module Sessions
       class Destroy
-        include Admin::Action
-        include Main::Authentication
+        include Main::Action
 
         def call(params)
           logout

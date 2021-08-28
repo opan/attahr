@@ -1,14 +1,11 @@
-module Admin
+module Main
   module Controllers
-    module Users
-      class SignUp
-        include Admin::Action
-        include Main::Authentication
-
-        expose :user
+    module Sessions
+      class New
+        include Main::Action
 
         def call(params)
-          @user = User.new
+          flash[:errors] = [warden.message] unless warden.message.nil?
 
           if authenticated?
             redirect_to routes.root_path

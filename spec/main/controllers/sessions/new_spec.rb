@@ -1,4 +1,4 @@
-RSpec.describe Admin::Controllers::Sessions::New, type: :action do
+RSpec.describe Main::Controllers::Sessions::New, type: :action do
   let(:action) { described_class.new }
   let(:params) { {'warden' => double('Warden', user: 'current_user', message: '')} }
 
@@ -17,8 +17,9 @@ RSpec.describe Admin::Controllers::Sessions::New, type: :action do
     it 'is successful' do
       allow(action).to receive(:authenticated?).and_return(true)
       response = action.call(params)
+
       expect(response[0]).to eq 302
-      expect(response).to redirect_to(Admin.routes.root_path.delete_suffix('/'))
+      expect(response).to redirect_to(Main.routes.root_path)
     end
   end
 end

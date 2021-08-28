@@ -5,7 +5,6 @@ Factory.define(:user) do |f|
   f.timestamps
 end
 
-Factory.define(user_admin: :user) do |f|
+Factory.define(superadmin_user: :user) do |f|
   f.superadmin true
-  f.timestamps
 end

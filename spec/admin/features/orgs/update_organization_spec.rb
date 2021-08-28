@@ -2,24 +2,24 @@ require 'features_helper'
 
 RSpec.describe 'Update organization', type: :feature do
   let(:org_repo) { OrgRepository.new }
+  let(:user_repo) { UserRepository.new }
+
   let(:admin_role) { Factory[:org_member_role, name: 'admin'] }
   let(:org) { Factory[:org] }
-  let(:profile) { Factory[:profile] }
-  let(:user) {
-    UserRepository.new.find(profile.user_id)
+  let(:superadmin) {
+    user = Factory[:superadmin_user]
+    ProfileRepository.new.create(name: 'superadmin', user_id: user.id)
+    user
   }
-  let(:org_member) {
-    Factory[:org_member, org_member_role_id: admin_role.id, org_id: org.id, profile_id: profile.id]
-  }
+  let(:org_member) { Factory[:org_member, org_member_role_id: admin_role.id, org_id: org.id] }
 
-  context 'with valid user' do
-    before(:each) do
-      org_member
-    end
+  context 'with superadmin access' do
+    before(:each) { org_member }
 
-    it 'able to update an organization' do
-      login user: user
+    it 'can update organization details' do
+      login user: superadmin
 
+      visit Admin.routes.root_path
       click_link 'Organization'
 
       expect(page).to have_content org.display_name
@@ -38,12 +38,10 @@ RSpec.describe 'Update organization', type: :feature do
     end
   end
 
-  context 'with invalid user' do
-    before(:each) do
-      org_member
-    end
+  context 'with non-superadmin access' do
+    before(:each) { org_member }
 
-    it 'not able to update an organization' do
+    it 'cannot update organization details' do
       visit Admin.routes.orgs_path
 
       expect(page).to have_content %(Don't have account? Create one from here!)
@@ -53,6 +51,7 @@ RSpec.describe 'Update organization', type: :feature do
     it 'not able to update organization where user not a member' do
       login
 
+      visit Admin.routes.root_path
       click_link 'Organization'
 
       expect(page).not_to have_content org.display_name

@@ -33,7 +33,7 @@
             <td class="border px-4 py-2">
               <div class="flex">
                 <%= link_to 'Edit', routes.edit_user_path(u.id), class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{u.id}-edit-user" %>
-                
+
                 <%=
                   form_for :user, routes.user_path(u.id), method: :delete, id: "#{u.id}-form-delete-user" do
                     submit 'Delete', id: "#{u.id}-delete-user", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'

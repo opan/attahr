@@ -1,24 +1,25 @@
 require 'features_helper'
 
-RSpec.describe 'Delete an organizatio', type: :feature do
+RSpec.describe 'Delete an organization', type: :feature do
   let(:org_repo) { OrgRepository.new }
   let(:org_member_repo) { OrgMemberRepository.new }
-  let(:profile) { Factory[:profile] }
-  let(:admin_role) { Factory[:org_member_role, name: 'admin'] }
-  let(:org_member) { Factory[:org_member, profile_id: profile.id, org_member_role_id: admin_role.id] }
-  let(:user) {
-    UserRepository.new.find(profile.user_id)
+  let(:superadmin) {
+    user = Factory[:superadmin_user]
+    ProfileRepository.new.create(name: 'superadmin', user_id: user.id)
+    user
   }
-  let(:org) { org_repo.find(org_member.org_id) }
+  let(:org) { Factory[:org] }
 
-  context 'with valid user' do
+  context 'with superadmin access' do
     before(:each) do
-      org
+      admin_role = Factory[:org_member_role, name: 'admin']
+      @org_member = Factory[:org_member, org_member_role_id: admin_role.id, org_id: org.id]
     end
 
-    it 'can delete an organization' do
-      login user: user
+    it 'can delete any organization' do
+      login user: superadmin
 
+      click_link 'Admin Page'
       click_link 'Organizations'
 
       expect(page).to have_content org.display_name
@@ -28,7 +29,7 @@ RSpec.describe 'Delete an organizatio', type: :feature do
       expect(page).to have_current_path Admin.routes.orgs_path
       expect(page).to have_content 'Organization has been successfully deleted'
 
-      expect(org_member_repo.find(org_member.id)).to be_nil
+      expect(org_member_repo.find(@org_member.id)).to be_nil
     end
   end
 end

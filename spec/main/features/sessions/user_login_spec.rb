@@ -11,7 +11,7 @@ RSpec.describe 'User login', type: :feature do
   end
 
   it 'login with valid account' do
-    visit Admin.routes.sign_in_path
+    visit Main.routes.sign_in_path
 
     expect(page).to have_content('Sign In')
 
@@ -19,11 +19,11 @@ RSpec.describe 'User login', type: :feature do
     fill_in name: 'user[password]', with: password
     click_button 'Sign In'
 
-    expect(page.current_path).to eq Admin.routes.root_path + '/'
+    expect(page.current_path).to eq Main.routes.root_path
   end
 
   it 'login with invalid account' do
-    visit Admin.routes.sign_in_path
+    visit Main.routes.sign_in_path
 
     expect(page).to have_content('Sign In')
 
