@@ -3,23 +3,43 @@ require 'features_helper'
 RSpec.describe 'List organizations' do
   let(:org_repo) { OrgRepository.new }
   let(:user_repo) { UserRepository.new }
-  let(:user) {
-    profile = Factory[:profile]
-    user_repo.find_with_profile(profile.user_id)
-  }
+  let(:profile_repo) { ProfileRepository.new }
 
-  before(:each) do
-    staff_role = Factory[:org_member_role]
-    member = Factory[:org_member, org_member_role_id: staff_role.id, profile_id: user.profile.id]
-    @org = org_repo.find(member.org_id)
+  let(:superadmin) {
+    user = Factory[:superadmin_user]
+    profile_repo.create(name: 'superadmin', user_id: user.id)
+    user
+  }
+  let(:org_member) { Factory[:org_member] }
+
+  context 'as a superadmin user' do
+    before(:each) do
+      org_member
+      @orgs = org_repo.all
+    end
+
+    it "can see all organizations regardless it's membership status" do
+      login user: superadmin
+
+      visit Admin.routes.orgs_path
+
+      @orgs.each do |o|
+        expect(page).to have_content o.display_name
+      end
+    end
   end
 
-  it 'list organizations available for current user' do
-    login user: user, password_supply: '123'
+  context 'as a basic user' do
+    before(:each) do
+      org_member
+      @user = user_repo.find(profile_repo.find(org_member.profile_id).user_id)
+    end
 
-    visit Admin.routes.orgs_path
+    it "cannot see all organizations on admin pages" do
+      login user: @user
 
-    expect(page).to have_content 'New organization'
-    expect(page).to have_content @org.display_name
+      visit Admin.routes.orgs_path
+      expect(page).to have_current_path Main.routes.root_path
+    end
   end
 end

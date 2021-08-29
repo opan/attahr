@@ -14,11 +14,8 @@ module Admin
         end
 
         def call(params)
-          if superadmin_user?
-            @orgs = @org_repo.all
-          else
-            @orgs = @org_repo.all_by_member(current_user.profile.id)
-          end
+          redirect_to Main.routes.root_path unless superadmin_user?
+          @orgs = @org_repo.all
         end
       end
     end

@@ -35,7 +35,10 @@ module Admin
           end
 
           org = @org_repo.create(org_entity)
-          member = OrgMember.new(org_id: org.id, profile_id: current_user.profile.id, org_member_role_id: @org_member_role_repo.get('admin').id)
+          member = OrgMember.new(
+            org_id: org.id,
+            profile_id: current_user.profile.id,
+            org_member_role_id: @org_member_role_repo.get('admin').id)
           @org_member_repo.create(member)
 
           flash[:info] = ["Organization #{org.display_name} has been successfully created"]
