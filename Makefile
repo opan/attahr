@@ -9,3 +9,9 @@ db.prepare:
 
 rspec:
 	bundle exec rspec spec
+
+rspec.feature:
+	bundle exec rspec spec/{admin,main}/features/**/*_spec.rb
+
+rspec.unit:
+	bundle exec rspec --exclude-pattern "spec/{admin,main}/features/**/*_spec.rb"
