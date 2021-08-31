@@ -32,6 +32,15 @@
               'Products'
             end
           end %>
+          <%= link_to '#', class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
+            span do
+              i 'data-feather' => 'globe'
+            end
+
+            span class: 'ml-2' do
+              'My Organizations'
+            end
+          end %>
 
           
           <% if current_user.superadmin %>

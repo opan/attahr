@@ -22,6 +22,11 @@ module Admin
         end
 
         def call(params)
+          unless superadmin_user?
+            flash[:errors] = ["You're not allowed to access this page"]
+            redirect_to Main.routes.root_path
+          end
+
           unless params.valid?
             flash[:errors] = params.error_messages
             self.status = 422
