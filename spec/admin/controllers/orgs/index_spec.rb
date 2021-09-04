@@ -3,8 +3,6 @@ RSpec.describe Admin::Controllers::Orgs::Index, type: :action do
   let(:action) { described_class.new(org_repo: org_repo) }
 
   let(:warden) { WardenMock.new(true, true, true, Factory.structs[:superadmin_user]) }
-  # let(:profile) { Factory.structs[:profile] }
-  # let(:user) { User.new(Factory.structs[:user, id: profile.user_id].to_h.merge(profile: profile.to_h)) }
   let(:orgs) { [Factory.structs[:org]] }
   let(:params) { Hash['warden' => warden] }
 
@@ -25,20 +23,18 @@ RSpec.describe Admin::Controllers::Orgs::Index, type: :action do
   end
 
   context 'with basic user' do
-    context 'with valid params' do
-      before(:each) do
-        params['warden'] = @warden
+    before(:each) do
+      params['warden'] = @warden
 
-        @response = action.call(params)
-      end
+      @response = action.call(params)
+    end
 
-      it 'return 302' do
-        expect(@response).to have_http_status 302
-      end
+    it 'return 302' do
+      expect(@response).to have_http_status 302
+    end
 
-      it 'got an errors messages' do
-        expect(action.exposures[:flash][:errors]).to eq ["You're not allowed to access this page"]
-      end
+    it 'got an errors messages' do
+      expect(action.exposures[:flash][:errors]).to eq ["You're not allowed to access this page"]
     end
   end
 end
