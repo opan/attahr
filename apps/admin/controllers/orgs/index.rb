@@ -14,7 +14,11 @@ module Admin
         end
 
         def call(params)
-          redirect_to Main.routes.root_path unless superadmin_user?
+          unless superadmin_user?
+            flash[:errors] = ["You're not allowed to access this page"]
+            redirect_to Main.routes.root_path
+          end
+
           @orgs = @org_repo.all
         end
       end
