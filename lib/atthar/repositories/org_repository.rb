@@ -23,4 +23,11 @@ class OrgRepository < Hanami::Repository
       .map_to(Org)
       .one
   end
+
+  def is_founder?(profile_id)
+    orgs
+      .qualified
+      .where(created_by_id: profile_id)
+      .count > 0
+  end
 end
