@@ -1,0 +1,31 @@
+<% unless flash[:errors].nil? %>
+<div class="mt-5">
+  <div class="inline-flex w-full shadow-md rounded-lg overflow-hidden">
+    <div class="flex w-12 justify-center items-center bg-red-500 text-white">
+      <i data-feather="alert-circle"></i>
+    </div>
+
+    <div class="px-4 py-2 text-gray-700">
+      <% flash[:errors].each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  </div>
+</div>  
+<% end %>
+
+<% unless flash[:info].nil? %>
+<div class="mt-5">
+  <div class="inline-flex w-full shadow-md rounded-lg overflow-hidden">
+    <div class="flex w-12 justify-center items-center bg-green-500 text-white">
+      <i data-feather="check-circle"></i>
+    </div>
+
+    <div class="px-4 py-2 text-gray-700">
+      <% flash[:info].each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  </div>
+</div>  
+<% end %>

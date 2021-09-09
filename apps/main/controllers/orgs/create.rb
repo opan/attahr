@@ -34,7 +34,6 @@ module Main
           end
 
           user_profile = current_user.profile
-          # is_founder = org_repo.is_founder?(user_profile.id)
 
           orgs = @org_repo.all_by_member(user_profile.id)
           unless orgs.map(&:created_by_id).uniq.include? user_profile.id

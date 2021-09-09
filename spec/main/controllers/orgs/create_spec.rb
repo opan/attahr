@@ -56,7 +56,7 @@ RSpec.describe Main::Controllers::Orgs::Create, type: :action do
       end
     end
 
-    context 'with user already registered in other organization without founder status' do
+    context 'with user already a member in other organization without founder status' do
       before(:each) do
         params[:org] = org_params.reject! { |k, v| [:created_at, :updated_at, :id].include? k  }
         max_org = Org.new(Factory.structs[:org])
@@ -74,7 +74,6 @@ RSpec.describe Main::Controllers::Orgs::Create, type: :action do
         expect(action.exposures[:flash][:errors]).to eq ["You've already registered as a member in an organization which are not created by you"]
       end
     end
-
 
     context 'with invalid params' do
       before(:each) do
