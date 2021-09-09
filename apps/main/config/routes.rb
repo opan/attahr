@@ -8,6 +8,4 @@ get '/sign_up', to: 'users#sign_up', as: 'sign_up'
 post '/sign_up', to: 'users#register', as: 'register_user'
 get '/unauthenticated', to: 'sessions#new'
 
-resources :orgs
-# get '/orgs', to: 'orgs#index'
-# post '/orgs', to: 'orgs#create'
+resources :orgs, except: [:destroy]
