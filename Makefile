@@ -15,3 +15,6 @@ rspec.feature:
 
 rspec.unit:
 	bundle exec rspec --exclude-pattern "spec/{admin,main}/features/**/*_spec.rb"
+
+guard:
+	bundle exec guard
