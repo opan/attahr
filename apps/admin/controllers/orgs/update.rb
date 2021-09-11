@@ -51,7 +51,7 @@ module Admin
 
         def org_params
           org = params.get(:org)
-          org[:updated_by_id] = current_user.id
+          org[:updated_by_id] = current_user.profile.id
           org
         end
       end

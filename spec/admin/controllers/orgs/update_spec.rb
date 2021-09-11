@@ -2,7 +2,10 @@ RSpec.describe Admin::Controllers::Orgs::Update, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) { described_class.new(org_repo: org_repo) }
 
-  let(:warden) { WardenMock.new(true, true, true, Factory.structs[:superadmin_user]) }
+  let(:superadmin_user) {
+    User.new(Factory.structs[:superadmin_user].to_h.merge!(profile: Factory.structs[:profile]))
+  }
+  let(:warden) { WardenMock.new(true, true, true, superadmin_user) }
   let(:org) { Factory.structs[:org] }
   let(:params) { Hash[id: org.id, 'warden' => warden] }
   let(:org_update) { Factory.structs[:org].to_h.reject { |k,v| [:id, :created_at, :updated_at].include?(k) } }
