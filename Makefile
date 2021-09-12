@@ -3,6 +3,9 @@
 test.db.prepare:
 	HANAMI_ENV=test hanami db prepare
 
+db.seeds:
+	bundle exec rake db:seeds
+
 db.prepare:
 	HANAMI_ENV=development hanami db prepare
 	bundle exec rake db:seeds
@@ -18,3 +21,6 @@ rspec.unit:
 
 guard:
 	bundle exec guard
+
+server:
+	hanami server

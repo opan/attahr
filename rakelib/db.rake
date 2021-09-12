@@ -28,5 +28,23 @@ namespace :db do
       profile_id: user.profile.id,
       org_member_role_id: admin_role.id
     ))
+
+
+    2.times do |t|
+      dummy = user_repo.create_with_profile(
+        User.new(
+          email: "dummy#{t}@mail.com",
+          username: "dummy#{t}",
+          password_hash: password,
+          profile: Profile.new(name: "dummy#{t}")
+        )
+      )
+
+      org_member_repo.create(OrgMember.new(
+        org_id: org.id,
+        profile_id: dummy.profile.id,
+        org_member_role_id: org_member_role_repo.get.id
+      ))
+    end
   end
 end
