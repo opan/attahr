@@ -25,6 +25,11 @@ module Main
             redirect_to Main.routes.orgs_path
           end
 
+          unless @org_member_repo.is_admin?(params[:id], current_user.profile.id)
+            flash[:errors] = ['You are not allowed to perform this action']
+            redirect_to Main.routes.orgs_path
+          end
+
           @org = @org_repo.find(params.get(:id))
           if @org.nil?
             flash[:errors] = ["Cannot find organization with ID [#{params.get(:id)}]"]
