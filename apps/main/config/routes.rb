@@ -13,3 +13,5 @@ resources :orgs, except: [:destroy] do
     get :members
   end
 end
+
+delete '/orgs/:id/members/remove/:member_id', to: 'orgs#remove_members', as: 'remove_members_org'
