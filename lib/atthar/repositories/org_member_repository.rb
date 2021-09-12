@@ -6,7 +6,7 @@ class OrgMemberRepository < Hanami::Repository
   end
 
   def find_by_org(org_id, page: 1, per: 10)
-    org_members
+    aggregate(:profile, :org_member_role)
       .where(org_id: org_id)
       .map_to(OrgMember)
       .to_a

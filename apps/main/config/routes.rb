@@ -9,3 +9,4 @@ post '/sign_up', to: 'users#register', as: 'register_user'
 get '/unauthenticated', to: 'sessions#new'
 
 resources :orgs, except: [:destroy]
+get '/orgs/:id/members', to: 'orgs#members', as: 'org_members'
