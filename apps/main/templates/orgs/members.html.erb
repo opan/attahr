@@ -40,7 +40,10 @@
           <td class="border px-4 py-2"><%= o.updated_at %></td>
           <td class="border px-4 py-2">
             <div class="flex">
-              <%= link_to 'Remove', '#', class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{o.id}-members-org" %>
+              <%= form_for :org_member, Main.routes.remove_members_org_path(org.id, o.id), method: :delete, id: "#{o.id}-form-remove-org-member" do
+                  submit 'Remove', id: "#{o.id}-remove-org-member", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25', onclick: "return confirm('Are you sure?')"
+              end %>
+              <%# link_to 'Remove', Main.routes.remove_members_org_path(org.id, o.id), class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{o.id}-members-org" %>
               <%= link_to 'Set as Admin', '#', class: 'ml-2 hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{o.id}-edit-org" %>
             </div>
           </td>
