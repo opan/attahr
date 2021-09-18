@@ -3,11 +3,21 @@ class OrgMemberRepository < Hanami::Repository
     belongs_to :org
     belongs_to :org_member_role
     belongs_to :profile
+    belongs_to :user, through: :profile
   end
 
   def find_by_org(org_id, page: 1, per: 10)
     aggregate(:profile, :org_member_role)
       .where(org_id: org_id)
+      .map_to(OrgMember)
+      .to_a
+  end
+
+  def find_by_emails(users_email = [])
+    org_members
+      .join(:profiles)
+      .join(:users, id: profiles[:user_id].qualified)
+      .where(users[:email].qualified => users_email)
       .map_to(OrgMember)
       .to_a
   end
