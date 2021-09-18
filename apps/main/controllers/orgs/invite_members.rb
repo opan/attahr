@@ -39,13 +39,13 @@ module Main
           users_email = params[:invite_members][:users_email].split(',')
           validate_users_email(users_email)
 
-          24h = 24*60*60
+          timeout = 24*60*60
           invite_data = OrgInvitations.new(
             org_id: org.id,
             invite_id: SecureRandom.uuid,
             invitees: users_email.join(', '),
             inviter: current_user.email,
-            timeout: Time.now + 24h
+            timeout: Time.now + timeout
           )
           invite = @org_invitation_repo.create(invite_data)
 

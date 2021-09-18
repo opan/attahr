@@ -33,14 +33,15 @@ Warden::Strategies.add(:password) do
 
     repo = UserRepository.new
     user = repo.find_by_email(email)
+    error_messages = 'User email or password is incorrect'
 
     if user.nil?
-      fail!('User email or password is incorrect')
+      fail!(error_messages)
       return
     end
 
     if user && BCrypt::Password.new(user.password_hash) != password
-      fail!('User email or password is incorrect')
+      fail!(error_messages)
       return
     end
 
