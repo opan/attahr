@@ -10,6 +10,7 @@ Hanami::Model.migration do
       column :inviter, String, null: false
       column :invitees, String, null: false
       column :timeout, DateTime, null: false
+      column :joined, TrueClass, null: false, default: false
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
     end
