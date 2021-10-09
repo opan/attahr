@@ -1,13 +1,13 @@
 .PHONY: all
 
 test.db.prepare:
-	HANAMI_ENV=test hanami db prepare
+	HANAMI_ENV=test bundle exec hanami db prepare
 
 db.seeds:
 	bundle exec rake db:seeds
 
 db.prepare:
-	HANAMI_ENV=development hanami db prepare
+	HANAMI_ENV=development bundle exec hanami db prepare
 	bundle exec rake db:seeds
 
 rspec:
@@ -23,4 +23,4 @@ guard:
 	bundle exec guard
 
 server:
-	hanami server
+	bundle exec hanami server
