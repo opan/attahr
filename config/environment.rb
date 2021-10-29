@@ -50,6 +50,10 @@ Hanami.configure do
   environment :development do
     # See: http://hanamirb.org/guides/projects/logging
     logger level: :debug
+
+    mailer do
+      delivery :smtp, address: 'localhost', port: 1025
+    end
   end
 
   environment :production do

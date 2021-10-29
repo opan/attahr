@@ -2,6 +2,11 @@
 
 Welcome to your new Hanami project!
 
+
+run `gem install mailcatcher` for development
+and run `mailcatcher`
+don't include `mailcatcher` into the `Gemfile`
+
 ## Setup
 
 To use auto reloading:

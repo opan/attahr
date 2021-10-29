@@ -13,8 +13,8 @@ module Main
           end
         end
 
-        def initialize(repository: UserRepository.new)
-          @repository = repository
+        def initialize(user_repo: UserRepository.new)
+          @user_repo ||= user_repo
         end
 
         def call(params)
@@ -27,10 +27,7 @@ module Main
             redirect_to Main.routes.sign_up_path and return
           end
 
-
-          repo = @repository
-
-          user = repo.find_by_email(user_params[:email])
+          user = @user_repo.find_by_email(user_params[:email])
           unless user.nil?
             flash[:errors] = ['email already exists']
             redirect_to Main.routes.sign_up_path and return
@@ -44,7 +41,7 @@ module Main
             profile: { name: user_params[:username] },
           )
 
-          repo.create_with_profile(user_entity)
+          @user_repo.create_with_profile(user_entity)
 
           flash[:info] = 'User successfully signed up'
           redirect_to Main.routes.root_path
