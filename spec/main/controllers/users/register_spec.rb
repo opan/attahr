@@ -51,7 +51,8 @@ RSpec.describe Main::Controllers::Users::Register, type: :action do
   end
 
   context 'when email alrady exists' do
-    let(:action) { described_class.new(repository: instance_double(UserRepository, find_by_email: User.new)) }
+    let(:user_repo) {instance_double(UserRepository, find_by_email: User.new) }
+    let(:action) { described_class.new(user_repo: user_repo) }
 
     before(:each) do
       params[:user] =  {
