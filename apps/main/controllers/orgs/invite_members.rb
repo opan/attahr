@@ -7,11 +7,12 @@ module Main
         params do
           required(:id).filled(:int?)
           required(:invite_members).schema do
-            required(:users_email).filled(:str?)
+            required(:users_email).filled(:str?, format?: /(\w+)(,\s*+)*/)
+            # required(:users_email).each(:str?)
           end
         end
 
-        def initialize(org_repo: OrgRepository.new, org_member_repo: OrgMemberRepository.new, org_invitation_repo: OrgInvitationsRepository.new)
+        def initialize(org_repo: OrgRepository.new, org_member_repo: OrgMemberRepository.new, org_invitation_repo: OrgInvitationRepository.new)
           @org_repo ||= org_repo
           @org_member_repo ||= org_member_repo
           @org_invitation_repo ||= org_invitation_repo
@@ -36,14 +37,14 @@ module Main
             redirect_to Main.routes.orgs_path
           end
 
-          users_email = params[:invite_members][:users_email].split(',')
+          users_email = params[:invite_members][:users_email]
           validate_users_email(users_email)
 
-          timeout = 24*60*60
-          invite_data = OrgInvitations.new(
+          timeout = OrgInvitation::TIMEOUT
+          invite_data = OrgInvitation.new(
             org_id: org.id,
             invite_id: SecureRandom.uuid,
-            invitees: users_email.join(', '),
+            invitees: users_email,
             inviter: current_user.email,
             timeout: Time.now + timeout
           )
