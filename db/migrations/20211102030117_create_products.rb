@@ -3,7 +3,6 @@ Hanami::Model.migration do
     create_table :products do
       primary_key :id
       foreign_key :product_category_id, :product_categories, on_delete: :set_null
-      foreign_key :org_id, :orgs, on_delete: :set_null
 
       column :name, String, null: false
       column :sku, String, null: false, unique: true, size: 20
