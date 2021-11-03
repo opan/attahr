@@ -1,4 +1,4 @@
-root to: 'products#index'
+root to: 'landing#index'
 get '/products', to: 'products#index'
 
 get '/sign_in', to: 'sessions#new'
