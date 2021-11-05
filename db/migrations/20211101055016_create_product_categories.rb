@@ -2,7 +2,6 @@ Hanami::Model.migration do
   change do
     create_table :product_categories do
       primary_key :id
-      foreign_key :org_id, :orgs, on_delete: :set_null
 
       column :name, String, null: false
       column :created_at, DateTime, null: false

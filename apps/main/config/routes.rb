@@ -1,5 +1,4 @@
 root to: 'landing#index'
-get '/products', to: 'products#index'
 
 get '/sign_in', to: 'sessions#new'
 post '/sign_in', to: 'sessions#create', as: 'sign_in'
@@ -12,6 +11,9 @@ resources :orgs, except: [:destroy] do
   member do
     get :members
   end
+end
+
+resources :products, only: [:index] do
 end
 
 delete '/orgs/:id/members/remove/:member_id', to: 'orgs#remove_members', as: 'remove_members_org'

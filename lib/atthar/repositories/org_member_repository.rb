@@ -13,11 +13,11 @@ class OrgMemberRepository < Hanami::Repository
       .to_a
   end
 
-  def find_by_emails(users_email = [])
+  def find_by_emails(users_emails = [])
     org_members
       .join(:profiles)
       .join(:users, id: profiles[:user_id].qualified)
-      .where(users[:email].qualified => users_email)
+      .where(users[:email].qualified => users_emails)
       .map_to(OrgMember)
       .to_a
   end
