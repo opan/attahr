@@ -5,7 +5,7 @@ RSpec.describe Main::Controllers::Products::Index, type: :action do
   let(:params) { Hash['warden' => @warden] }
 
   let(:current_user) { @warden.user }
-  let(:products) { Array.new(2) { Factory.structs[:product] } }
+  let(:products) { Array.new(2) { Factory.structs[:product] }}
   let(:org_members) { Array.new(1) { OrgMember.new(org_id: 1) }}
 
   context 'with basic user' do
