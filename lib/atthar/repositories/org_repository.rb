@@ -30,4 +30,10 @@ class OrgRepository < Hanami::Repository
       .where(created_by_id: profile_id)
       .count > 0
   end
+
+  def is_main?(id)
+    orgs
+      .where(id: id, is_root: true)
+      .count > 0
+  end
 end

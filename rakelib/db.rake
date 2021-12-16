@@ -21,7 +21,7 @@ namespace :db do
 
     puts "Create default Org"
     org_repo = OrgRepository.new
-    org = org_repo.create(Org.new(name: 'default-org', display_name: 'Default Org'))
+    org = org_repo.create(Org.new(name: 'default-org', display_name: 'Default Org', is_root: true))
 
     admin_role = org_member_role_repo.get('admin')
 

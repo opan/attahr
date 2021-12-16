@@ -7,6 +7,8 @@ module Main
 
         before :authenticate!
 
+        expose :org
+
         params do
           required(:org).schema do
             required(:name).filled(:str?)
@@ -36,7 +38,7 @@ module Main
           user_profile = current_user.profile
 
           orgs = @org_repo.all_by_member(user_profile.id)
-          unless orgs.map(&:created_by_id).uniq.include? user_profile.id
+          if orgs.length > 0 && !orgs.map(&:created_by_id).uniq.include?(user_profile.id)
             flash[:errors] = ["You've already registered as a member in an organization which are not created by you"]
             redirect_to Main.routes.orgs_path
           end
@@ -53,7 +55,12 @@ module Main
             org_entity = Org.new(org_params.merge({display_name: org_entity.name}))
           end
 
-          org = @org_repo.create(org_entity)
+          # The first organization created will be the main organization
+          if orgs.length > 0
+            org_entity = Org.new(org_params.merge({is_root: true}))
+          end
+
+          @org = @org_repo.create(org_entity)
 
           org_member_entity = OrgMember.new(
             org_id: org.id,
@@ -62,8 +69,14 @@ module Main
           )
           @org_member_repo.create(org_member_entity)
 
-          flash[:info] = ["Organization #{org.name} has been successfully created"]
+          flash[:info] = ["Organization #{@org.name} has been successfully created"]
           redirect_to Main.routes.orgs_path
+        end
+
+        private
+
+        def org_params
+          params.get(:org)
         end
       end
     end

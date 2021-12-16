@@ -35,6 +35,10 @@ RSpec.describe Main::Controllers::Orgs::Create, type: :action do
       it 'got success messages' do
         expect(action.exposures[:flash][:info]).to eq ["Organization #{org.name} has been successfully created"]
       end
+
+      # it 'set as main organization' do
+      #   expect(action.exposures[:org].is_root).to eq true
+      # end
     end
 
     context 'with maximum allowed number has been reached' do
