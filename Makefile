@@ -24,3 +24,6 @@ guard:
 
 server:
 	bundle exec hanami server
+
+console:
+	bundle exec hanami console
