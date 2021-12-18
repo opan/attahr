@@ -56,7 +56,7 @@ module Main
           end
 
           # The first organization created will be the main organization
-          if orgs.length > 0
+          if orgs.length == 0
             org_entity = Org.new(org_params.merge({is_root: true}))
           end
 

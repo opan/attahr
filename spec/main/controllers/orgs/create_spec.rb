@@ -36,9 +36,39 @@ RSpec.describe Main::Controllers::Orgs::Create, type: :action do
         expect(action.exposures[:flash][:info]).to eq ["Organization #{org.name} has been successfully created"]
       end
 
-      # it 'set as main organization' do
-      #   expect(action.exposures[:org].is_root).to eq true
-      # end
+      it 'not set as main organization' do
+        expect(action.exposures[:org].is_root).to eq false
+      end
+    end
+
+    context 'create first org' do
+      before(:each) do
+        params[:org] = org_params.reject! { |k, v| [:created_at, :updated_at, :id].include? k  }
+        @first_org = Org.new(org_params.merge({is_root: true}))
+
+        expect(org_repo).to receive(:all_by_member).with(user_profile.id).and_return([])
+        expect(org_member_role_repo).to receive(:get).with('admin').and_return(admin_role)
+        expect(org_repo).to receive(:create).with(@first_org).and_return(@first_org)
+        expect(org_member_repo).to receive(:create).with(OrgMember.new(
+          org_id: @first_org.id,
+          org_member_role_id: admin_role.id,
+          profile_id: user_profile.id,
+        ))
+
+        @response = action.call(params)
+      end
+
+      it 'return 302' do
+        expect(@response[0]).to eq 302
+      end
+
+      it 'got success messages' do
+        expect(action.exposures[:flash][:info]).to eq ["Organization #{@first_org.name} has been successfully created"]
+      end
+
+      it 'set as main organization' do
+        expect(action.exposures[:org].is_root).to eq true
+      end
     end
 
     context 'with maximum allowed number has been reached' do
@@ -95,5 +125,4 @@ RSpec.describe Main::Controllers::Orgs::Create, type: :action do
       end
     end
   end
-
 end
