@@ -13,6 +13,15 @@ class OrgRepository < Hanami::Repository
       .to_a
   end
 
+  def find_by_member_ids(member_ids)
+    orgs
+      .qualified
+      .join(org_members)
+      .where(org_members[:id].qualified.in(member_ids))
+      .map_to(Org)
+      .to_a
+  end
+
   def find_by_id_and_member(id, member_id)
     orgs
       .qualified

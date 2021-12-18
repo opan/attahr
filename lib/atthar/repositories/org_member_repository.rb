@@ -22,6 +22,18 @@ class OrgMemberRepository < Hanami::Repository
       .to_a
   end
 
+  def find_root_org_by_email(user_email)
+    org_members
+      .join(orgs)
+      .join(:profiles)
+      .join(:users, id: profiles[:user_id].qualified)
+      .where(users[:email].qualified => users_emails)
+      .where(orgs[:is_root].qualified.is(true))
+      .limit(1)
+      .map_to(OrgMember)
+      .one
+  end
+
   def is_member?(org_id, profile_id)
     org_members
       .where(org_id: org_id)

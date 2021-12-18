@@ -8,7 +8,6 @@ module Main
           required(:id).filled(:int?)
           required(:invite_members).schema do
             required(:users_email).filled(:str?, format?: /(\w+)(,\s*+)*/)
-            # required(:users_email).each(:str?)
           end
         end
 

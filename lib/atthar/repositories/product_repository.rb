@@ -19,4 +19,14 @@ class ProductRepository < Hanami::Repository
       .map_to(Product)
       .to_a
   end
+
+  def find_by_sku_and_org(sku, org_id)
+    products
+      .qualified
+      .join(product_orgs)
+      .where(products[:sku].qualified.is(sku))
+      .where(product_orgs[:org_id].qualified.is(org_id))
+      .map_to(Product)
+      .to_a
+  end
 end
