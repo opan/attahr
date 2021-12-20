@@ -3,6 +3,7 @@ module Main
     module Products
       class Create
         include Main::View
+        template 'products/new'
       end
     end
   end

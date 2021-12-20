@@ -27,7 +27,7 @@ class OrgMemberRepository < Hanami::Repository
       .join(orgs)
       .join(:profiles)
       .join(:users, id: profiles[:user_id].qualified)
-      .where(users[:email].qualified => users_emails)
+      .where(users[:email].qualified.is(user_email))
       .where(orgs[:is_root].qualified.is(true))
       .limit(1)
       .map_to(OrgMember)

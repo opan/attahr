@@ -35,12 +35,11 @@ module Main
             self.status = 422
             return
           end
-
+          
           org_id = params[:org_id]
 
           if org_id.nil?
             org_member = @org_member_repo.find_root_org_by_email(current_user.email)
-            
             if org_member.nil?
               org_members = @org_member_repo.find_by_emails([current_user.email])
               org_member = org_members.first unless org_members.nil?
@@ -76,6 +75,7 @@ module Main
             product_org = @product_org_repo.create(ProductOrg.new(product_id: product.id, org_id: org_id))
 
             if product.nil? || product_org.nil?
+              
               raise ROM::SQL::Rollback
             end
           end
@@ -91,11 +91,11 @@ module Main
         end
 
         def sku_empty?
-          @sku.empty? || @sku.nil?         
+          @sku.empty? || @sku.nil?
         end
 
         def random_sku
-          [*('a'..'z'),*('0'..'9')].shuffle[0,8].join.upcase
+          [*('a'..'z'), *('0'..'9')].sample(8).join.upcase
         end
       end
     end

@@ -74,10 +74,6 @@ RSpec.describe Main::Controllers::Products::Create, type: :action do
 
         expect(org_member_repo).to receive(:find_root_org_by_email).with(current_user.email).and_return nil
         expect(org_member_repo).to receive(:find_by_emails).with([current_user.email]).and_return nil
-        # allow(product_repo).to receive(:transaction).and_yield
-        # expect(product_repo).to receive(:find_by_sku_and_org).with(product_params[:sku], params[:org_id]).and_return product_entity
-        # expect(product_repo).to receive(:create).with(product_entity).and_return(product_entity)
-        # expect(product_org_repo).to receive(:create).with(product_org_entity).and_return(product_org_entity)
 
         @response = action.call(params)
       end
