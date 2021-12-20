@@ -8,6 +8,7 @@ Hanami::Model.migration do
       column :address, String
       column :phone_numbers, String
       column :is_root, TrueClass, null: false, default: false
+      column :parent_id, Bignum
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
