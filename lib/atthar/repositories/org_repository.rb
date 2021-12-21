@@ -4,7 +4,7 @@ class OrgRepository < Hanami::Repository
     has_many :profiles, through: :org_members
   end
 
-  def all_by_member(member_id, page: 1, per: 10)
+  def all_by_member(member_id)
     orgs
       .qualified
       .join(org_members)
