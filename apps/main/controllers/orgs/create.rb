@@ -44,7 +44,7 @@ module Main
             redirect_to Main.routes.orgs_path
           end
 
-          if orgs.length >= 2
+          if orgs.length >= Org::MAX_ORG
             flash[:errors] = ["You've reach the maximum allowed number to create a new organization"]
             redirect_to Main.routes.orgs_path
           end

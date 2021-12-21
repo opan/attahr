@@ -71,12 +71,12 @@ RSpec.describe Main::Controllers::Orgs::Create, type: :action do
       end
     end
 
-    context 'with maximum allowed number has been reached' do
+    context 'with maximum allowed number of organization has been reached' do
       before(:each) do
-        params[:org] = org_params.reject! { |k, v| [:created_at, :updated_at, :id].include? k  }
+        params[:org] = org_params.reject! { |k, _| %i[created_at updated_at id].include? k }
         max_org = Org.new(Factory.structs[:org, created_by_id: user_profile.id])
 
-        expect(org_repo).to receive(:all_by_member).with(user_profile.id).and_return([max_org, max_org])
+        expect(org_repo).to receive(:all_by_member).with(user_profile.id).and_return([max_org, max_org, max_org])
 
         @response = action.call(params)
       end
