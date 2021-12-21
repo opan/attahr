@@ -1,4 +1,18 @@
+<% if orgs.empty? %>
 <h1 class="tracking-tight text-2xl text-blue-500 font-semibold">Organizations</h1>
+
+<div class="mt-5">
+  <span>You don't have relation to any organization yet,
+  <%=
+    link_to 'create one from here', Main.routes.new_org_path, class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+  %>
+  </span>
+</div>
+
+<%= render partial: 'shared/alerts' %>
+<% else %>
+
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold"><%= root_org.display_name %></h1>
 
 <div class="mt-5">
   <%=
@@ -16,6 +30,7 @@
           <th class="py-2 px-2">No</th>
           <th class="py-2 px-2">Name</th>
           <th class="py-2 px-2">Display name</th>
+          <th class="py-2 px-2">Main Organization</th>
           <th class="py-2 px-2">Address</th>
           <th class="py-2 px-2">Phone number</th>
           <th class="py-2 px-2">Created at</th>
@@ -28,7 +43,7 @@
         <% if orgs.empty? %>
         <tr>
           <td class="border px-4 py-2 text-center" colspan="8">
-            <span class="text-gray-700">You don't belongs to any organization yet</span>
+            <span class="text-gray-700">You don't have relation to any organization yet</span>
           </td>
         </tr>
         <% end %>
@@ -38,6 +53,7 @@
           <td class="border px-4 py-2"><%= i + 1 %></td>
           <td class="border px-4 py-2"><%= o.name %></td>
           <td class="border px-4 py-2"><%= o.display_name %></td>
+          <td class="border px-4 py-2"><%= o.is_root %></td>
           <td class="border px-4 py-2"><%= o.address %></td>
           <td class="border px-4 py-2"><%= o.phone_numbers %></td>
           <td class="border px-4 py-2"><%= o.created_at %></td>
@@ -61,3 +77,4 @@
     </table>
   </div>
 </div>
+<% end %>

@@ -20,9 +20,9 @@ module Main
         end
 
         def initialize(
-          org_repo: orgrepository.new,
-          org_member_repo: orgmemberrepository.new,
-          org_member_role_repo: orgmemberrolerepository.new
+          org_repo: OrgRepository.new,
+          org_member_repo: OrgMemberRepository.new,
+          org_member_role_repo: OrgMemberRoleRepository.new
         )
           @org_repo = org_repo
           @org_member_repo = org_member_repo
@@ -87,7 +87,7 @@ module Main
         private
 
         def org_params
-          params.get(:org)
+          params.get(:org).merge({ created_by_id: current_user.id, updated_by_id: current_user.id })
         end
 
         def validate_parent_org(parent_id)
