@@ -7,6 +7,8 @@ module Main
 
         before :authenticate!
 
+        expose :product
+
         params do
           required(:product).schema do
             required(:name).filled(:str?)
@@ -14,7 +16,6 @@ module Main
             required(:price).filled(:int?)
             required(:product_category_id).filled
           end
-          optional(:org_id).maybe(:int?)
         end
 
         def initialize(
@@ -35,49 +36,32 @@ module Main
             self.status = 422
             return
           end
-          
-          org_id = params[:org_id]
 
-          if org_id.nil?
-            org_member = @org_member_repo.find_root_org_by_email(current_user.email)
-            if org_member.nil?
-              org_members = @org_member_repo.find_by_emails([current_user.email])
-              org_member = org_members.first unless org_members.nil?
-            end
+          root_org = @org_repo.all_by_member(current_user.profile.id)
+          if root_org.nil?
+            flash[:errors] = ["Can't find root organization for current user"]
+            redirect_to Main.routes.products_path
+          end
 
-            if org_member.nil?
-              flash[:errors] = ["You don't have relation to any Organization"]
-              self.status = 422
-              return
-            end
+          sku = product_params[:sku]
+          product_entity = Product.new(product_params)
 
-            org_id = org_member.org_id
+          if sku_empty?(sku)
+            sku = "SKU-#{random_sku}"
+            product_entity = Product.new(product_params.merge({sku: sku}))
+          end
+
+          duplicate_sku = @product_repo.find_by_sku_and_org(product_entity.sku, root_org.id)
+
+          if duplicate_sku
+            flash[:errors] = ["Found duplicate SKU: #{product_entity.sku}"]
+            self.status = 422
+            return
           end
 
           @product_repo.transaction do
-            @sku = product_params[:sku]
-            product_entity = Product.new(product_params)
-
-            if sku_empty?
-              @sku = "SKU-#{random_sku}"
-              product_entity = Product.new(product_params.merge({sku: @sku}))
-            end
-
-            duplicate_sku = @product_repo.find_by_sku_and_org(@sku, org_id)
-
-            if duplicate_sku
-              flash[:errors] = ["Found duplicate SKU: #{@sku}"]
-              self.status = 422
-              return
-            end
-
-            product = @product_repo.create(product_entity)
-            product_org = @product_org_repo.create(ProductOrg.new(product_id: product.id, org_id: org_id))
-
-            if product.nil? || product_org.nil?
-              
-              raise ROM::SQL::Rollback
-            end
+            @product = @product_repo.create(product_entity)
+            @product_org_repo.create(ProductOrg.new(product_id: @product.id, org_id: root_org.id)) unless @product.nil?
           end
 
           flash[:info] = ["Product #{product_params[:name]} has been successfully created"]
@@ -87,11 +71,11 @@ module Main
         private
 
         def product_params
-          params.get(:product)
+          params.get(:product).merge({ created_by_id: current_user.id, updated_by_id: current_user.id })
         end
 
-        def sku_empty?
-          @sku.empty? || @sku.nil?
+        def sku_empty?(sku)
+          sku.nil? || sku.empty?
         end
 
         def random_sku

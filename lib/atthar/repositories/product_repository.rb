@@ -27,6 +27,6 @@ class ProductRepository < Hanami::Repository
       .where(products[:sku].qualified.is(sku))
       .where(product_orgs[:org_id].qualified.is(org_id))
       .map_to(Product)
-      .to_a
+      .first
   end
 end
