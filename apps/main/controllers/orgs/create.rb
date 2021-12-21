@@ -37,9 +37,13 @@ module Main
           end
 
           user_profile = current_user.profile
+          parent_id = org_params[:parent_id]
 
           orgs = @org_repo.all_by_member(user_profile.id)
-          if !orgs.empty? && !orgs.map(&:created_by_id).uniq.include?(user_profile.id)
+          created_orgs = orgs.map(&:created_by_id).uniq
+          root_org = orgs.select { |o| o.is_root == true }.first
+
+          if !orgs.empty? && !created_orgs.include?(user_profile.id)
             flash[:errors] = ["You've already registered as a member in an organization which are not created by you"]
             redirect_to Main.routes.orgs_path
           end
@@ -49,24 +53,32 @@ module Main
             redirect_to Main.routes.orgs_path
           end
 
+          if parent_id.nil? && !root_org.nil?
+            flash[:errors] = ["You can't create more than one root organization. Missing parent ID to create sub-organization"]
+            redirect_to Main.routes.orgs_path
+          end
+
+          validate_parent_org(parent_id) unless parent_id.nil?
+
           admin_role = @org_member_role_repo.get('admin')
 
-          org_entity = Org.new(params.get(:org))
-          if org_entity.display_name == "" || org_entity.display_name.nil?
+          org_entity = Org.new(org_params)
+          if org_entity.display_name == '' || org_entity.display_name.nil?
             org_entity = Org.new(org_params.merge({ display_name: org_entity.name }))
           end
 
-          # The first organization created will be the main organization
           org_entity = Org.new(org_params.merge({ is_root: true })) if orgs.empty?
 
-          @org = @org_repo.create(org_entity)
+          @org_repo.transaction do
+            @org = @org_repo.create(org_entity)
 
-          org_member_entity = OrgMember.new(
-            org_id: org.id,
-            org_member_role_id: admin_role.id,
-            profile_id: user_profile.id
-          )
-          @org_member_repo.create(org_member_entity)
+            org_member_entity = OrgMember.new(
+              org_id: org.id,
+              org_member_role_id: admin_role.id,
+              profile_id: user_profile.id
+            )
+            @org_member_repo.create(org_member_entity)
+          end
 
           flash[:info] = ["Organization #{@org.name} has been successfully created"]
           redirect_to Main.routes.orgs_path
@@ -76,6 +88,14 @@ module Main
 
         def org_params
           params.get(:org)
+        end
+
+        def validate_parent_org(parent_id)
+          parent_org = @org_repo.find(parent_id)
+          if parent_org.nil?
+            flash[:errors] = ["Can't find parent organization with parent_id #{parent_id}"]
+            redirect_to Main.routes.orgs_path
+          end
         end
       end
     end
