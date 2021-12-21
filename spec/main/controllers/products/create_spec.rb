@@ -27,7 +27,7 @@ RSpec.describe Main::Controllers::Products::Create, type: :action do
         product_entity = Product.new(product_params)
         product_org_entity = ProductOrg.new(product_id: product_entity.id, org_id: root_org.id)
 
-        expect(org_repo).to receive(:all_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(org_repo).to receive(:all_by_member).with(current_user.profile.id).and_return([root_org])
         allow(product_repo).to receive(:transaction).and_yield
         expect(product_repo).to receive(:find_by_sku_and_org).with(product_params[:sku], root_org.id).and_return nil
         expect(product_repo).to receive(:create).with(product_entity).and_return(product_entity)
@@ -51,7 +51,7 @@ RSpec.describe Main::Controllers::Products::Create, type: :action do
         product_entity = Product.new(product_params)
         product_org_entity = ProductOrg.new(product_id: product_entity.id, org_id: root_org.id)
 
-        expect(org_repo).to receive(:all_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(org_repo).to receive(:all_by_member).with(current_user.profile.id).and_return([root_org])
         allow(product_repo).to receive(:transaction).and_yield
         expect(product_repo).to receive(:find_by_sku_and_org).with(any_args, root_org.id).and_return nil
         expect(product_repo).to receive(:create).with(product_entity).and_return(product_entity)
@@ -74,7 +74,7 @@ RSpec.describe Main::Controllers::Products::Create, type: :action do
         params[:product] = product_params
         product_entity = Product.new(product_params)
 
-        expect(org_repo).to receive(:all_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(org_repo).to receive(:all_by_member).with(current_user.profile.id).and_return([root_org])
         allow(product_repo).to receive(:transaction).and_yield
         expect(product_repo).to receive(:find_by_sku_and_org).with(product_params[:sku], root_org.id).and_return product_entity
         @response = action.call(params)
