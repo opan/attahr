@@ -8,7 +8,7 @@ class ProductCategoryRepository < Hanami::Repository
     product_categories
       .qualified
       .join(product_category_orgs)
-      .where(product_category_orgs[:org_id].qualified.in(org_ids))
+      .where(product_category_orgs[:org_id].qualified => org_ids)
       .map_to(ProductCategory)
       .to_a
   end
