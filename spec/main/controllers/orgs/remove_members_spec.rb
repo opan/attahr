@@ -11,7 +11,7 @@ RSpec.describe Main::Controllers::Orgs::RemoveMembers, type: :action do
     before(:each) do
       params[:id] = org.id
       params[:member_id] = 1000
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(true)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(true)
       expect(org_repo).to receive(:find).with(org.id).and_return(org)
       expect(org_member_repo).to receive(:delete_by_org_and_user).with(org.id, 1000)
 
@@ -47,7 +47,7 @@ RSpec.describe Main::Controllers::Orgs::RemoveMembers, type: :action do
     before(:each) do
       params[:id] = org.id
       params[:member_id] = 1000
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(false)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(false)
 
       @response = action.call(params)
     end
@@ -65,7 +65,7 @@ RSpec.describe Main::Controllers::Orgs::RemoveMembers, type: :action do
     before(:each) do
       params[:id] = org.id
       params[:member_id] = 1000
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(true)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(true)
       expect(org_repo).to receive(:find).with(org.id).and_return(nil)
 
       @response = action.call(params)

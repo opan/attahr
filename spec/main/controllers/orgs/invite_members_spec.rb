@@ -16,7 +16,7 @@ RSpec.describe Main::Controllers::Orgs::InviteMembers, type: :action do
         users_email: invitee_email
       }
 
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(true)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(true)
       expect(org_repo).to receive(:find).with(org.id).and_return(org)
       expect(org_member_repo).to receive(:find_by_emails).with(invitee_email).and_return([])
       expect(org_member_repo).to receive(:find_by_emails).with(@warden.user.email).and_return([])
