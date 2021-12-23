@@ -93,16 +93,13 @@ RSpec.describe Main::Controllers::Products::Create, type: :action do
     context 'create product without root organization' do
       before do
         params[:product] = product_params
-        product_entity = Product.new(product_params)
 
-        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
-        allow(product_repo).to receive(:transaction).and_yield
-        expect(product_repo).to receive(:find_by_sku_and_org).with(product_params[:sku], root_org.id).and_return product_entity
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(nil)
         @response = action.call(params)
       end
 
       it 'return 302' do
-        expect(@response[0]).to eq 422
+        expect(@response[0]).to eq 302
       end
 
       it 'got errors message' do
