@@ -37,8 +37,7 @@ module Main
             return
           end
 
-          orgs = @org_repo.all_by_member(current_user.profile.id)
-          root_org = orgs.select { |o| o.is_root == true }.first
+          root_org = @org_repo.find_root_org_by_member(current_user.profile.id)
           if root_org.nil?
             flash[:errors] = ["Can't find root organization for current user"]
             redirect_to Main.routes.products_path

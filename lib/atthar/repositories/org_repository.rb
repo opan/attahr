@@ -33,6 +33,16 @@ class OrgRepository < Hanami::Repository
       .one
   end
 
+  def find_root_org_by_member(member_id)
+    orgs
+      .qualified
+      .join(org_members)
+      .where(org_members[:profile_id].qualified.is(member_id))
+      .where(orgs[:is_root].is(true))
+      .map_to(Org)
+      .one
+  end
+
   def is_founder?(profile_id)
     orgs
       .qualified
