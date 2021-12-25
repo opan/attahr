@@ -4,6 +4,7 @@ module Main
       class Update
         include Main::View
         template 'products/edit'
+        layout :user
       end
     end
   end

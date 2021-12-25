@@ -54,6 +54,8 @@ RSpec.describe Main::Controllers::Products::Update, type: :action do
         params[:id] = product.id
 
         expect(product_repo).to receive(:find).with(product.id).and_return(nil)
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(product_category_repo).to receive(:find_by_root_org).with(root_org.id).and_return([category])
 
         @response = action.call(params)
       end

@@ -2,6 +2,7 @@ class ProductCategoryRepository < Hanami::Repository
   associations do
     has_many :products
     has_many :product_category_orgs
+    has_many :orgs, through: :product_category_orgs
   end
 
   def find_by_orgs(org_ids = [])
@@ -16,7 +17,6 @@ class ProductCategoryRepository < Hanami::Repository
   def find_by_id_and_root_org(id, org_id)
     product_categories
       .qualified
-      .join(product_category_orgs)
       .join(orgs, id: product_category_orgs[:org_id].qualified)
       .where(product_categories[:id].qualified.is(id))
       .where(orgs[:id].qualified.is(org_id))
@@ -27,8 +27,6 @@ class ProductCategoryRepository < Hanami::Repository
 
   def find_by_root_org(org_id)
     product_categories
-      .qualified
-      .join(product_category_orgs)
       .join(orgs, id: product_category_orgs[:org_id].qualified)
       .where(orgs[:id].qualified.is(org_id))
       .where(orgs[:is_root].qualified.is(true))

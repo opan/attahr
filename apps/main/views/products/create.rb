@@ -4,6 +4,7 @@ module Main
       class Create
         include Main::View
         template 'products/new'
+        layout :user
       end
     end
   end

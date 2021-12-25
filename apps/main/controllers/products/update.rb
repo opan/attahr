@@ -31,20 +31,21 @@ module Main
         end
 
         def call(params)
+          @product = @product_repo.find(params[:id])
+          root_org = @org_repo.find_root_org_by_member(current_user.profile.id)
+          @product_categories = @product_category_repo.find_by_root_org(root_org.id)
+
+          if @product.nil?
+            flash[:errors] = ["Can't find product with ID #{params[:id]}"]
+            redirect_to Main.routes.products_path
+          end
+
           unless params.valid?
             flash[:errors] = params.error_messages
             self.status = 422
             return
           end
 
-          @product = @product_repo.find(params[:id])
-          if @product.nil?
-            flash[:errors] = ["Can't find product with ID #{params[:id]}"]
-            redirect_to Main.routes.products_path
-          end
-
-          root_org = @org_repo.find_root_org_by_member(current_user.profile.id)
-          @product_categories = @product_category_repo.find_by_root_org(root_org.id)
           update_product = Product.new(product_params)
 
           unless @product_categories.map(&:id).include? update_product.product_category_id
