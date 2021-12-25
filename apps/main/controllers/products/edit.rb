@@ -5,6 +5,8 @@ module Main
         include Main::Action
         include Main::Authentication
 
+        before :authenticate!
+
         expose :product
         expose :product_categories
 
