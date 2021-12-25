@@ -33,9 +33,6 @@ RSpec.describe Main::Controllers::Products::Destroy, type: :action do
         params[:id] = product.id
 
         expect(product_repo).to receive(:find).with(product.id).and_return(nil)
-        # allow(product_repo).to receive(:transaction).and_yield
-        # expect(product_repo).to receive(:delete).with(product.id)
-        # expect(product_org_repo).to receive(:delete_by_product).with(product.id)
 
         @response = action.call(params)
       end
@@ -48,6 +45,5 @@ RSpec.describe Main::Controllers::Products::Destroy, type: :action do
         expect(action.exposures[:flash][:errors]).to eq ["Can't find product with ID #{params[:id]}"]
       end
     end
-    
   end
 end
