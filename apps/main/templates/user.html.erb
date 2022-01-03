@@ -32,6 +32,17 @@
               'Products'
             end
           end %>
+
+          <%= link_to Main.routes.product_categories_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
+            span do
+              i 'data-feather' => 'grid'
+            end
+
+            span class: 'ml-2' do
+              'Product Categories'
+            end
+          end %>
+
           <%= link_to Main.routes.orgs_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
             span do
               i 'data-feather' => 'globe'
@@ -41,7 +52,6 @@
               'My Organizations'
             end
           end %>
-
           
           <% if current_user.superadmin %>
           <%= link_to Admin.routes.root_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
