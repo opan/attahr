@@ -1,6 +1,6 @@
 RSpec.describe Main::Views::ProductCategories::Create, type: :view do
   let(:exposures) { Hash[format: :html] }
-  let(:template)  { Hanami::View::Template.new('apps/main/templates/product_categories/create.html.erb') }
+  let(:template)  { Hanami::View::Template.new('apps/main/templates/product_categories/new.html.erb') }
   let(:view)      { described_class.new(template, exposures) }
   let(:rendered)  { view.render }
 
