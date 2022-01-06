@@ -38,9 +38,11 @@ module Main
 
           product_category = ProductCategory.new(params_category)
           duplicate_category = @product_category_repo.find_by_name_and_root_org(product_category.name, root_org.id)
+          binding.pry
           unless duplicate_category.nil?
             flash[:errors] = ["Duplicate product category #{product_category.name} in organization #{root_org.display_name}"]
-            redirect_to Main.routes.product_categories_path
+            self.status = 422
+            return
           end
 
           @product_category_repo.transaction do

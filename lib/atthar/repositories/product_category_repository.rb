@@ -41,6 +41,6 @@ class ProductCategoryRepository < Hanami::Repository
       .where(orgs[:is_root].qualified.is(true))
       .where(product_categories[:name].qualified.is(name))
       .map_to(ProductCategory)
-      .to_a
+      .one
   end
 end
