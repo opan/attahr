@@ -42,5 +42,43 @@ RSpec.describe Main::Controllers::ProductCategories::Create, type: :action do
         expect(action.exposures[:flash][:info]).to eq ['Product category has been successfully created']
       end
     end
+
+    context 'when duplicate category found' do
+      before(:each) do
+        params[:product_category] = category_params
+        category_entity = ProductCategory.new(category_params)
+
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(product_category_repo).to receive(:find_by_name_and_root_org).with(category_entity.name, root_org.id).and_return product_category
+
+        @response = action.call(params)
+      end
+
+      it 'return 422' do
+        expect(@response[0]).to eq(422)
+      end
+
+      it 'got errors messages' do
+        expect(action.exposures[:flash][:errors]).to eq ["Duplicate product category #{product_category.name} in organization #{root_org.display_name}"]
+      end
+    end
+
+    context 'when no root organization found' do
+      before(:each) do
+        params[:product_category] = category_params
+
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(nil)
+
+        @response = action.call(params)
+      end
+
+      it 'return 302' do
+        expect(@response[0]).to eq(302)
+      end
+
+      it 'got errors messages' do
+        expect(action.exposures[:flash][:errors]).to eq ["Can't find root organization for current user"]
+      end
+    end
   end
 end
