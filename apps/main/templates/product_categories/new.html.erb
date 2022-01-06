@@ -1,0 +1,20 @@
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">New product category</h1>
+
+<%= render partial: 'shared/alerts' %>
+
+<div class="mt-5">
+  <div class="p-5 border-2 border-gray-500 border-grey-200 rounded-md">
+    <%= form_for :product_category, routes.product_categories_path do
+      div class: 'grid grid-cols-1 gap-5' do
+        div class: 'max-w-lg' do
+          label :name, class: 'text-gray-700'
+          text_field :name, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'
+        end
+
+        div do
+          submit 'Create', class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+        end
+      end
+    end %>  
+  </div>  
+</div>

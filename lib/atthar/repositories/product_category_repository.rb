@@ -33,4 +33,14 @@ class ProductCategoryRepository < Hanami::Repository
       .map_to(ProductCategory)
       .to_a
   end
+
+  def find_by_name_and_root_org(name, org_id)
+    product_categories
+      .join(orgs, id: product_category_orgs[:org_id].qualified)
+      .where(orgs[:id].qualified.is(org_id))
+      .where(orgs[:is_root].qualified.is(true))
+      .where(product_categories[:name].qualified.is(name))
+      .map_to(ProductCategory)
+      .to_a
+  end
 end

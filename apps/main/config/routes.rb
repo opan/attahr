@@ -17,5 +17,4 @@ delete '/orgs/:id/members/remove/:member_id', to: 'orgs#remove_members', as: 're
 post '/orgs/:id/members/invite', to: 'orgs#invite_members', as: 'invite_members_org'
 
 resources :products, except: %i[show]
-
-resources :product_categories, only: %i[index]
+resources :product_categories, only: %i[index new create]
