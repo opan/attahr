@@ -9,8 +9,7 @@ module Main
 
         expose :product_category
 
-        def initialize(product_category_repo: ProductCategoryRepository.new, org_repo: OrgRepository.new)
-          @product_category_repo = product_category_repo
+        def initialize(org_repo: OrgRepository.new)
           @org_repo = org_repo
         end
 
