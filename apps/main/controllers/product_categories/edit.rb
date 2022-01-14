@@ -18,7 +18,7 @@ module Main
           @org_repo = org_repo
         end
 
-        def call(_)
+        def call(params)
           unless params.valid?
             flash[:errors] = params.error_messages
             self.status = 422
