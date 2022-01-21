@@ -1,6 +1,6 @@
 ---
 include:
-- "**/*.rb"
+- ./**/*.rb
 exclude:
 - spec/**/*
 - test/**/*
@@ -9,6 +9,7 @@ exclude:
 require: []
 domains: []
 reporters:
+- rubocop
 - require_not_found
 require_paths: []
 plugins: []
