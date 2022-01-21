@@ -1,11 +1,9 @@
-RSpec.describe Main::Controllers::ProductCategories::Create, type: :action do
+RSpec.describe Main::Controllers::ProductCategories::Update, type: :action do
   let(:product_category_repo) { instance_double('ProductCategoryRepository') }
-  let(:product_category_org_repo) { instance_double('ProductCategoryOrgRepository') }
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) {
     described_class.new(
       product_category_repo: product_category_repo,
-      product_category_org_repo: product_category_org_repo,
       org_repo: org_repo
     )
   }
@@ -16,20 +14,16 @@ RSpec.describe Main::Controllers::ProductCategories::Create, type: :action do
   let(:product_category) { Factory.structs[:product_category] }
 
   context 'with basic user' do
-    context 'create new product category' do
+    context 'update existing product category' do
       before(:each) do
-        params[:product_category] = category_params
-        category_entity = ProductCategory.new(category_params)
-        category_org_entity = ProductCategoryOrg.new(
-          product_category_id: product_category.id,
-          org_id: root_org.id
-        )
+        params[:product_category] = { name: 'updated category' }
+        params[:id] = product_category.id
+        category_entity = ProductCategory.new(params[:product_category])
 
         expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
-        expect(product_category_repo).to receive(:find_by_name_and_root_org).with(category_entity.name, root_org.id).and_return nil
+        expect(product_category_repo).to receive(:find).with(product_category.id).and_return product_category
         allow(product_category_repo).to receive(:transaction).and_yield
-        expect(product_category_repo).to receive(:create).with(category_entity).and_return(product_category)
-        expect(product_category_org_repo).to receive(:create).with(category_org_entity)
+        expect(product_category_repo).to receive(:update).with(product_category.id, category_entity).and_return(category_entity)
 
         @response = action.call(params)
       end
@@ -38,18 +32,18 @@ RSpec.describe Main::Controllers::ProductCategories::Create, type: :action do
         expect(@response[0]).to eq(302)
       end
 
+      it 'expose #product_category' do
+        expect(action.exposures[:product_category]).not_to be_nil 
+      end
+
       it 'got success messages' do
-        expect(action.exposures[:flash][:info]).to eq ['Product category has been successfully created']
+        expect(action.exposures[:flash][:info]).to eq ['Product category has been successfully updated']
       end
     end
 
-    context 'when duplicate category found' do
+    context 'when missing ID' do
       before(:each) do
-        params[:product_category] = category_params
-        category_entity = ProductCategory.new(category_params)
-
-        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
-        expect(product_category_repo).to receive(:find_by_name_and_root_org).with(category_entity.name, root_org.id).and_return product_category
+        params[:product_category] = { name: 'updated category' }
 
         @response = action.call(params)
       end
@@ -59,15 +53,17 @@ RSpec.describe Main::Controllers::ProductCategories::Create, type: :action do
       end
 
       it 'got errors messages' do
-        expect(action.exposures[:flash][:errors]).to eq ["Duplicate product category #{product_category.name} in organization #{root_org.display_name}"]
+        expect(action.exposures[:flash][:errors]).to eq ['Id is missing']
       end
     end
 
-    context 'when no root organization found' do
+    context 'when using invalid ID' do
       before(:each) do
         params[:product_category] = category_params
+        params[:id] = 101
 
-        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(nil)
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(product_category_repo).to receive(:find).with(params[:id]).and_return nil
 
         @response = action.call(params)
       end
@@ -77,7 +73,7 @@ RSpec.describe Main::Controllers::ProductCategories::Create, type: :action do
       end
 
       it 'got errors messages' do
-        expect(action.exposures[:flash][:errors]).to eq ["Can't find root organization for current user"]
+        expect(action.exposures[:flash][:errors]).to eq ["Can't find product category with ID #{params[:id]}"]
       end
     end
   end
