@@ -6,6 +6,7 @@
   <div class="p-5 border-2 border-gray-500 border-grey-200 rounded-md">
     <%= form_for :org, routes.orgs_path do
       div class: 'grid grid-cols-1 gap-5' do
+        hidden_field :parent_id, value: parent_id
         div class: 'max-w-lg' do
           label :name, class: 'text-gray-700'
           text_field :name, class: 'form-input w-full border-2 rounded-md mt-2 h-10 p-2'

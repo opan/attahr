@@ -22,19 +22,19 @@ class OrgMemberRepository < Hanami::Repository
       .to_a
   end
 
-  def is_member?(org_id, profile_id)
+  def member?(org_id, profile_id)
     org_members
       .where(org_id: org_id)
       .where(profile_id: profile_id)
       .count > 0
   end
 
-  def is_admin?(org_id, profile_id)
+  def admin?(org_id, profile_id)
     org_members
       .join(org_member_roles)
       .where(org_id: org_id)
       .where(profile_id: profile_id)
-      .where(org_member_roles[:name].qualified => 'admin')
+      .where(org_member_roles[:name].qualified.is('admin'))
       .count > 0
   end
 

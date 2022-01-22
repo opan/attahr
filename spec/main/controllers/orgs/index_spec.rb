@@ -2,7 +2,7 @@ RSpec.describe Main::Controllers::Orgs::Index, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) { described_class.new(org_repo: org_repo) }
 
-  let(:orgs) { [Factory.structs[:org]] }
+  let(:orgs) { [Factory.structs[:org, is_root: true]] }
   let(:params) { Hash['warden' => @warden] }
 
   context 'with basic user' do

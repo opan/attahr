@@ -3,6 +3,7 @@ module Main
     module Products
       class New
         include Main::View
+        layout :user
       end
     end
   end

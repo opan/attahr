@@ -13,8 +13,8 @@ resources :orgs, except: [:destroy] do
   end
 end
 
-resources :products, only: [:index, :new, :create] do
-end
-
 delete '/orgs/:id/members/remove/:member_id', to: 'orgs#remove_members', as: 'remove_members_org'
 post '/orgs/:id/members/invite', to: 'orgs#invite_members', as: 'invite_members_org'
+
+resources :products, except: %i[show]
+resources :product_categories, unless: %i[destroy show]

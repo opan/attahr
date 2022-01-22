@@ -34,7 +34,7 @@ RSpec.describe Main::Controllers::Orgs::Edit, type: :action do
     end
 
     it 'got an errors messages' do
-      expect(action.exposures[:flash][:errors]).to eq ["Cannot find organization with ID [1000]"]
+      expect(action.exposures[:flash][:errors]).to eq ['Cannot find organization with ID [1000]']
     end
   end
 end

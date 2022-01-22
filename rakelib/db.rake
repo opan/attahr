@@ -13,6 +13,16 @@ namespace :db do
       profile: Profile.new(name: 'foo')
     ))
 
+    user_repo.create_with_profile(
+      User.new(
+        email: 'bar@mail.com',
+        username: 'bar',
+        password_hash: password,
+        superadmin: true,
+        profile: Profile.new(name: 'bar')
+      )
+    )
+
     puts "Create default Roles in Org"
     org_member_role_repo = OrgMemberRoleRepository.new
     ['admin', 'staff'].each do |name|
@@ -21,7 +31,15 @@ namespace :db do
 
     puts "Create default Org"
     org_repo = OrgRepository.new
-    org = org_repo.create(Org.new(name: 'default-org', display_name: 'Default Org'))
+    org = org_repo.create(
+      Org.new(
+        name: 'default-org',
+        display_name: 'Default Org',
+        is_root: true,
+        created_by_id: user.id,
+        updated_by_id: user.id
+      )
+    )
 
     admin_role = org_member_role_repo.get('admin')
 

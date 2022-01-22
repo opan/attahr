@@ -25,7 +25,7 @@ module Main
 
           user_profile = current_user.profile
 
-          unless @org_member_repo.is_admin?(params[:id], user_profile.id)
+          unless @org_member_repo.admin?(params[:id], user_profile.id)
             flash[:errors] = ['You are not allowed to perform this action']
             redirect_to Main.routes.orgs_path
           end

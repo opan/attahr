@@ -24,3 +24,9 @@ guard:
 
 server:
 	bundle exec hanami server
+
+console:
+	bundle exec hanami console
+
+routes:
+	bundle exec hanami routes

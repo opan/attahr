@@ -11,7 +11,7 @@ RSpec.describe Main::Controllers::Orgs::Members, type: :action do
   context 'with basic user with admin role' do
     before(:each) do
       params[:id] = org.id
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(true)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(true)
       expect(org_repo).to receive(:find).with(org.id).and_return(org)
       expect(org_member_repo).to receive(:find_by_org).with(org.id).and_return(org_members)
 
@@ -34,7 +34,7 @@ RSpec.describe Main::Controllers::Orgs::Members, type: :action do
   context 'with basic user without admin role' do
     before(:each) do
       params[:id] = org.id
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(false)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(false)
 
       @response = action.call(params)
     end
@@ -65,7 +65,7 @@ RSpec.describe Main::Controllers::Orgs::Members, type: :action do
   context 'without valid org ID' do
     before(:each) do
       params[:id] = org.id
-      expect(org_member_repo).to receive(:is_admin?).with(org.id, user_profile.id).and_return(true)
+      expect(org_member_repo).to receive(:admin?).with(org.id, user_profile.id).and_return(true)
       expect(org_repo).to receive(:find).with(org.id).and_return(nil)
 
       @response = action.call(params)

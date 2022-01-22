@@ -8,14 +8,13 @@ module Main
           required(:id).filled(:int?)
           required(:invite_members).schema do
             required(:users_email).filled(:str?, format?: /(\w+)(,\s*+)*/)
-            # required(:users_email).each(:str?)
           end
         end
 
         def initialize(org_repo: OrgRepository.new, org_member_repo: OrgMemberRepository.new, org_invitation_repo: OrgInvitationRepository.new)
-          @org_repo ||= org_repo
-          @org_member_repo ||= org_member_repo
-          @org_invitation_repo ||= org_invitation_repo
+          @org_repo = org_repo
+          @org_member_repo = org_member_repo
+          @org_invitation_repo = org_invitation_repo
         end
 
         def call(params)
@@ -26,7 +25,7 @@ module Main
 
           user_profile = current_user.profile
 
-          unless @org_member_repo.is_admin?(params[:id], user_profile.id)
+          unless @org_member_repo.admin?(params[:id], user_profile.id)
             flash[:errors] = ['You are not allowed to perform this action']
             redirect_to Main.routes.orgs_path
           end
@@ -52,7 +51,7 @@ module Main
 
           Mailers::InviteMembersOrg.deliver(users: users_email, org: org, invite: invite)
 
-          flash[:info] = ["Invite has been sent to the users."]
+          flash[:info] = ['Invite has been sent to the users.']
           redirect_to Main.routes.members_org_path(org.id)
         end
 
@@ -65,7 +64,7 @@ module Main
 
           allowed_orgs = invitee_orgs.map(&:org_id).all? { |org| map_inviter_orgs.include?(org) }
 
-          if invitee_orgs.length > 0 && !allowed_orgs
+          if !invitee_orgs.empty? && !allowed_orgs
             flash[:errors] = ["One or more invited users has been a member in one or more organization where the inviter is not part of a member.\nYou're not allowed to invite these users"]
             redirect_to Main.routes.members_org_path(params[:id])
           end

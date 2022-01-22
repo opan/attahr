@@ -15,7 +15,7 @@ module Main
           @org_member_repo = org_member_repo
         end
 
-        def call(params)
+        def call(_)
           org_members = @org_member_repo.find_by_emails([current_user.email])
           @product_categories = @product_category_repo.find_by_orgs(org_members.map(&:org_id))
           @product = Product.new(price: 0)

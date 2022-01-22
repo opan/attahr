@@ -19,6 +19,8 @@ group :development do
   gem 'hanami-webconsole'
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'guard'
+  gem 'solargraph'
+  gem 'rubocop'
 end
 
 group :plugins do

@@ -18,7 +18,7 @@ module Main
         end
 
         def initialize(org_repo: OrgRepository.new)
-          @org_repo ||= org_repo
+          @org_repo = org_repo
         end
 
         def call(params)
@@ -34,9 +34,7 @@ module Main
             redirect_to Main.routes.orgs_path
           end
 
-          params[:org].merge!({
-            updated_by_id: current_user.profile.id
-          })
+          params[:org].merge!({ updated_by_id: current_user.profile.id })
           updated_org = Org.new(org.to_h.merge!(params[:org]))
           @org_repo.update(org.id, updated_org)
 
