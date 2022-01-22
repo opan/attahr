@@ -4,7 +4,7 @@
 
 <div class="mt-5">
   <div class="p-5 border-2 border-gray-500 border-grey-200 rounded-md">
-    <%= form_for :product_category, Main.routes.product_category_path, method: :patch, values: { product_category: product_category } do
+    <%= form_for :product_category, Main.routes.product_category_path(product_category.id), method: :patch, values: { product_category: product_category } do
       div class: 'grid grid-cols-1 gap-5' do
         div class: 'max-w-lg' do
           label :name, class: 'text-gray-700'
