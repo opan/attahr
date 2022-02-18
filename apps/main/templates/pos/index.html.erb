@@ -1,0 +1,62 @@
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">POS Sessions</h1>
+
+<div class="mt-5">
+  <%=
+    link_to 'New POS Session', Main.routes.pos_path, class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+  %>
+</div>
+
+<%= render partial: 'shared/alerts' %>
+
+<div class="mt-5">
+  <div class="rounded-t-md overflow-hidden">
+    <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
+      <thead class="bg-blue-500 text-white text-left">
+        <tr>
+          <th class="py-2 px-2">No</th>
+          <th class="py-2 px-2">Session ID</th>
+          <th class="py-2 px-2">SKU</th>
+          <th class="py-2 px-2">Price</th>
+          <th class="py-2 px-2">Category</th>
+          <th class="py-2 px-2">Created at</th>
+          <th class="py-2 px-2">Updated at</th>
+          <th class="py-2 px-2">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% if products.empty? %>
+        <tr>
+          <td class="border px-4 py-2 text-center" colspan="8">
+            <span class="text-gray-700">You don't have any products yet</span>
+          </td>
+        </tr>
+        <% end %>
+        
+        <% products.each_with_index do |p, i| %>
+        <tr>
+          <td class="border px-4 py-2"><%= i + 1 %></td>
+          <td class="border px-4 py-2"><%= p.name %></td>
+          <td class="border px-4 py-2"><%= p.sku %></td>
+          <td class="border px-4 py-2"><%= format_number p.price %></td>
+          <td class="border px-4 py-2"><%= p.product_category.name %></td>
+          <td class="border px-4 py-2"><%= p.created_at %></td>
+          <td class="border px-4 py-2"><%= p.updated_at %></td>
+          <td class="border px-4 py-2">
+            <div class="flex">
+              <%# link_to 'Members', Main.routes.members_org_path(o.id), class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{o.id}-members-org" %>
+              <%= link_to 'Edit', Main.routes.edit_product_path(p.id), class: 'ml-2 hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{p.id}-edit-product" %>
+              
+              <%=
+                form_for :product, routes.product_path(p.id), method: :delete, id: "#{p.id}-form-delete-product" do
+                  submit 'Delete', id: "#{p.id}-delete-product", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
+                end
+              %>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

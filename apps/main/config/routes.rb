@@ -18,3 +18,4 @@ post '/orgs/:id/members/invite', to: 'orgs#invite_members', as: 'invite_members_
 
 resources :products, except: %i[show]
 resources :product_categories, unless: %i[destroy show]
+resources :pos, only: [:index]

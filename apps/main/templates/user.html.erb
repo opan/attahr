@@ -43,6 +43,16 @@
             end
           end %>
 
+          <%= link_to Main.routes.pos_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
+            span do
+              i 'data-feather' => 'shopping-bag'
+            end
+
+            span class: 'ml-2' do
+              'Point of Sales'
+            end
+          end %>
+
           <%= link_to Main.routes.orgs_path, class: 'flex items-center text-md font-semibold mt-5 px-6 hover:text-blue-200' do
             span do
               i 'data-feather' => 'globe'

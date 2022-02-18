@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Main::Controllers::Products::Create, type: :action do
   let(:product_repo) { instance_double('ProductRepository') }
   let(:product_org_repo) { instance_double('ProductOrgRepository') }
