@@ -78,5 +78,11 @@ namespace :db do
       product = ProductRepository.new.create(Product.new(name: "Item #{t}", sku: "0"*5+t.to_s, product_category_id: product_category.id, price: 10000))
       ProductOrgRepository.new.create(ProductOrg.new(product_id: product.id, org_id: org.id))
     end
+
+    puts "Create dummy POS records"
+    pos_repo = PosRepository.new
+    1.times do |t|
+      pos_repo.create(org_id: org.id, session_id: Time.now.strftime("%Y/%m/%d/000#{t}"), cashier_id: user.id, created_by_id: user.id, updated_by_id: user.id)
+    end
   end
 end

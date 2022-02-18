@@ -7,8 +7,7 @@ class PosRepository < Hanami::Repository
   end
 
   def all_by_org(org_id)
-    pos
-      .aggregate(:profile)
+    aggregate(:profile)
       .where(org_id: org_id)
       .map_to(Pos)
       .to_a
