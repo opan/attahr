@@ -2,7 +2,7 @@
 
 module Main
   module Views
-    module Pos
+    module PointOfSales
       class Index
         include Main::View
         layout :user

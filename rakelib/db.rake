@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'Seeds database (only for development)'
   task seeds: :environment do
@@ -80,9 +82,9 @@ namespace :db do
     end
 
     puts "Create dummy POS records"
-    pos_repo = PosRepository.new
+    pos_repo = PointOfSaleRepository.new
     1.times do |t|
-      pos_repo.create(org_id: org.id, session_id: Time.now.strftime("%Y/%m/%d/000#{t}"), cashier_id: user.id, created_by_id: user.id, updated_by_id: user.id)
+      pos_repo.create(org_id: org.id, session_id: Time.now.strftime("%Y/%m/%d/000#{t}"), cashier_id: user.profile.id, created_by_id: user.id, updated_by_id: user.id, state: PointOfSale::STATES[:closed])
     end
   end
 end

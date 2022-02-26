@@ -2,7 +2,7 @@
 
 module Main
   module Controllers
-    module Pos
+    module PointOfSales
       class Index
         include Main::Action
         include Main::Authentication
@@ -11,7 +11,7 @@ module Main
 
         expose :pos_sessions
 
-        def initialize(pos_repo: PosRepository.new, org_repo: OrgRepository.new)
+        def initialize(pos_repo: PointOfSaleRepository.new, org_repo: OrgRepository.new)
           @pos_repo = pos_repo
           @org_repo = org_repo
         end

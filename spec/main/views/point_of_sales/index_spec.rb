@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Main::Views::Pos::Index, type: :view do
+RSpec.describe Main::Views::PointOfSales::Index, type: :view do
   let(:exposures) { Hash[format: :html] }
-  let(:template)  { Hanami::View::Template.new('apps/main/templates/pos/index.html.erb') }
+  let(:template)  { Hanami::View::Template.new('apps/main/templates/point_of_sales/index.html.erb') }
   let(:view)      { described_class.new(template, exposures) }
   let(:rendered)  { view.render }
 

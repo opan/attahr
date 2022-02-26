@@ -2,7 +2,7 @@
 
 <div class="mt-5">
   <%=
-    link_to 'New POS Session', Main.routes.pos_path, class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+    link_to 'New POS Session', Main.routes.new_point_of_sale_path, class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
   %>
 </div>
 
@@ -19,6 +19,7 @@
           <th class="py-2 px-2">Session ID</th>
           <th class="py-2 px-2">Cashier ID</th>
           <th class="py-2 px-2">Cashier Name</th>
+          <th class="py-2 px-2">Status</th>
           <th class="py-2 px-2">Created at</th>
           <th class="py-2 px-2">Updated at</th>
           <th class="py-2 px-2">Actions</th>
@@ -42,6 +43,7 @@
           <td class="border px-4 py-2"><%= p.session_id %></td>
           <td class="border px-4 py-2"><%= p.cashier_id %></td>
           <td class="border px-4 py-2"><%= p.profile.name %></td>
+          <td class="border px-4 py-2"><%= PointOfSale::STATES.key(p.state) %></td>
           <td class="border px-4 py-2"><%= p.created_at %></td>
           <td class="border px-4 py-2"><%= p.updated_at %></td>
           <td class="border px-4 py-2">

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Main::Controllers::Pos::Index, type: :action do
-  let(:pos_repo) { instance_double('PosRepository') }
+RSpec.describe Main::Controllers::PointOfSales::Index, type: :action do
+  let(:pos_repo) { instance_double('PointOfSaleRepository') }
   let(:org_repo) { instance_double('OrgRepository') }
   let(:action) { described_class.new(pos_repo: pos_repo, org_repo: org_repo) }
   let(:params) { Hash['warden' => @warden] }
 
   let(:current_user) { @warden.user }
-  let(:pos_sessions) { Array.new(2) { Factory.structs[:pos] } }
+  let(:pos_sessions) { Array.new(2) { Factory.structs[:point_of_sales] } }
   let(:root_org) { Factory[:org, is_root: true] }
 
   context 'with basic user' do
