@@ -14,10 +14,11 @@
       <thead class="bg-blue-500 text-white text-left">
         <tr>
           <th class="py-2 px-2">No</th>
+          <th class="py-2 px-2">Organization ID</th>
+          <th class="py-2 px-2">Organization Name</th>
           <th class="py-2 px-2">Session ID</th>
-          <th class="py-2 px-2">SKU</th>
-          <th class="py-2 px-2">Price</th>
-          <th class="py-2 px-2">Category</th>
+          <th class="py-2 px-2">Cashier ID</th>
+          <th class="py-2 px-2">Cashier Name</th>
           <th class="py-2 px-2">Created at</th>
           <th class="py-2 px-2">Updated at</th>
           <th class="py-2 px-2">Actions</th>
@@ -25,29 +26,30 @@
       </thead>
 
       <tbody>
-        <% if products.empty? %>
+        <% if pos_sessions.empty? %>
         <tr>
           <td class="border px-4 py-2 text-center" colspan="8">
-            <span class="text-gray-700">You don't have any products yet</span>
+            <span class="text-gray-700">You don't have any POS Sessions yet</span>
           </td>
         </tr>
         <% end %>
         
-        <% products.each_with_index do |p, i| %>
+        <% pos_sessions.each_with_index do |p, i| %>
         <tr>
           <td class="border px-4 py-2"><%= i + 1 %></td>
-          <td class="border px-4 py-2"><%= p.name %></td>
-          <td class="border px-4 py-2"><%= p.sku %></td>
-          <td class="border px-4 py-2"><%= format_number p.price %></td>
-          <td class="border px-4 py-2"><%= p.product_category.name %></td>
+          <td class="border px-4 py-2"><%= p.org_id %></td>
+          <td class="border px-4 py-2"><%= p.org.display_name %></td>
+          <td class="border px-4 py-2"><%= p.session_id %></td>
+          <td class="border px-4 py-2"><%= p.cashier_id %></td>
+          <td class="border px-4 py-2"><%= p.profile.name %></td>
           <td class="border px-4 py-2"><%= p.created_at %></td>
           <td class="border px-4 py-2"><%= p.updated_at %></td>
           <td class="border px-4 py-2">
             <div class="flex">
               <%# link_to 'Members', Main.routes.members_org_path(o.id), class: 'hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{o.id}-members-org" %>
-              <%= link_to 'Edit', Main.routes.edit_product_path(p.id), class: 'ml-2 hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{p.id}-edit-product" %>
+              <%= link_to 'Show details', '#', class: 'ml-2 hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{p.id}-edit-product" %>
               
-              <%=
+              <%#
                 form_for :product, routes.product_path(p.id), method: :delete, id: "#{p.id}-form-delete-product" do
                   submit 'Delete', id: "#{p.id}-delete-product", class: 'bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2  border border-black border-opacity-25'
                 end

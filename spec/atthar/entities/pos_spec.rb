@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Pos, type: :entity do
   it 'has attributes' do
     expect(subject.respond_to?(:id)).to be_truthy
