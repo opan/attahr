@@ -10,9 +10,11 @@ module Main
         before :authenticate!
 
         expose :pos_session
+        expose :root_org
 
-        def initialize(pos_repo: PointOfSaleRepository.new)
+        def initialize(pos_repo: PointOfSaleRepository.new, org_repo: OrgRepository.new)
           @pos_repo = pos_repo
+          @org_repo = org_repo
         end
 
         def call(_)
@@ -22,6 +24,12 @@ module Main
           unless open_pos.nil?
             flash[:errors] = ['There is still active POS session created by you.
               Please close it first before create a new session']
+            redirect_to Main.routes.point_of_sales_path
+          end
+
+          @root_org = @org_repo.find_root_org_by_member(user_profile.id)
+          if @root_org.nil?
+            flash[:errors] = ["Can't find root organization for current user"]
             redirect_to Main.routes.point_of_sales_path
           end
 

@@ -21,3 +21,4 @@ post '/orgs/:id/members/invite', to: 'orgs#invite_members', as: 'invite_members_
 resources :products, except: %i[show]
 resources :product_categories, unless: %i[destroy show]
 resources :point_of_sales, only: %i[index new create]
+post '/point_of_sales', to: 'point_of_sales#create'

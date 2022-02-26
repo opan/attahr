@@ -7,7 +7,7 @@ RSpec.describe Main::Controllers::PointOfSales::Index, type: :action do
   let(:params) { Hash['warden' => @warden] }
 
   let(:current_user) { @warden.user }
-  let(:pos_sessions) { Array.new(2) { Factory.structs[:point_of_sales] } }
+  let(:pos_sessions) { Array.new(2) { Factory.structs[:point_of_sale] } }
   let(:root_org) { Factory[:org, is_root: true] }
 
   context 'with basic user' do

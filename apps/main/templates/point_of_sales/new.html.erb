@@ -7,6 +7,9 @@
     <%= form_for :point_of_sale, Main.routes.point_of_sales_path, values: { point_of_sale: pos_session } do
       hidden_field :cashier_id
       hidden_field :session_id
+      # TODO:
+      # User should able to choose the org
+      hidden_field :org_id, value: root_org.id
 
       div class: 'grid grid-cols-1 gap-5' do
         div class: 'max-w-lg' do

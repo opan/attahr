@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Main
   module Controllers
     module Users
@@ -14,7 +16,7 @@ module Main
         end
 
         def initialize(user_repo: UserRepository.new)
-          @user_repo ||= user_repo
+          @user_repo = user_repo
         end
 
         def call(params)
