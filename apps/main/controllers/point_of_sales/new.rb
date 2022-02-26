@@ -22,7 +22,7 @@ module Main
           unless open_pos.nil?
             flash[:errors] = ['There is still active POS session created by you.
               Please close it first before create a new session']
-            redirect_to Main.routes.pos_path
+            redirect_to Main.routes.point_of_sales_path
           end
 
           @pos_session = PointOfSale.new(cashier_id: user_profile.id, session_id: generate_session)
