@@ -26,6 +26,10 @@ RSpec.describe Main::Controllers::PointOfSales::New, type: :action do
       it 'expose #pos_session' do
         expect(action.exposures[:pos_session].session_id).not_to be_nil
       end
+
+      it 'expose #root_org' do
+        expect(action.exposures[:root_org]).to eq(root_org)
+      end
     end
 
     context 'when there is opened pos session' do

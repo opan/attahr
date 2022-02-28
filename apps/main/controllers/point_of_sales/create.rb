@@ -9,6 +9,9 @@ module Main
 
         before :authenticate!
 
+        expose :pos_session
+        expose :root_org
+
         params do
           required(:point_of_sale).schema do
             required(:password).filled(:str?)
@@ -24,6 +27,8 @@ module Main
         end
 
         def call(params)
+          @pos_session = PointOfSale.new(pos_params)
+
           unless params.valid?
             flash[:errors] = params.error_messages
             self.status = 422
@@ -32,8 +37,8 @@ module Main
 
           user_profile = current_user.profile
 
-          root_org = @org_repo.find_root_org_by_member(user_profile.id)
-          if root_org.nil?
+          @root_org = @org_repo.find_root_org_by_member(user_profile.id)
+          if @root_org.nil?
             flash[:errors] = ["Can't find root organization for current user"]
             redirect_to Main.routes.point_of_sales_path
           end
@@ -44,9 +49,8 @@ module Main
             return
           end
 
-          pos_entity = PointOfSale.new(pos_params)
           @pos_repo.transaction do
-            @pos_repo.create(pos_entity)
+            @pos_repo.create(@pos_session)
           end
 
           flash[:info] = ['POS session has been successfully created']

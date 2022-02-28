@@ -106,6 +106,14 @@ RSpec.describe Main::Controllers::PointOfSales::Create, type: :action do
       it 'got errors messages' do
         expect(action.exposures[:flash][:errors]).to eq(['Invalid password'])
       end
+
+      it 'expose #pos_session' do
+        expect(action.exposures[:pos_session].session_id).to eq('random-id')
+      end
+
+      it 'expose #root_org' do
+        expect(action.exposures[:root_org]).to eq(root_org)
+      end
     end
   end
 end
