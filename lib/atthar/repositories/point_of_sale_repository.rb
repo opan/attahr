@@ -24,6 +24,7 @@ class PointOfSaleRepository < Hanami::Repository
     point_of_sales
       .where(cashier_id: profile_id)
       .where(state: PointOfSale::STATES[:open])
+      .where(Sequel.lit('org_id IS NOT NULL'))
       .map_to(PointOfSale)
       .first
   end

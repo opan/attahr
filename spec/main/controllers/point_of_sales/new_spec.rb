@@ -13,8 +13,8 @@ RSpec.describe Main::Controllers::PointOfSales::New, type: :action do
   context 'with basic user' do
     context 'when no open pos session' do
       before do
-        expect(pos_repo).to receive(:find_open_pos_by_user).with(current_user.profile.id).and_return nil
         expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
+        expect(pos_repo).to receive(:find_open_pos_by_user).with(current_user.profile.id).and_return nil
 
         @response = action.call(params)
       end
@@ -30,6 +30,7 @@ RSpec.describe Main::Controllers::PointOfSales::New, type: :action do
 
     context 'when there is opened pos session' do
       before do
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
         expect(pos_repo).to receive(:find_open_pos_by_user).with(current_user.profile.id).and_return pos
 
         @response = action.call(params)
@@ -42,6 +43,22 @@ RSpec.describe Main::Controllers::PointOfSales::New, type: :action do
       it 'got error messages' do
         expect(action.exposures[:flash][:errors]).to eq(['There is still active POS session created by you.
               Please close it first before create a new session'])
+      end
+    end
+
+    context 'when no root org found' do
+      before do
+        expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(nil)
+
+        @response = action.call(params)
+      end
+
+      it 'return 302' do
+        expect(@response[0]).to eq(302)
+      end
+
+      it 'got errors messages' do
+        expect(action.exposures[:flash][:errors]).to eq ["Can't find root organization for current user"]
       end
     end
   end

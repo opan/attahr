@@ -20,16 +20,16 @@ module Main
         def call(_)
           user_profile = current_user.profile
 
+          @root_org = @org_repo.find_root_org_by_member(user_profile.id)
+          if @root_org.nil?
+            flash[:errors] = ["Can't find root organization for current user"]
+            redirect_to Main.routes.point_of_sales_path
+          end
+
           open_pos = @pos_repo.find_open_pos_by_user(user_profile.id)
           unless open_pos.nil?
             flash[:errors] = ['There is still active POS session created by you.
               Please close it first before create a new session']
-            redirect_to Main.routes.point_of_sales_path
-          end
-
-          @root_org = @org_repo.find_root_org_by_member(user_profile.id)
-          if @root_org.nil?
-            flash[:errors] = ["Can't find root organization for current user"]
             redirect_to Main.routes.point_of_sales_path
           end
 
