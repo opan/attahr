@@ -26,8 +26,8 @@ module Main
             redirect_to Main.routes.point_of_sales_path
           end
 
-          open_pos = @pos_repo.find_open_pos_by_user(user_profile.id)
-          unless open_pos.nil?
+          opened_pos = @pos_repo.find_open_pos_by_user(user_profile.id)
+          unless opened_pos.nil?
             flash[:errors] = ['There is still active POS session created by you.
               Please close it first before create a new session']
             redirect_to Main.routes.point_of_sales_path
@@ -40,10 +40,16 @@ module Main
 
         # Generate session ID for POS
         # It is constructed from:
-        # YY/MM/DD/{4-digit-random-alphanumeric}/{3-digit-milisecod}-{user-id}
+        # POS-YY/MM/DD/{cashier-name}-{sequence}
+        # Example:
+        # POS-2022/02/28/username-01
         def generate_session
-          rand_an = [*('a'..'z'), *('0'..'9')].sample(4).join.upcase
-          Time.now.strftime(Time.now.strftime("%Y/%m/%d/#{rand_an}/%L-#{current_user.id}"))
+          # rand_an = [*('a'..'z'), *('0'..'9')].sample(4).join.upcase
+          max_session_id = @pos_repo.get_max_session_id_by_user(current_user.profile.id)
+          return "POS-#{Time.now.strftime('%Y/%m/%d')}/#{current_user.profile.name}-01" if max_session_id.nil?
+
+          latest_seq = max_session_id.split('-').last
+          "POS-#{Time.now.strftime('%Y/%m/%d')}/#{current_user.profile.name}-#{latest_seq.next}"
         end
       end
     end

@@ -15,6 +15,7 @@ RSpec.describe Main::Controllers::PointOfSales::New, type: :action do
       before do
         expect(org_repo).to receive(:find_root_org_by_member).with(current_user.profile.id).and_return(root_org)
         expect(pos_repo).to receive(:find_open_pos_by_user).with(current_user.profile.id).and_return nil
+        expect(pos_repo).to receive(:get_max_session_id_by_user).with(current_user.profile.id).and_return nil
 
         @response = action.call(params)
       end
