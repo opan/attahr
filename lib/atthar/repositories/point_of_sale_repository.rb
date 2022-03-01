@@ -28,4 +28,10 @@ class PointOfSaleRepository < Hanami::Repository
       .map_to(PointOfSale)
       .first
   end
+
+  def get_max_session_id_by_user(profile_id)
+    point_of_sales
+      .where(cashier_id: profile_id)
+      .max(:session_id)
+  end
 end
