@@ -46,10 +46,11 @@ module Main
         def generate_session
           # rand_an = [*('a'..'z'), *('0'..'9')].sample(4).join.upcase
           max_session_id = @pos_repo.get_max_session_id_by_user(current_user.profile.id)
-          return "POS-#{Time.now.strftime('%Y/%m/%d')}/#{current_user.profile.name}-01" if max_session_id.nil?
+          cashier_name = current_user.profile.name.upcase
+          return "POS-#{Time.now.strftime('%Y/%m/%d')}/#{cashier_name}-01" if max_session_id.nil?
 
           latest_seq = max_session_id.split('-').last
-          "POS-#{Time.now.strftime('%Y/%m/%d')}/#{current_user.profile.name}-#{latest_seq.next}"
+          "POS-#{Time.now.strftime('%Y/%m/%d')}/#{cashier_name}-#{latest_seq.next}"
         end
       end
     end

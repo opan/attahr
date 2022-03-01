@@ -84,7 +84,14 @@ namespace :db do
     puts "Create dummy POS records"
     pos_repo = PointOfSaleRepository.new
     1.times do |t|
-      pos_repo.create(org_id: org.id, session_id: Time.now.strftime("%Y/%m/%d/000#{t}"), cashier_id: user.profile.id, created_by_id: user.id, updated_by_id: user.id, state: PointOfSale::STATES[:closed])
+      pos_repo.create(
+        org_id: org.id,
+        session_id: "POS-#{Time.now.strftime('%Y/%m/%d')}/#{user.profile.name.upcase}-01",
+        cashier_id: user.profile.id,
+        created_by_id: user.profile.id,
+        updated_by_id: user.profile.id,
+        state: PointOfSale::STATES[:closed]
+      )
     end
   end
 end
