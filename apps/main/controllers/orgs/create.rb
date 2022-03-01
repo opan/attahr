@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Main
   module Controllers
     module Orgs
@@ -58,7 +60,10 @@ module Main
             redirect_to Main.routes.orgs_path
           end
 
-          validate_parent_org(parent_id) unless parent_id.nil?
+          if !parent_id.nil? && @org_repo.find(parent_id).nil?
+            flash[:errors] = ["Can't find parent organization with parent_id #{parent_id}"]
+            redirect_to Main.routes.orgs_path
+          end
 
           admin_role = @org_member_role_repo.get('admin')
 
@@ -88,14 +93,6 @@ module Main
 
         def org_params
           params.get(:org).merge({ created_by_id: current_user.id, updated_by_id: current_user.id })
-        end
-
-        def validate_parent_org(parent_id)
-          parent_org = @org_repo.find(parent_id)
-          if parent_org.nil?
-            flash[:errors] = ["Can't find parent organization with parent_id #{parent_id}"]
-            redirect_to Main.routes.orgs_path
-          end
         end
       end
     end
