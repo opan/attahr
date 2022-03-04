@@ -6,7 +6,7 @@ Hanami::Model.migration do
       primary_key :id
       foreign_key :org_id, :orgs, on_delete: :set_null
 
-      column :session_id, String, null: false
+      column :session_id, String, null: false, unique: true
       column :cashier_id, Integer, null: false
       column :state, Integer, null: false
       column :created_at, DateTime, null: false

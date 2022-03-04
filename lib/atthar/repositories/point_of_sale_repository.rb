@@ -13,11 +13,18 @@ class PointOfSaleRepository < Hanami::Repository
       .to_a
   end
 
+  def find_with_detail(id)
+    aggregate(:profile, :org)
+      .where(id: id)
+      .map_to(PointOfSale)
+      .one
+  end
+
   def find_by_session_id(session_id)
     point_of_sales
       .where(session_id: session_id)
       .map_to(PointOfSale)
-      .first
+      .one
   end
 
   def find_open_pos_by_user(profile_id)

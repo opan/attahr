@@ -8,7 +8,7 @@ WardenDouble = WardenMock.new(
     email: 'default@mail.com',
     username: 'default',
     password_hash: BCrypt::Password.create('foo-bar'),
-    profile: Profile.new(id: 1000)
+    profile: Profile.new(id: 1000, name: 'default')
   )
 )
 RSpec.configure do |config|

@@ -38,7 +38,7 @@ module Main
 
         private
 
-        # Generate session ID for POS
+        # Generate session ID for POS session
         # It is constructed from:
         # POS-YY/MM/DD/{cashier-name}-{sequence}
         # Example:
