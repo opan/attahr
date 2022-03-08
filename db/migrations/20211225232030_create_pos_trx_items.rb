@@ -6,7 +6,8 @@ Hanami::Model.migration do
 
       column :product_id, Integer, null: false
       column :name, String, null: false
-      column :sku, String, null: false
+      column :sku, String, null: false, size: 20
+      column :barcode, String, size: 30
       column :price, BigDecimal, null: false, default: 0, size: [15, 2]
       column :product_category_id, Integer, null: false
       column :category_name, String, null: false
