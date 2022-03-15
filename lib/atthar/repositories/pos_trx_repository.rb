@@ -12,4 +12,27 @@ class PosTrxRepository < Hanami::Repository
       .map_to(PosTrx)
       .to_a
   end
+
+  def find_open_by_pos(pos_id)
+    pos_trxes
+      .where(point_of_sale_id: pos_id)
+      .where(state: PosTrx::STATES[:open])
+      .order(Sequel.desc(:created_at))
+      .map_to(PosTrx)
+      .one
+  end
+
+  def find_pending_by_pos(pos_id)
+    pos_trxes
+      .where(point_of_sale_id: pos_id)
+      .where(state: PosTrx::STATES[:pending])
+      .map_to(PosTrx)
+      .to_a
+  end
+
+  def get_max_trx_id_by_pos(pos_id)
+    pos_trxes
+      .where(point_of_sale_id: pos_id)
+      .max(:trx_id)
+  end
 end

@@ -23,5 +23,6 @@ resources :product_categories, unless: %i[destroy show]
 resources :point_of_sales, only: %i[index new create] do
   member do
     get :show
+    get :pos
   end
 end

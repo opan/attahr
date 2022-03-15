@@ -3,9 +3,9 @@
 module Main
   module Views
     module PointOfSales
-      class New
+      class Pos
         include Main::View
-        layout :user
+        layout :pos
       end
     end
   end

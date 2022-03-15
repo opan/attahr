@@ -2,7 +2,7 @@
 
 module Main
   module Views
-    class UserLayout
+    class PosLayout
       include Main::Layout
     end
   end
