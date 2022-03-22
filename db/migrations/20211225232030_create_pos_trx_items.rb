@@ -2,7 +2,7 @@ Hanami::Model.migration do
   change do
     create_table :pos_trx_items do
       primary_key :id
-      foreign_key :pos_trxes_id, :pos_trxes, on_delete: :set_null
+      foreign_key :pos_trx_id, :pos_trxes, on_delete: :set_null
 
       column :product_id, Integer, null: false
       column :name, String, null: false

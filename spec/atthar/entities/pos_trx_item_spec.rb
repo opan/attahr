@@ -3,7 +3,7 @@
 RSpec.describe PosTrxItem, type: :entity do
   it 'has attributes' do
     expect(subject.respond_to?(:id)).to be_truthy
-    expect(subject.respond_to?(:pos_trxes_id)).to be_truthy
+    expect(subject.respond_to?(:pos_trx_id)).to be_truthy
     expect(subject.respond_to?(:product_id)).to be_truthy
     expect(subject.respond_to?(:name)).to be_truthy
     expect(subject.respond_to?(:sku)).to be_truthy
