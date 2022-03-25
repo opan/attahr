@@ -52,7 +52,7 @@ RSpec.describe Main::Controllers::PointOfSales::Pos, type: :action do
     context 'when no open transaction' do
       before do
         params[:id] = pos.id
-        new_trx = PosTrx.new(trx_id: new_trx_id, pos_id: pos.id, state: PosTrx::STATES[:open])
+        new_trx = PosTrx.new(trx_id: new_trx_id, point_of_sale_id: pos.id, state: PosTrx::STATES[:open])
 
         expect(pos_repo).to receive(:find_with_detail).with(pos.id).and_return(pos)
         expect(pos_trx_repo).to receive(:find_pending_by_pos).with(pos.id).and_return(pending_trxes)

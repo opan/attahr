@@ -56,7 +56,7 @@ module Main
           new_trx_id = "#{session_id}/#{sprintf('%04d', 1)}"
           new_trx_id = trx.trx_id.next unless trx.nil?
 
-          PosTrx.new(trx_id: new_trx_id, pos_id: @pos_session.id, state: PosTrx::STATES[:open])
+          PosTrx.new(trx_id: new_trx_id, point_of_sale_id: @pos_session.id, state: PosTrx::STATES[:open])
         end
       end
     end
