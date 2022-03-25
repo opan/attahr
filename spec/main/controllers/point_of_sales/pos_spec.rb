@@ -72,22 +72,5 @@ RSpec.describe Main::Controllers::PointOfSales::Pos, type: :action do
         expect(action.exposures[:open_trx].trx_id).to eq(new_trx_id)
       end
     end
-
-    # context 'when pending transactions available' do
-    #   before(:each) do
-    #     params[:id] = pos.id
-
-    #     expect(pos_repo).to receive(:find_with_detail).with(pos.id).and_return(pos)
-    #     expect(pos_trx_repo).to receive(:find_pending_by_pos).with(pos.id).and_return(pending_trx)
-    #     expect(pos_trx_repo).to receive(:find_open_by_pos).with(pos.id).and_return(open_trx)
-    #     expect(pos_trx_item_repo).to receive(:find_by_pos_trx).with(open_trx.id).and_return(open_trx)
-
-    #     @response = action.call(params)
-    #   end
-
-    #   it 'return 200' do
-        
-    #   end
-    # end
   end
 end
