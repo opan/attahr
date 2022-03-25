@@ -8,6 +8,7 @@ RSpec.describe Product, type: :entity do
     expect(subject.respond_to?(:sku)).to be true
     expect(subject.respond_to?(:barcode)).to be true
     expect(subject.respond_to?(:price)).to be true
+    expect(subject.respond_to?(:stock)).to be true
     expect(subject.respond_to?(:created_at)).to be true
     expect(subject.respond_to?(:updated_at)).to be true
     expect(subject.respond_to?(:created_by_id)).to be true

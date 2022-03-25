@@ -26,6 +26,7 @@ class PosTrxRepository < Hanami::Repository
     pos_trxes
       .where(point_of_sale_id: pos_id)
       .where(state: PosTrx::STATES[:pending])
+      .order(Sequel.desc(:created_at))
       .map_to(PosTrx)
       .to_a
   end

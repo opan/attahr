@@ -4,6 +4,7 @@ class PosTrxItemRepository < Hanami::Repository
   associations do
     belongs_to :product
     belongs_to :product_category
+    belongs_to :pos_trx
   end
 
   def find_by_pos_trx(pos_trx_id)

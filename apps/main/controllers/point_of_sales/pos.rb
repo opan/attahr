@@ -41,7 +41,10 @@ module Main
           end
 
           @pending_trxes = @pos_trx_repo.find_pending_by_pos(@pos_session.id)
-          @open_trx = @pos_trx_repo.find_open_by_pos(@pos_session.id) || generate_new_trx
+
+          @open_trx = @pos_trx_repo.find_open_by_pos(@pos_session.id)
+          @open_trx = @pos_trx_repo.create(generate_new_trx) if @open_trx.nil?
+
           @open_trx_items = @pos_trx_item_repo.find_by_pos_trx(@open_trx.id)
         end
 
@@ -49,9 +52,11 @@ module Main
 
         def generate_new_trx
           session_id = @pos_session.session_id
-          trx = @pos_trx_repo.get_max_trx_id_by_pos(@pos_session.id) || "#{session_id}/#{format('%04d', 1)}"
-          new_trx_id = trx.nil? ? "#{session_id}/#{format('%04d', 1)}" : trx.trx_id.next
-          PosTrx.new(trx_id: new_trx_id)
+          trx = @pos_trx_repo.get_max_trx_id_by_pos(@pos_session.id)
+          new_trx_id = "#{session_id}/#{sprintf('%04d', 1)}"
+          new_trx_id = trx.trx_id.next unless trx.nil?
+
+          PosTrx.new(trx_id: new_trx_id, pos_id: @pos_session.id, state: PosTrx::STATES[:open])
         end
       end
     end
