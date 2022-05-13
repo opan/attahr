@@ -4,10 +4,11 @@
 <p>Transaction ID: <%= open_trx.trx_id %></p>
 <p>Cashier name: <%= pos_session.profile.name %></p>
 
-
 <h3>List of items</h3>
 
-<div class="mt-5">
+<div class="mt-5" x-data="{
+  cashierName: '<%= pos_session.profile.name %>'
+}">
   <div class="rounded-t-md overflow-hidden">
     <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
       <thead class="bg-blue-500 text-white text-left">
@@ -15,20 +16,45 @@
           <th class="py-2 px-2">No</th>
           <th class="py-2 px-2">SKU</th>
           <th class="py-2 px-2">Name</th>
-          <th class="py-2 px-2">Price</th>
           <th class="py-2 px-2">Qty</th>
+          <th class="py-2 px-2">Price</th>
           <th class="py-2 px-2">Subtotal</th>
         </tr>
       </thead>
 
       <tbody>
+        <%= form_for :pos_trx_item, Main.routes.add_item_point_of_sale_path(pos_session.id) do
+        tr  do
+          td do
+            '1'
+          end
+
+          td "x-init" => "$refs.sku.focus()", '@keyup.enter' => "pointOfSales.addItem" do
+            text_field :sku, class: 'w-full border-2 mt-2 mb-2 h-10 p-2', 'x-ref' => 'sku'
+          end
+
+          td do
+          end
+
+          td do
+            text_field :qty, class: 'w-full border-2 mt-2 mb-2 h-10 p-2'
+          end
+
+          td do
+          end
+
+          td do
+          end
+        end
+        end %>
+
         <% open_trx_items.each_with_index do |oti, i| %>
         <tr>
-          <td class="border px-4 py-2"><%= i + 1 %></td>
+          <td class="border px-4 py-2"><%= i + 2 %></td>
           <td class="border px-4 py-2"><%= oti.product.sku %></td>
           <td class="border px-4 py-2"><%= oti.product.name %></td>
-          <td class="border px-4 py-2"><%= oti.price %></td>
           <td class="border px-4 py-2">Should be input field here</td>
+          <td class="border px-4 py-2"><%= oti.price %></td>
           <td class="border px-4 py-2">Should be auto calculate</td>
         </tr>
         <% end %>
@@ -36,3 +62,11 @@
     </table>
   </div>
 </div>
+
+<script>
+  let pointOfSales = {
+    addItem: function(e) {
+      alert(e.target.value);
+    }
+  };
+</script>
