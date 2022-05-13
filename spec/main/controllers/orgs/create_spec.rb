@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Main::Controllers::Orgs::Create, type: :action do
   let(:org_repo) { instance_double('OrgRepository') }
   let(:org_member_repo) { instance_double('OrgMemberRepository') }

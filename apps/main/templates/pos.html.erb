@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css' %>
+    <%= javascript 'https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js' %>
+    <%= javascript 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js', defer: true %>
+    <title>Atthar</title>
+    <%= favicon %>
+  </head>
+  <body>
+    <div class="flex h-screen">
+      <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="flex justify-between items-center px-4 py-6 border-b-4 border-blue-500 bg-gray-900 text-white">
+          <div class="flex items-center">
+            search bar
+          </div>
+
+          <div class="flex items-center">
+            profile toggle
+          </div>
+        </header>
+
+        <content class="flex-1 overflow-x-hidden overflow-y-auto">
+          <div class="container mx-auto px-6 py-8">
+            <%= yield %>
+          </div>
+        </content>
+      </main>
+    </div>
+
+    <script>
+      feather.replace();
+    </script>    
+  </body>
+</html>

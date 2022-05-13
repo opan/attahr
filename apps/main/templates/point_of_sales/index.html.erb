@@ -1,0 +1,60 @@
+<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">POS Sessions</h1>
+
+<div class="mt-5">
+  <%=
+    link_to 'New POS Session', Main.routes.new_point_of_sale_path, class: 'bg-blue-500 hover:bg-blue-600 text-white rounded py-2 px-4 border border-black border-opacity-25'
+  %>
+</div>
+
+<%= render partial: 'shared/alerts' %>
+
+<div class="mt-5">
+  <div class="rounded-t-md overflow-hidden">
+    <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
+      <thead class="bg-blue-500 text-white text-left">
+        <tr>
+          <th class="py-2 px-2">No</th>
+          <th class="py-2 px-2">Organization ID</th>
+          <th class="py-2 px-2">Organization Name</th>
+          <th class="py-2 px-2">Session ID</th>
+          <th class="py-2 px-2">Cashier ID</th>
+          <th class="py-2 px-2">Cashier Name</th>
+          <th class="py-2 px-2">Status</th>
+          <th class="py-2 px-2">Created at</th>
+          <th class="py-2 px-2">Updated at</th>
+          <th class="py-2 px-2">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% if pos_sessions.empty? %>
+        <tr>
+          <td class="border px-4 py-2 text-center" colspan="8">
+            <span class="text-gray-700">You don't have any POS Sessions yet</span>
+          </td>
+        </tr>
+        <% end %>
+        
+        <% pos_sessions.each_with_index do |p, i| %>
+        <tr>
+          <td class="border px-4 py-2"><%= i + 1 %></td>
+          <td class="border px-4 py-2"><%= p.org_id %></td>
+          <td class="border px-4 py-2"><%= p.org.display_name %></td>
+          <td class="border px-4 py-2"><%= p.session_id %></td>
+          <td class="border px-4 py-2"><%= p.cashier_id %></td>
+          <td class="border px-4 py-2"><%= p.profile.name %></td>
+          <td class="border px-4 py-2"><%= PointOfSale::STATES.key(p.state) %></td>
+          <td class="border px-4 py-2"><%= p.created_at %></td>
+          <td class="border px-4 py-2"><%= p.updated_at %></td>
+          <td class="border px-4 py-2">
+            <div class="flex">
+              <%= link_to 'Show details', Main.routes.show_point_of_sale_path(p.id), class: 'ml-2 hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{p.id}-show-details" %>
+              <%= link_to 'Open', Main.routes.pos_point_of_sale_path(p.id), class: 'ml-2 hover:bg-blue-600 bg-blue-500 rounded text-white py-2 px-4  border border-black border-opacity-25', id: "#{p.id}-open" %>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

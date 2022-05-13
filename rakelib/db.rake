@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'Seeds database (only for development)'
   task seeds: :environment do
@@ -77,6 +79,19 @@ namespace :db do
     3.times do |t|
       product = ProductRepository.new.create(Product.new(name: "Item #{t}", sku: "0"*5+t.to_s, product_category_id: product_category.id, price: 10000))
       ProductOrgRepository.new.create(ProductOrg.new(product_id: product.id, org_id: org.id))
+    end
+
+    puts "Create dummy POS records"
+    pos_repo = PointOfSaleRepository.new
+    1.times do |t|
+      pos_repo.create(
+        org_id: org.id,
+        session_id: "POS-#{Time.now.strftime('%Y/%m/%d')}/#{user.profile.name.upcase}-01",
+        cashier_id: user.profile.id,
+        created_by_id: user.profile.id,
+        updated_by_id: user.profile.id,
+        state: PointOfSale::STATES[:closed]
+      )
     end
   end
 end
