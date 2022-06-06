@@ -77,7 +77,17 @@ namespace :db do
 
     puts "Create dummy Products for dummy Product Category"
     3.times do |t|
-      product = ProductRepository.new.create(Product.new(name: "Item #{t}", sku: "0"*5+t.to_s, product_category_id: product_category.id, price: 10000))
+      product = ProductRepository.new.create(
+        Product.new(
+          name: "Item #{t}",
+          sku: "0"*5 + t.to_s,
+          barcode: rand(10 ** 10),
+          product_category_id: product_category.id,
+          price: 10_000,
+          updated_by_id: user.id,
+          created_by_id: user.id
+        )
+      )
       ProductOrgRepository.new.create(ProductOrg.new(product_id: product.id, org_id: org.id))
     end
 
