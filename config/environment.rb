@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
 require 'hanami/setup'
 require 'hanami/model'
+require 'hanami/middleware/body_parser'
 require 'warden'
 require 'bcrypt'
 require_relative '../lib/atthar'
@@ -14,6 +17,7 @@ Hanami.configure do
       FailureApp.new.call(env)
     end
   end
+  middleware.use Hanami::Middleware::BodyParser, :json
 
   # When mounting application, the one that mounted to '/'
   # should be put the latest. Otherwise the rest of application that get mounted can't be accessed
