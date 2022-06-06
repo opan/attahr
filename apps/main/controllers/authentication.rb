@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+# Main::Authentication
+# module for handling Warden authentication
+# helper inside actions
 module Main
   module Authentication
     def self.included(action)
