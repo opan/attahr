@@ -31,5 +31,9 @@ module Main
     def superadmin_user?
       current_user.superadmin
     end
+
+    def handle_invalid_csrf_token
+      super
+    end
   end
 end
