@@ -1,0 +1,1 @@
+{"buildTargets":["all","console","db.prepare","db.seeds","guard","routes","rspec","rspec.feature","rspec.repo","rspec.unit","server","test.db.prepare"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

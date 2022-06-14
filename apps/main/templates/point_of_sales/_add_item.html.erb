@@ -1,15 +1,7 @@
-<h1 class="tracking-tight text-2xl text-blue-500 font-semibold">POS <%= pos_session.profile.name %></h1>
-
-<p>Date: <%= Time.now.strftime('%Y/%m/%d') %></p>
-<p>Transaction ID: <%= open_trx.trx_id %></p>
-<p>Cashier name: <%= pos_session.profile.name %></p>
-
-<h3>List of items</h3>
-
 <div class="mt-5" x-data="{
   cashierName: '<%= pos_session.profile.name %>'
 }">
-  <div class="rounded-t-md overflow-hidden" x-ref="pos-main-body">
+  <div class="rounded-t-md overflow-hidden">
     <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
       <thead class="bg-blue-500 text-white text-left">
         <tr>
@@ -29,8 +21,8 @@
               '1'
             end
 
-            td "x-init" => "$refs.sku_barcode.focus()", '@keyup.enter' => "pointOfSales.addItem" do
-              text_field :sku_barcode, class: 'w-full border-2 mt-2 mb-2 h-10 p-2', 'x-ref' => 'sku_barcode'
+            td "x-init" => "$refs.sku.focus()", '@keyup.enter' => "pointOfSales.addItem" do
+              text_field :sku, class: 'w-full border-2 mt-2 mb-2 h-10 p-2', 'x-ref' => 'sku'
             end
 
             td do
@@ -62,37 +54,3 @@
     </table>
   </div>
 </div>
-<script>
-  let pointOfSales = {
-    addItem: function(e) {
-      request = async () => {
-        const body = {
-          product_id: e.target.value,
-          trx_id: "<%= open_trx.trx_id %>"
-        }
-
-        const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id, _csrf_token: session[:_csrf_token]) %>", {
-          method: 'PUT',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          }
-        })
-
-        const jsonRes = await response.json();
-
-        if (!response.ok) {
-          const errMsg = jsonRes.errors;
-          alert(errMsg);
-          return;
-        }
-
-        console.log(jsonRes);
-        console.log(response.ok)
-      }
-
-      request();
-    }
-  };
-</script>
