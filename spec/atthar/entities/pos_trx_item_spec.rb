@@ -10,7 +10,6 @@ RSpec.describe PosTrxItem, type: :entity do
     expect(subject.respond_to?(:barcode)).to be_truthy
     expect(subject.respond_to?(:price)).to be_truthy
     expect(subject.respond_to?(:product_category_id)).to be_truthy
-    expect(subject.respond_to?(:category_name)).to be_truthy
     expect(subject.respond_to?(:qty)).to be_truthy
     expect(subject.respond_to?(:created_at)).to be_truthy
     expect(subject.respond_to?(:updated_at)).to be_truthy
