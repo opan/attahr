@@ -67,8 +67,11 @@
     addItem: function(e) {
       request = async () => {
         const body = {
-          product_id: e.target.value,
           trx_id: "<%= open_trx.trx_id %>"
+          item: {
+            sku_barcode: e.target.value,
+            qty: ""
+          }
         }
 
         const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id, _csrf_token: session[:_csrf_token]) %>", {

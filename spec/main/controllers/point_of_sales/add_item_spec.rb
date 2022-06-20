@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
   let(:action) { described_class.new }
   let(:params) { Hash[] }

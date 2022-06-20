@@ -14,7 +14,10 @@ module Main
         params do
           required(:id).filled(:int?)
           required(:trx_id).filled
-          required(:sku_barcode).filled
+          required(:item).schema do
+            required(:sku_barcode).filled
+            required(:qty).filled(:int?)
+          end
         end
 
         def initialize(
@@ -31,7 +34,7 @@ module Main
 
         def call(params)
           unless params.valid?
-            self.body = errors_message(params.error_messages)
+            self.body = error_message(params.error_messages)
             self.status = 400
             return
           end
@@ -43,9 +46,9 @@ module Main
             return
           end
 
-          product = @product_repo.find_by_sku_or_barcode_and_org(params[:sku_barcode], pos.org_id)
+          product = @product_repo.find_by_sku_or_barcode_and_org(item[:sku_barcode], pos.org_id)
           if product.nil?
-            self.body = error_messages(["No product found with SKU or Barcode #{params[:sku_barcode]}"])
+            self.body = error_messages(["No product found with SKU or Barcode #{item[:sku_barcode]}"])
             self.status = 400
             return
           end
@@ -56,20 +59,23 @@ module Main
             self.status = 400
             return
           end
-
-
         end
 
         private
 
-        def create_new_trx_item(trx_id, product)
+        def item
+          params[:item]
+        end
+
+        def create_new_trx_item(trx_id)
           pos_trx_item = PosTrxItem.new(
             pos_trx_id: trx_id,
             product_id: product.id,
             name: product.name,
             sku: product.sku,
             barcode: product.barcode,
-            price: product.price
+            price: product.price,
+            qty: item[:qty]
           )
         end
 
