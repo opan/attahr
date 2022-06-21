@@ -59,6 +59,10 @@ module Main
             self.status = 400
             return
           end
+
+          @pos_repo.transaction do
+            create_new_trx_item(params[:trx_id], product)
+          end
         end
 
         private
@@ -67,20 +71,24 @@ module Main
           params[:item]
         end
 
-        def create_new_trx_item(trx_id)
-          pos_trx_item = PosTrxItem.new(
+        def create_new_trx_item(trx_id, product)
+          pos_trx_item_entity = PosTrxItem.new(
             pos_trx_id: trx_id,
             product_id: product.id,
             name: product.name,
             sku: product.sku,
             barcode: product.barcode,
             price: product.price,
-            qty: item[:qty]
+            qty: item[:qty],
+            created_by_id: current_user.id,
+            updated_by_id: current_user.id
           )
+
+          @pos_trx_item_repo.create(pos_trx_item_entity)
         end
 
         def error_messages(msg = [])
-          raw JSON.generate({ errors: msg })
+          JSON.generate({ errors: msg })
         end
       end
     end

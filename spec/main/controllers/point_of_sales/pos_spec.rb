@@ -5,7 +5,6 @@ RSpec.describe Main::Controllers::PointOfSales::Pos, type: :action do
   let(:pos_trx_repo) { instance_double('PosTrxRepository') }
   let(:pos_trx_item_repo) { instance_double('PosTrxItemRepository') }
 
-  let(:user_profile) { @warden.user.profile }
   let(:pos) { Factory.structs[:point_of_sale] }
   let(:open_trx) { Factory.structs[:pos_trx, point_of_sale_id: pos.id] }
   let(:pending_trxes) { Array.new(1) { Factory.structs[:pos_trx, point_of_sale_id: pos.id, state: PosTrx::STATES[:pending]] }}

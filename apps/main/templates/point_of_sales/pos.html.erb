@@ -67,10 +67,10 @@
     addItem: function(e) {
       request = async () => {
         const body = {
-          trx_id: "<%= open_trx.trx_id %>"
+          trx_id: "<%= open_trx.trx_id %>",
           item: {
             sku_barcode: e.target.value,
-            qty: ""
+            qty: 1
           }
         }
 
@@ -87,15 +87,21 @@
 
         if (!response.ok) {
           const errMsg = jsonRes.errors;
-          alert(errMsg);
+          alert(errMsg.join(", "));
           return;
         }
 
-        console.log(jsonRes);
         console.log(response.ok)
       }
 
+      console.log(e.target.value);
+
       request();
+    },
+    updateQty: function(e) {
+      request = async () => {
+
+      }
     }
   };
 </script>
