@@ -38,15 +38,21 @@ RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
 
         expect(pos_repo).to receive(:find).with(pos_session.id).and_return pos_session
         expect(product_repo).to receive(:find_by_sku_or_barcode_and_org).with(product.sku, pos_session.org_id).and_return(product)
-        expect(pos_trx_repo).to receive(:find).with(pos_trx.id).and_return(pos_trx)
+        expect(pos_trx_repo).to receive(:find_by_trx_id).with(pos_trx.id).and_return(pos_trx)
         expect(pos_repo).to receive(:transaction).and_yield
         expect(pos_trx_item_repo).to receive(:create).with(pos_trx_item_entity)
+        expect(pos_trx_item_repo).to receive(:find_by_pos_trx).with(pos_trx.id).and_return([pos_trx_item_entity])
 
         @response = action.call(params)
       end
 
       it 'return 200' do
         expect(@response[0]).to eq(200)
+      end
+
+      it 'expose #pos_trx_items' do
+        trx_items = action.exposures[:trx_items]
+        expect(trx_items[0].pos_trx_id).to eq pos_trx.id
       end
     end
   end
