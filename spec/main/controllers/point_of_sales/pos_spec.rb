@@ -43,6 +43,14 @@ RSpec.describe Main::Controllers::PointOfSales::Pos, type: :action do
         expect(action.exposures[:open_trx_items]).to eq(open_trx_items)
       end
 
+      it 'expose #trx_items' do
+        expect(action.exposures[:trx_items].length).to eq(3)
+      end
+
+      it '#trx_items is an array of hash' do
+        expect(action.exposures[:trx_items].is_a?(Array)).to be_truthy
+      end
+
       it 'expose #pending_trxes' do
         expect(action.exposures[:pending_trxes]).to eq(pending_trxes)
       end
@@ -58,7 +66,7 @@ RSpec.describe Main::Controllers::PointOfSales::Pos, type: :action do
         expect(pos_trx_repo).to receive(:find_open_by_pos).with(pos.id).and_return(nil)
         expect(pos_trx_repo).to receive(:create).with(new_trx).and_return(new_trx)
         expect(pos_trx_repo).to receive(:get_max_trx_id_by_pos).with(pos.id).and_return(nil)
-        expect(pos_trx_item_repo).to receive(:find_by_pos_trx).with(nil).and_return(nil)
+        expect(pos_trx_item_repo).to receive(:find_by_pos_trx).with(nil).and_return([])
 
         @response = action.call(params)
       end

@@ -50,9 +50,8 @@ RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
         expect(@response[0]).to eq(200)
       end
 
-      it 'expose #pos_trx_items' do
-        trx_items = action.exposures[:trx_items]
-        expect(trx_items[0].pos_trx_id).to eq pos_trx.id
+      it 'return #trx_items' do
+        expect(JSON.parse(@response[2]).length).to eq 1
       end
     end
   end

@@ -9,8 +9,6 @@ module Main
 
         accept :json
 
-        expose :trx_items
-
         before :authenticate!
 
         params do
@@ -63,11 +61,12 @@ module Main
           end
 
           @pos_repo.transaction do
-            # create_new_trx_item(pos_trx, product)
-            @trx_items = @pos_trx_item_repo.find_by_pos_trx(pos_trx.id)
+            create_new_trx_item(pos_trx, product)
+
+            trx_items = @pos_trx_item_repo.find_by_pos_trx(pos_trx.id)
             self.body = JSON.generate(
               {
-                trx_items: @trx_items.map do |i|
+                trx_items: trx_items.map do |i|
                   {
                     id: i.id,
                     product_id: i.product_id,

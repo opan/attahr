@@ -6,9 +6,7 @@
 
 <h3>List of items</h3>
 
-<div class="mt-5" x-data="{
-  cashierName: '<%= pos_session.profile.name %>'
-}">
+<div class="mt-5" x-data="pos">
   <div class="rounded-t-md overflow-hidden" x-ref="pos-main-body">
     <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
       <thead class="bg-blue-500 text-white text-left">
@@ -29,7 +27,7 @@
               '1'
             end
 
-            td "x-init" => "$refs.sku_barcode.focus()", '@keyup.enter' => "pointOfSales.addItem" do
+            td "x-init" => "$refs.sku_barcode.focus()", '@keyup.enter' => "addItem" do
               text_field :sku_barcode, class: 'w-full border-2 mt-2 mb-2 h-10 p-2', 'x-ref' => 'sku_barcode'
             end
 
@@ -49,54 +47,61 @@
         end %>
 
         <% open_trx_items.each_with_index do |oti, i| %>
-        <tr>
-          <td class="border px-4 py-2"><%= i + 2 %></td>
-          <td class="border px-4 py-2"><%= oti.product.sku %></td>
-          <td class="border px-4 py-2"><%= oti.product.name %></td>
-          <td class="border px-4 py-2">Should be input field here</td>
-          <td class="border px-4 py-2"><%= oti.price %></td>
-          <td class="border px-4 py-2">Should be auto calculate</td>
-        </tr>
+        <template x-for="(item, index) in itemsList" :key="item.id">
+          <tr>
+            <td class="border px-4 py-2" x-text="index + 2"><%= i + 2 %></td>
+            <td class="border px-4 py-2" x-text="item.sku"></td>
+            <td class="border px-4 py-2" x-text="item.name"></td>
+            <td class="border px-4 py-2">Should be input field here</td>
+            <td class="border px-4 py-2" x-text="item.price"></td>
+            <td class="border px-4 py-2">Should be auto calculate</td>
+          </tr>
+        </template>
         <% end %>
       </tbody>
     </table>
   </div>
 </div>
 <script>
-  let pointOfSales = {
-    addItem: function(e) {
-      request = async () => {
-        const body = {
-          trx_id: "<%= open_trx.trx_id %>",
-          item: {
-            sku_barcode: e.target.value,
-            qty: 1
+  const pointOfSales = {
+    pos: () => ({
+      trxItems: <%= raw JSON.generate(open_trx_items)%>,
+      itemsList() {
+        return this.trxItems;
+      },
+      addItem(e) {
+        request = async () => {
+          const body = {
+            trx_id: "<%= open_trx.trx_id %>",
+            item: {
+              sku_barcode: e.target.value,
+              qty: 1
+            }
           }
+
+          const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id, _csrf_token: session[:_csrf_token]) %>", {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          })
+
+          const jsonRes = await response.json();
+          if (!response.ok) {
+            const errMsg = jsonRes.errors;
+            alert(errMsg.join(", "));
+            return;
+          }
+
+          console.log(response);
         }
 
-        const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id, _csrf_token: session[:_csrf_token]) %>", {
-          method: 'PUT',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          }
-        })
-
-        const jsonRes = await response.json();
-
-        if (!response.ok) {
-          const errMsg = jsonRes.errors;
-          alert(errMsg.join(", "));
-          return;
-        }
-
-        console.log(response.ok)
+        request();
       }
-
-      console.log(e.target.value);
-
-      request();
+    }),
+    addItem: function(e) {
     },
     updateQty: function(e) {
       request = async () => {
@@ -104,4 +109,8 @@
       }
     }
   };
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('pos', pointOfSales.pos);
+  });
 </script>
