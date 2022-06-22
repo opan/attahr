@@ -51,7 +51,7 @@ RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
       end
 
       it 'return #trx_items' do
-        expect(JSON.parse(@response[2]).length).to eq 1
+        expect(JSON.parse(@response[2][0]).length).to eq 1
       end
     end
   end
