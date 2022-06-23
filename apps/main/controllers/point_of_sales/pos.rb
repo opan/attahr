@@ -47,17 +47,7 @@ module Main
           @open_trx = @pos_trx_repo.create(generate_new_trx) if @open_trx.nil?
 
           @open_trx_items = @pos_trx_item_repo.find_by_pos_trx(@open_trx.id)
-          @trx_items = @open_trx_items.map do |i|
-            {
-              id: i.id,
-              product_id: i.product_id,
-              name: i.name,
-              sku: i.sku,
-              barcode: i.barcode,
-              qty: i.qty,
-              price: i.price
-            }
-          end
+          @trx_items = @open_trx_items.map { |i| PosTrxItemList.new(i).to_h }
         end
 
         private

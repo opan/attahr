@@ -65,7 +65,7 @@
 <script>
   const pointOfSales = {
     pos: () => ({
-      trxItems: <%= raw JSON.generate(open_trx_items)%>,
+      trxItems: <%= raw JSON.generate(trx_items)%>,
       itemsList() {
         return this.trxItems;
       },
@@ -79,7 +79,7 @@
             }
           }
 
-          const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id, _csrf_token: session[:_csrf_token]) %>", {
+          const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id) %>", {
             method: 'PUT',
             body: JSON.stringify(body),
             headers: {
@@ -101,11 +101,8 @@
         request();
       }
     }),
-    addItem: function(e) {
-    },
     updateQty: function(e) {
       request = async () => {
-
       }
     }
   };

@@ -66,18 +66,9 @@ module Main
             trx_items = @pos_trx_item_repo.find_by_pos_trx(pos_trx.id)
             self.body = JSON.generate(
               {
-                trx_items: trx_items.map do |i|
-                  {
-                    id: i.id,
-                    product_id: i.product_id,
-                    name: i.name,
-                    sku: i.sku,
-                    barcode: i.barcode,
-                    qty: i.qty,
-                    price: i.price
-                  }
-                end
-              })
+                trx_items: trx_items.map { |i| PosTrxItemList.new(i).to_h }
+              }
+            )
           end
         end
 
@@ -106,6 +97,10 @@ module Main
 
         def error_messages(msg = [])
           JSON.generate({ errors: msg })
+        end
+
+        def verify_csrf_token?
+          false
         end
       end
     end
