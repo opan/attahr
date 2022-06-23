@@ -34,7 +34,7 @@ module Main
 
         def call(params)
           unless params.valid?
-            self.body = error_message(params.error_messages)
+            self.body = error_messages(params.error_messages)
             self.status = 400
             return
           end

@@ -54,5 +54,43 @@ RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
         expect(JSON.parse(@response[2][0]).length).to eq 1
       end
     end
+
+    context 'when params ID invalid' do
+      before do
+        params.merge!({ id: 123, trx_id: 1, item: { sku_barcode: product.sku, qty: 1 } })
+
+        expect(pos_repo).to receive(:find).with(123).and_return nil
+
+        @response = action.call(params)
+      end
+
+      it 'return 400' do
+        expect(@response[0]).to eq(400)
+      end
+
+      it 'return #errors' do
+        expect(JSON.parse(@response[2][0])['errors']).to eq(["Can't find POS record with ID 123"])
+      end
+    end
+
+    context 'when params trx_id invalid' do
+      before do
+        params.merge!({ id: pos_session.id, trx_id: 234, item: { sku_barcode: product.sku, qty: 1 }})
+
+        expect(pos_repo).to receive(:find).with(pos_session.id).and_return pos_session
+        expect(product_repo).to receive(:find_by_sku_or_barcode_and_org).with(product.sku, pos_session.org_id).and_return(product)
+        expect(pos_trx_repo).to receive(:find_by_trx_id).with(234).and_return nil
+
+        @response = action.call(params)
+      end
+
+      it 'return 400' do
+        expect(@response[0]).to eq(400)
+      end
+
+      it 'return #errors' do
+        expect(JSON.parse(@response[2][0])['errors']).to eq(["Invalid transaction ID 234"])
+      end
+    end
   end
 end
