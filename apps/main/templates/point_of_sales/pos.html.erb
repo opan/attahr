@@ -21,30 +21,18 @@
       </thead>
 
       <tbody>
-        <%= form_for :pos_trx_item, Main.routes.add_item_point_of_sale_path(pos_session.id) do
-          tr  do
-            td do
-              '1'
-            end
-
-            td "x-init" => "$refs.sku_barcode.focus()", '@keyup.enter' => "addItem" do
-              text_field :sku_barcode, class: 'w-full border-2 mt-2 mb-2 h-10 p-2', 'x-ref' => 'sku_barcode'
-            end
-
-            td do
-            end
-
-            td do
-              text_field :qty, class: 'w-full border-2 mt-2 mb-2 h-10 p-2'
-            end
-
-            td do
-            end
-
-            td do
-            end
-          end
-        end %>
+        <tr>
+          <td>1</td>
+          <td>
+            <input type="text" x-init="$refs.sku_barcode.focus()" @keyup.enter="addItem" x-ref="sku_barcode" class="w-full border-2 mt-2 mb-2 h-10 p-2">
+          </td>
+          <td></td>
+          <td>
+            <input type="text" @keyup.enter="addItem" x-ref="qty" class="w-full border-2 mt-2 mb-2 h-10 p-2" value=1>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
 
         <% open_trx_items.each_with_index do |oti, i| %>
         <template x-for="(item, index) in itemsList" :key="item.id">
@@ -52,9 +40,9 @@
             <td class="border px-4 py-2" x-text="index + 2"><%= i + 2 %></td>
             <td class="border px-4 py-2" x-text="item.sku"></td>
             <td class="border px-4 py-2" x-text="item.name"></td>
-            <td class="border px-4 py-2">Should be input field here</td>
+            <td class="border px-4 py-2" x-text="item.qty" @click=""></td>
             <td class="border px-4 py-2" x-text="item.price"></td>
-            <td class="border px-4 py-2">Should be auto calculate</td>
+            <td class="border px-4 py-2" x-text="item.qty * item.price"></td>
           </tr>
         </template>
         <% end %>
@@ -69,43 +57,59 @@
       itemsList() {
         return this.trxItems;
       },
-      addItem(e) {
-        request = async () => {
-          const body = {
-            trx_id: "<%= open_trx.trx_id %>",
-            item: {
-              sku_barcode: e.target.value,
-              qty: 1
-            }
+      async addItem(e) {
+        const skuBarcode = this.$refs.sku_barcode;
+        let skuBarcodeValue = skuBarcode.value;
+        let qtyValue = this.$refs.qty.value;
+        if (qtyValue < 1) qtyValue = 1;
+        
+        const reqBody = {
+          trx_id: "<%= open_trx.trx_id %>",
+          item: {
+            sku_barcode: skuBarcodeValue,
+            qty: qtyValue
           }
-
-          const response = await fetch("<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id) %>", {
-            method: 'PUT',
-            body: JSON.stringify(body),
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          })
-
-          const jsonRes = await response.json();
-          if (!response.ok) {
-            const errMsg = jsonRes.errors;
-            alert(errMsg.join(", "));
-            return;
-          }
-
-          console.log(response);
         }
 
-        request();
+        const res = await APICall('<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id) %>', reqBody);
+
+        const jsonRes = await res.json();
+        if (!res.ok) {
+          alert(jsonRes.errors.join(', '));
+          skuBarcode.value = '';
+          return;
+        }
+      },
+      async updateQty(e) {
+        let newQty = e.target.value;
+        if (newQty < 1) newQty = 1;
+
+        const reqBody = {
+          new_qty: newQty
+        }
+
+        const res = await APICall('', reqBody);
+        const jsonRes = await res.json();
+        if (!res.ok) {
+          alert(jsonRes.errors.join(', '));
+          return;
+        }
       }
-    }),
-    updateQty: function(e) {
-      request = async () => {
-      }
-    }
+    })
   };
+
+  async function APICall(url = '', reqBody = {}) {
+    const response = await fetch(url, {
+      method: 'PUT',
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+
+    return response;
+  }
 
   document.addEventListener('alpine:init', () => {
     Alpine.data('pos', pointOfSales.pos);

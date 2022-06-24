@@ -89,7 +89,7 @@ RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
       end
 
       it 'return #errors' do
-        expect(JSON.parse(@response[2][0])['errors']).to eq(["Invalid transaction ID 234"])
+        expect(JSON.parse(@response[2][0])['errors']).to eq(['Invalid transaction ID 234'])
       end
     end
   end
