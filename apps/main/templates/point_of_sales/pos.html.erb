@@ -17,6 +17,7 @@
           <th class="py-2 px-2">Qty</th>
           <th class="py-2 px-2">Price</th>
           <th class="py-2 px-2">Subtotal</th>
+          <th class="py-2 px-2">Action</th>
         </tr>
       </thead>
 
@@ -32,20 +33,24 @@
           </td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
 
-        <% open_trx_items.each_with_index do |oti, i| %>
-        <template x-for="(item, index) in itemsList" :key="item.id">
+        <%# <% open_trx_items.each_with_index do |oti, i| %> %>
+        <template x-for="(item, index) in trxItems" :key="item.id">
           <tr>
-            <td class="border px-4 py-2" x-text="index + 2"><%= i + 2 %></td>
+            <td class="border px-4 py-2" x-text="index + 2">></td>
             <td class="border px-4 py-2" x-text="item.sku"></td>
             <td class="border px-4 py-2" x-text="item.name"></td>
             <td class="border px-4 py-2" x-text="item.qty" @click=""></td>
             <td class="border px-4 py-2" x-text="item.price"></td>
             <td class="border px-4 py-2" x-text="item.qty * item.price"></td>
+            <td class="border px-4 py-2">
+              <button class="bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2 border border-black border-opacity-25">VOID</button>
+            </td>
           </tr>
         </template>
-        <% end %>
+        <%# <% end %> %>
       </tbody>
     </table>
   </div>
@@ -54,9 +59,6 @@
   const pointOfSales = {
     pos: () => ({
       trxItems: <%= raw JSON.generate(trx_items)%>,
-      itemsList() {
-        return this.trxItems;
-      },
       async addItem(e) {
         const skuBarcode = this.$refs.sku_barcode;
         let skuBarcodeValue = skuBarcode.value;
@@ -72,13 +74,14 @@
         }
 
         const res = await APICall('<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id) %>', reqBody);
-
         const jsonRes = await res.json();
         if (!res.ok) {
           alert(jsonRes.errors.join(', '));
           skuBarcode.value = '';
           return;
         }
+
+        this.trxItems = jsonRes.trx_items;
       },
       async updateQty(e) {
         let newQty = e.target.value;
@@ -105,7 +108,8 @@
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
-      }
+      },
+      credentials: 'same-origin'
     });
 
     return response;

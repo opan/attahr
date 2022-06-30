@@ -44,7 +44,9 @@ module Main
           @pending_trxes = @pos_trx_repo.find_pending_by_pos(@pos_session.id)
 
           @open_trx = @pos_trx_repo.find_open_by_pos(@pos_session.id)
-          @open_trx = @pos_trx_repo.create(generate_new_trx) if @open_trx.nil?
+          @pos_trx_repo.transaction do
+            @open_trx = @pos_trx_repo.create(generate_new_trx) if @open_trx.nil?
+          end
 
           @open_trx_items = @pos_trx_item_repo.find_by_pos_trx(@open_trx.id)
           @trx_items = @open_trx_items.map { |i| PosTrxItemList.new(i).to_h }
