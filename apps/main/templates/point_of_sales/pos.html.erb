@@ -42,7 +42,9 @@
             <td class="border px-4 py-2" x-text="index + 2">></td>
             <td class="border px-4 py-2" x-text="item.sku"></td>
             <td class="border px-4 py-2" x-text="item.name"></td>
-            <td class="border px-4 py-2" x-text="item.qty" @click=""></td>
+            <td class="border px-4 py-2" >
+              <input type="number" x-model.number="item.qty" @keyup.enter="updateQty($event, item.id)" class="w-full border-2 mt-2 mb-2 h-10 p-2">
+            </td>
             <td class="border px-4 py-2" x-text="item.price"></td>
             <td class="border px-4 py-2" x-text="item.qty * item.price"></td>
             <td class="border px-4 py-2">
@@ -66,7 +68,7 @@
         if (qtyValue < 1) qtyValue = 1;
         
         const reqBody = {
-          trx_id: "<%= open_trx.trx_id %>",
+          trx_id: '<%= open_trx.trx_id %>',
           item: {
             sku_barcode: skuBarcodeValue,
             qty: qtyValue
@@ -83,20 +85,24 @@
 
         this.trxItems = jsonRes.trx_items;
       },
-      async updateQty(e) {
+      async updateQty(e, itemID) {
         let newQty = e.target.value;
         if (newQty < 1) newQty = 1;
 
         const reqBody = {
-          new_qty: newQty
+          trx_id: '<%= open_trx.trx_id %>',
+          trx_item_id: itemID,
+          updated_qty: parseInt(newQty)
         }
 
-        const res = await APICall('', reqBody);
+        const res = await APICall('<%= Main.routes.update_qty_point_of_sale_path(id: pos_session.id) %>', reqBody);
         const jsonRes = await res.json();
         if (!res.ok) {
           alert(jsonRes.errors.join(', '));
           return;
         }
+
+        this.trxItems = jsonRes.trx_items;
       }
     })
   };
