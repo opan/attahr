@@ -21,7 +21,7 @@ RSpec.describe Main::Controllers::PointOfSales::Show, type: :action do
         @response = action.call(params)
       end
 
-      it 'return 302' do
+      it 'return 200' do
         expect(@response[0]).to eq(200)
       end
 
@@ -31,6 +31,43 @@ RSpec.describe Main::Controllers::PointOfSales::Show, type: :action do
 
       it 'expose #pos_trxes' do
         expect(action.exposures[:pos_trxes].length).to eq(2)
+      end
+    end
+
+    context 'when id is invalid' do
+      before do
+        params[:id] = pos.id
+
+        expect(pos_repo).to receive(:find_with_detail).with(pos.id).and_return nil
+
+        @response = action.call(params) 
+      end
+
+      it 'return 302' do
+        expect(@response[0]).to eq(302)
+      end
+
+      it 'expose #errors' do
+        expect(action.exposures[:flash][:errors]).to eq(["Invalid POS ID: #{pos.id}"])
+      end
+    end
+
+    context 'when POS state is closed' do
+      before do
+        closed_pos = Factory.structs[:point_of_sale, state: PointOfSale::STATES[:closed]]
+        params[:id] = closed_pos.id
+
+        expect(pos_repo).to receive(:find_with_detail).with(closed_pos.id).and_return closed_pos
+
+        @response = action.call(params) 
+      end
+
+      it 'return 302' do
+        expect(@response[0]).to eq(302)
+      end
+
+      it 'expose #errors' do
+        expect(action.exposures[:flash][:errors]).to eq(["Can't open closed POS session"])
       end
     end
   end

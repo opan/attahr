@@ -33,6 +33,11 @@ module Main
             redirect_to Main.routes.point_of_sales_path
           end
 
+          if @pos_session.state == PointOfSale::STATES[:closed]
+            flash[:errors] = ["Can't open closed POS session"]
+            redirect_to Main.routes.point_of_sales_path
+          end
+
           @pos_trxes = @pos_trx_repo.all_by_pos(@pos_session.id)
         end
       end
