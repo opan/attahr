@@ -4,7 +4,6 @@
 <p>Transaction ID: <%= open_trx.trx_id %></p>
 <p>Cashier name: <%= pos_session.profile.name %></p>
 
-<h3>List of items</h3>
 
 <div class="mt-5" x-data="pos">
   <div class="rounded-t-md overflow-hidden" x-ref="pos-main-body">
@@ -36,7 +35,6 @@
           <td></td>
         </tr>
 
-        <%# <% open_trx_items.each_with_index do |oti, i| %> %>
         <template x-for="(item, index) in trxItems" :key="item.id">
           <tr>
             <td class="border px-4 py-2" x-text="index + 2">></td>
@@ -52,7 +50,6 @@
             </td>
           </tr>
         </template>
-        <%# <% end %> %>
       </tbody>
     </table>
   </div>
