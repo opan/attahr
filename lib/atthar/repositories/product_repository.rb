@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# ProductRepository
+# represent `products` table in the database
 class ProductRepository < Hanami::Repository
   associations do
     has_many :product_orgs
@@ -25,6 +29,16 @@ class ProductRepository < Hanami::Repository
       .qualified
       .join(product_orgs)
       .where(products[:sku].qualified.is(sku))
+      .where(product_orgs[:org_id].qualified.is(org_id))
+      .map_to(Product)
+      .first
+  end
+
+  def find_by_sku_or_barcode_and_org(sku_or_barcode, org_id)
+    products
+      .qualified
+      .join(product_orgs)
+      .where(products[:sku].qualified.is(sku_or_barcode) | products[:barcode].qualified.is(sku_or_barcode))
       .where(product_orgs[:org_id].qualified.is(org_id))
       .map_to(Product)
       .first

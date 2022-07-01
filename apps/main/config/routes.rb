@@ -24,6 +24,7 @@ resources :point_of_sales, only: %i[index new create] do
   member do
     get :show
     get :pos
-    post :add_item
+    put :add_item
+    put :update_qty
   end
 end

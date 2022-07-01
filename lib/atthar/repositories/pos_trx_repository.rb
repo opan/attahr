@@ -13,6 +13,13 @@ class PosTrxRepository < Hanami::Repository
       .to_a
   end
 
+  def find_by_trx_id(trx_id)
+    pos_trxes
+      .where(trx_id: trx_id)
+      .map_to(PosTrx)
+      .one
+  end
+
   def find_open_by_pos(pos_id)
     pos_trxes
       .where(point_of_sale_id: pos_id)

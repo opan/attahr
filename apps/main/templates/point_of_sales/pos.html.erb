@@ -6,10 +6,8 @@
 
 <h3>List of items</h3>
 
-<div class="mt-5" x-data="{
-  cashierName: '<%= pos_session.profile.name %>'
-}">
-  <div class="rounded-t-md overflow-hidden">
+<div class="mt-5" x-data="pos">
+  <div class="rounded-t-md overflow-hidden" x-ref="pos-main-body">
     <table class="min-w-full table-auto border-collapse border-blue-500 border-b-4 text-sm rounded-t-md">
       <thead class="bg-blue-500 text-white text-left">
         <tr>
@@ -19,54 +17,111 @@
           <th class="py-2 px-2">Qty</th>
           <th class="py-2 px-2">Price</th>
           <th class="py-2 px-2">Subtotal</th>
+          <th class="py-2 px-2">Action</th>
         </tr>
       </thead>
 
       <tbody>
-        <%= form_for :pos_trx_item, Main.routes.add_item_point_of_sale_path(pos_session.id) do
-        tr  do
-          td do
-            '1'
-          end
-
-          td "x-init" => "$refs.sku.focus()", '@keyup.enter' => "pointOfSales.addItem" do
-            text_field :sku, class: 'w-full border-2 mt-2 mb-2 h-10 p-2', 'x-ref' => 'sku'
-          end
-
-          td do
-          end
-
-          td do
-            text_field :qty, class: 'w-full border-2 mt-2 mb-2 h-10 p-2'
-          end
-
-          td do
-          end
-
-          td do
-          end
-        end
-        end %>
-
-        <% open_trx_items.each_with_index do |oti, i| %>
         <tr>
-          <td class="border px-4 py-2"><%= i + 2 %></td>
-          <td class="border px-4 py-2"><%= oti.product.sku %></td>
-          <td class="border px-4 py-2"><%= oti.product.name %></td>
-          <td class="border px-4 py-2">Should be input field here</td>
-          <td class="border px-4 py-2"><%= oti.price %></td>
-          <td class="border px-4 py-2">Should be auto calculate</td>
+          <td>1</td>
+          <td>
+            <input type="text" x-init="$refs.sku_barcode.focus()" @keyup.enter="addItem" x-ref="sku_barcode" class="w-full border-2 mt-2 mb-2 h-10 p-2">
+          </td>
+          <td></td>
+          <td>
+            <input type="text" @keyup.enter="addItem" x-ref="qty" class="w-full border-2 mt-2 mb-2 h-10 p-2" value=1>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
-        <% end %>
+
+        <%# <% open_trx_items.each_with_index do |oti, i| %> %>
+        <template x-for="(item, index) in trxItems" :key="item.id">
+          <tr>
+            <td class="border px-4 py-2" x-text="index + 2">></td>
+            <td class="border px-4 py-2" x-text="item.sku"></td>
+            <td class="border px-4 py-2" x-text="item.name"></td>
+            <td class="border px-4 py-2" >
+              <input type="number" x-model.number="item.qty" @keyup.enter="updateQty($event, item.id)" class="w-full border-2 mt-2 mb-2 h-10 p-2">
+            </td>
+            <td class="border px-4 py-2" x-text="item.price"></td>
+            <td class="border px-4 py-2" x-text="item.qty * item.price"></td>
+            <td class="border px-4 py-2">
+              <button class="bg-red-500 hover:bg-red-600 text-white rounded py-2 px-4 ml-2 border border-black border-opacity-25">VOID</button>
+            </td>
+          </tr>
+        </template>
+        <%# <% end %> %>
       </tbody>
     </table>
   </div>
 </div>
-
 <script>
-  let pointOfSales = {
-    addItem: function(e) {
-      alert(e.target.value);
-    }
+  const pointOfSales = {
+    pos: () => ({
+      trxItems: <%= raw JSON.generate(trx_items)%>,
+      async addItem(e) {
+        const skuBarcode = this.$refs.sku_barcode;
+        let skuBarcodeValue = skuBarcode.value;
+        let qtyValue = this.$refs.qty.value;
+        if (qtyValue < 1) qtyValue = 1;
+        
+        const reqBody = {
+          trx_id: '<%= open_trx.trx_id %>',
+          item: {
+            sku_barcode: skuBarcodeValue,
+            qty: qtyValue
+          }
+        }
+
+        const res = await APICall('<%= Main.routes.add_item_point_of_sale_path(id: pos_session.id) %>', reqBody);
+        const jsonRes = await res.json();
+        if (!res.ok) {
+          alert(jsonRes.errors.join(', '));
+          skuBarcode.value = '';
+          return;
+        }
+
+        this.trxItems = jsonRes.trx_items;
+      },
+      async updateQty(e, itemID) {
+        let newQty = e.target.value;
+        if (newQty < 1) newQty = 1;
+
+        const reqBody = {
+          trx_id: '<%= open_trx.trx_id %>',
+          trx_item_id: itemID,
+          updated_qty: parseInt(newQty)
+        }
+
+        const res = await APICall('<%= Main.routes.update_qty_point_of_sale_path(id: pos_session.id) %>', reqBody);
+        const jsonRes = await res.json();
+        if (!res.ok) {
+          alert(jsonRes.errors.join(', '));
+          return;
+        }
+
+        this.trxItems = jsonRes.trx_items;
+      }
+    })
   };
+
+  async function APICall(url = '', reqBody = {}) {
+    const response = await fetch(url, {
+      method: 'PUT',
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    });
+
+    return response;
+  }
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('pos', pointOfSales.pos);
+  });
 </script>
