@@ -100,7 +100,7 @@ namespace :db do
         cashier_id: user.profile.id,
         created_by_id: user.profile.id,
         updated_by_id: user.profile.id,
-        state: PointOfSale::STATES[:closed]
+        state: PointOfSale::STATES[:open]
       )
     end
   end
