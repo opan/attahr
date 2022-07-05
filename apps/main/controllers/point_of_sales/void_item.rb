@@ -11,6 +11,11 @@ module Main
 
         before :authenticate!
 
+        params do
+          required(:trx_id).filled
+          required(:trx_item_id).filled
+        end
+
         def initialize(
           pos_trx_repo: PosTrxRepository.new,
           pos_trx_item_repo: PosTrxItemRepository.new
@@ -26,6 +31,40 @@ module Main
             return
           end
 
+          pos_trx = @pos_trx_repo.find_by_trx_id(params[:trx_id])
+          if pos_trx.nil?
+            self.body = error_messages(["Invalid transaction ID #{params[:trx_id]}"])
+            self.status = 400
+            return
+          end
+
+          @pos_trx_repo.transaction do
+            pos_trx_item = @pos_trx_item_repo.find(params[:trx_item_id])
+            if pos_trx_item.nil? || pos_trx_item.pos_trx_id != pos_trx.id
+              self.body = error_messages(["Invalid transaction item #{params[:trx_item_id]}"])
+              self.status = 400
+              return
+            end
+
+            @pos_trx_item_repo.update(pos_trx_item.id, state: PosTrxItem::STATES[:void], updated_by_id: current_user.profile.id)
+
+            trx_items = @pos_trx_item_repo.find_by_pos_trx(pos_trx.id)
+            self.body = JSON.generate(
+              {
+                trx_items: trx_items.map { |i| PosTrxItemList.new(i).to_h }
+              }
+            )
+          end
+        end
+
+        private
+
+        def error_messages(msg = [])
+          JSON.generate({ errors: msg })
+        end
+
+        def verify_csrf_token?
+          false
         end
       end
     end
