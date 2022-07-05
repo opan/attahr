@@ -76,11 +76,11 @@
         const jsonRes = await res.json();
         if (!res.ok) {
           alert(jsonRes.errors.join(', '));
-          skuBarcode.value = '';
           return;
         }
 
         this.trxItems = jsonRes.trx_items;
+        skuBarcode.value = '';
       },
       async updateQty(e, itemID) {
         let newQty = e.target.value;
