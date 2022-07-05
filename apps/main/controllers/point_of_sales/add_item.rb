@@ -88,6 +88,7 @@ module Main
             barcode: product.barcode,
             price: product.price,
             qty: item[:qty],
+            state: PosTrxItem::STATES[:open],
             created_by_id: current_user.id,
             updated_by_id: current_user.id
           )

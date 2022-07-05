@@ -32,6 +32,7 @@ RSpec.describe Main::Controllers::PointOfSales::AddItem, type: :action do
           barcode: product.barcode,
           price: product.price,
           qty: 1,
+          state: PosTrxItem::STATES[:open],
           created_by_id: current_user.id,
           updated_by_id: current_user.id
         )

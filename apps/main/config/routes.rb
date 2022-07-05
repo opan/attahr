@@ -28,3 +28,4 @@ resources :point_of_sales, only: %i[index new create] do
     put :update_qty
   end
 end
+get '/point_of_sales/void_item', to: 'point_of_sales#void_item'
