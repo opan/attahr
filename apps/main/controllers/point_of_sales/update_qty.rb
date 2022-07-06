@@ -47,8 +47,7 @@ module Main
               return
             end
 
-            trx_item_entity = PosTrxItem.new(pos_trx_item.to_h.merge!({ qty: params[:updated_qty] }))
-            @pos_trx_item_repo.update(pos_trx_item.id, trx_item_entity)
+            @pos_trx_item_repo.update(pos_trx_item.id, qty: params[:updated_qty])
 
             trx_items = @pos_trx_item_repo.find_by_pos_trx(pos_trx.id)
             self.body = JSON.generate(

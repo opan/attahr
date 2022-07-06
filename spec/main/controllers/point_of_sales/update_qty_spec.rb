@@ -19,12 +19,12 @@ RSpec.describe Main::Controllers::PointOfSales::UpdateQty, type: :action do
     context 'when all params are valid' do
       before do
         params.merge!({ trx_id: pos_trx.id, trx_item_id: pos_trx_item.id, updated_qty: 5 })
-        updated_trx_item = PosTrxItem.new(pos_trx_item.to_h.merge!({ qty: 5 }))
+        # updated_trx_item = PosTrxItem.new(pos_trx_item.to_h.merge!({ qty: 5 }))
 
         expect(pos_trx_repo).to receive(:find_by_trx_id).with(pos_trx.id).and_return(pos_trx)
         expect(pos_trx_repo).to receive(:transaction).and_yield
         expect(pos_trx_item_repo).to receive(:find).with(pos_trx_item.id).and_return(pos_trx_item)
-        expect(pos_trx_item_repo).to receive(:update).with(pos_trx_item.id, updated_trx_item)
+        expect(pos_trx_item_repo).to receive(:update).with(pos_trx_item.id, { qty: 5 })
         expect(pos_trx_item_repo).to receive(:find_by_pos_trx).with(pos_trx.id).and_return([pos_trx_item])
 
         @response = action.call(params)
